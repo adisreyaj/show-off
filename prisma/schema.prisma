@@ -17,7 +17,7 @@ model User {
   password    String?
   collections Collection[]
   likes       Like[]
-  shared      Share[]
+  shares      Share[]
   comments    Comment[]
   items       Item[]
 }
@@ -31,7 +31,6 @@ model Collection {
   shares   Share[]
   comments Comment[]
   items    Item[]
-
 }
 
 model Like {
