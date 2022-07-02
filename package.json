@@ -2,12 +2,19 @@
   "name": "show-off",
   "version": "0.0.0",
   "license": "MIT",
+  "author": {
+    "name": "Adithya Sreyaj",
+    "email": "adi.sreyaj@gmail.com"
+  },
   "scripts": {
     "ng": "nx",
     "postinstall": "node ./decorate-angular-cli.js && ngcc --properties es2020 browser module main",
     "start": "nx serve",
     "build": "nx build",
-    "test": "nx test"
+    "test": "nx test",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:migrate:prod": "prisma migrate deploy",
+    "primsa:generate": "prisma generate"
   },
   "private": true,
   "dependencies": {

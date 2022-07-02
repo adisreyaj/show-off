@@ -8,11 +8,64 @@ datasource db {
 }
 
 model User {
-  id                   String         @id @default(cuid())
-  firstName            String
-  lastName             String?
-  image                String?
-  email                String         @unique
-  username             String         @unique
-  password             String?
+  id          String       @id @default(cuid())
+  firstName   String
+  lastName    String?
+  image       String?
+  email       String       @unique
+  username    String       @unique
+  password    String?
+  collections Collection[]
+  likes       Like[]
+  shared      Share[]
+  comments    Comment[]
+  items       Item[]
+}
+
+model Collection {
+  id       String    @id @default(cuid())
+  name     String
+  user     User      @relation(fields: [userId], references: [id])
+  userId   String
+  likes    Like[]
+  shares   Share[]
+  comments Comment[]
+  items    Item[]
+
+}
+
+model Like {
+  id           String     @id @default(cuid())
+  user         User       @relation(fields: [userId], references: [id])
+  userId       String
+  collection   Collection @relation(fields: [collectionId], references: [id])
+  collectionId String
+}
+
+model Share {
+  id           String     @id @default(cuid())
+  user         User       @relation(fields: [userId], references: [id])
+  userId       String
+  collection   Collection @relation(fields: [collectionId], references: [id])
+  collectionId String
+}
+
+model Comment {
+  id           String     @id @default(cuid())
+  user         User       @relation(fields: [userId], references: [id])
+  userId       String
+  collection   Collection @relation(fields: [collectionId], references: [id])
+  collectionId String
+  text         String
+}
+
+model Item {
+  id           String     @id @default(cuid())
+  name         String
+  description  String?
+  images       Json?
+  user         User       @relation(fields: [userId], references: [id])
+  userId       String
+  collection   Collection @relation(fields: [collectionId], references: [id])
+  collectionId String
 }
