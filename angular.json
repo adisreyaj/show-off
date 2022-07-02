@@ -3,6 +3,7 @@
   "version": 2,
   "projects": {
     "api": "apps/api",
+    "api-auth": "libs/api/auth",
     "api-collections": "libs/api/collections",
     "api-interfaces": "libs/api-interfaces",
     "api-shared": "libs/api/shared",

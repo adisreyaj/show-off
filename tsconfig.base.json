@@ -16,6 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@show-off/api-interfaces": ["libs/api-interfaces/src/index.ts"],
+      "@show-off/api/auth": ["libs/api/auth/src/index.ts"],
       "@show-off/api/collections": ["libs/api/collections/src/index.ts"],
       "@show-off/api/shared": ["libs/api/shared/src/index.ts"],
       "@show-off/api/users": ["libs/api/users/src/index.ts"],
