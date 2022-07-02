@@ -13,8 +13,10 @@ model User {
   lastName    String?
   image       String?
   email       String       @unique
+  emailVerified Boolean @default(false)
   username    String       @unique
   password    String?
+  completed   Boolean   @default(false)
   collections Collection[]
   likes       Like[]
   shares      Share[]

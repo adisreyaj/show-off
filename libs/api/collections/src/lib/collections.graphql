@@ -9,13 +9,17 @@ type Collection {
   user: User
   userId: ID
   likes: [Like]
-  likesCount: Int
   shares: [Share]
-  sharesCount: Int
   comments: [Comment]
-  commentsCount: Int
   items: [Item]
-  itemsCount: Int
+  _count: CollectionCounts
+}
+
+type CollectionCounts {
+  likes: Int
+  shares: Int
+  comments: Int
+  items: Int
 }
 
 type Item {
