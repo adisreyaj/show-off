@@ -1,0 +1,35 @@
+type Query {
+  collection(id: ID!): Collection
+  collections: [Collection]
+}
+
+type Collection {
+  id: ID
+  name: String
+  user: User
+  userId: ID
+  likes: [Like]
+  likesCount: Int
+  shares: [Share]
+  sharesCount: Int
+  comments: [Comment]
+  commentsCount: Int
+  items: [Item]
+  itemsCount: Int
+}
+
+type Item {
+  id: ID
+}
+
+type Like {
+  id: ID
+}
+
+type Share {
+  id: ID
+}
+
+type Comment {
+  id: ID
+}
