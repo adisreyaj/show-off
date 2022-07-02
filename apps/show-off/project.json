@@ -1,0 +1,90 @@
+{
+  "projectType": "application",
+  "sourceRoot": "apps/show-off/src",
+  "prefix": "show-off",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:browser",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/show-off",
+        "index": "apps/show-off/src/index.html",
+        "main": "apps/show-off/src/main.ts",
+        "polyfills": "apps/show-off/src/polyfills.ts",
+        "tsConfig": "apps/show-off/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": ["apps/show-off/src/favicon.ico", "apps/show-off/src/assets"],
+        "styles": ["apps/show-off/src/styles.scss"],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "fileReplacements": [
+            {
+              "replace": "apps/show-off/src/environments/environment.ts",
+              "with": "apps/show-off/src/environments/environment.prod.ts"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "browserTarget": "show-off:build:production"
+        },
+        "development": {
+          "browserTarget": "show-off:build:development"
+        }
+      },
+      "defaultConfiguration": "development",
+      "options": {
+        "proxyConfig": "apps/show-off/proxy.conf.json"
+      }
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "browserTarget": "show-off:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["apps/show-off/**/*.ts", "apps/show-off/**/*.html"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/show-off"],
+      "options": {
+        "jestConfig": "apps/show-off/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
