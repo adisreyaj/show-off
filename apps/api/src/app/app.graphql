@@ -1,0 +1,8 @@
+type Query {
+  ping: Success
+}
+
+
+type Success {
+ success: Boolean
+}
