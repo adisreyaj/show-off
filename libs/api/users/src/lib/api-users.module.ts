@@ -6,6 +6,5 @@ import { UsersService } from './users.service';
 @Module({
   providers: [UsersResolver, UsersService],
   imports: [DbModule],
-  exports: [],
 })
 export class ApiUsersModule {}

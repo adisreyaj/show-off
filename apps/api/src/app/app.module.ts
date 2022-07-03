@@ -7,6 +7,7 @@ import { AuthGuard, AuthModule } from '@show-off/api/auth';
 import { join } from 'path';
 import { AppService } from './app.service';
 import { AppResolver } from './app.resolver';
+import { ApiUsersModule } from '@show-off/api/users';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { AppResolver } from './app.resolver';
       inject: [ConfigService],
     }),
     AuthModule,
+    ApiUsersModule,
   ],
   providers: [
     AppResolver,

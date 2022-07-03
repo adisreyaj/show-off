@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+:root {
+  --primary: #e56b6f;
+  --primary-transparent-10: rgba(230, 108, 112, 0.1);
+}

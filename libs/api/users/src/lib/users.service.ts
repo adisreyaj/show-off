@@ -1,5 +1,7 @@
 import { PrismaService } from '@show-off/db';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class UsersService {
   constructor(private readonly prisma: PrismaService) {}
 

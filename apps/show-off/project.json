@@ -14,7 +14,10 @@
         "tsConfig": "apps/show-off/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": ["apps/show-off/src/favicon.ico", "apps/show-off/src/assets"],
-        "styles": ["apps/show-off/src/styles.scss"],
+        "styles": [
+          "apps/show-off/src/styles.scss",
+          "zigzag/projects/zigzag/styles/components/index.scss"
+        ],
         "scripts": []
       },
       "configurations": {

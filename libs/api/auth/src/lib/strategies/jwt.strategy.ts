@@ -37,6 +37,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 }
 
 export interface JWTPayload {
+  id: string;
   sub: string;
   email: string;
 }

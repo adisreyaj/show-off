@@ -10,17 +10,18 @@ export class AuthGuard extends PassportAuthGuard('jwt') {
     super();
   }
 
+  // Required: Else passport will throw an error `login` of undefined
   getRequest(context: ExecutionContext) {
     const ctx = GqlExecutionContext.create(context);
     return ctx.getContext().req;
   }
 
   canActivate(context: ExecutionContext) {
-    const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
-      context.getHandler(),
-      context.getClass(),
-    ]);
-    if (isPublic) {
+    const isPublicEndpoint = this.reflector.getAllAndOverride<boolean>(
+      IS_PUBLIC_KEY,
+      [context.getHandler(), context.getClass()]
+    );
+    if (isPublicEndpoint) {
       return true;
     }
     return super.canActivate(context);
