@@ -1,10 +1,12 @@
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
 }
 
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
+  referentialIntegrity = "prisma"
 }
 
 model User {
@@ -33,6 +35,8 @@ model Collection {
   shares   Share[]
   comments Comment[]
   items    Item[]
+
+  @@index([userId])
 }
 
 model Like {
@@ -41,6 +45,8 @@ model Like {
   userId       String
   collection   Collection @relation(fields: [collectionId], references: [id])
   collectionId String
+
+  @@index([userId, collectionId])
 }
 
 model Share {
@@ -49,6 +55,8 @@ model Share {
   userId       String
   collection   Collection @relation(fields: [collectionId], references: [id])
   collectionId String
+
+  @@index([userId, collectionId])
 }
 
 model Comment {
@@ -58,6 +66,8 @@ model Comment {
   collection   Collection @relation(fields: [collectionId], references: [id])
   collectionId String
   text         String
+
+  @@index([userId, collectionId])
 }
 
 model Item {
@@ -69,4 +79,6 @@ model Item {
   userId       String
   collection   Collection @relation(fields: [collectionId], references: [id])
   collectionId String
+
+  @@index([userId, collectionId])
 }
