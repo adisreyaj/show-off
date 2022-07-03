@@ -1,0 +1,22 @@
+{
+  "projectType": "library",
+  "sourceRoot": "libs/ui/auth/src",
+  "prefix": "show-off",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/ui/auth"],
+      "options": {
+        "jestConfig": "libs/ui/auth/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/ui/auth/**/*.ts", "libs/ui/auth/**/*.html"]
+      }
+    }
+  },
+  "tags": []
+}
