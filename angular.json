@@ -11,6 +11,9 @@
     "db": "libs/db",
     "show-off": "apps/show-off",
     "show-off-e2e": "apps/show-off-e2e",
-    "ui-auth": "libs/ui/auth"
+    "ui-auth": "libs/ui/auth",
+    "ui-collections": "libs/ui/collections",
+    "ui-home": "libs/ui/home",
+    "ui-profile": "libs/ui/profile"
   }
 }

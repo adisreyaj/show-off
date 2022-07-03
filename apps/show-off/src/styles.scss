@@ -2,20 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
-
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
+body {
+  font-family: 'Gantari', sans-serif;
+  @apply text-slate-800;
+}
+
 :root {
-  --primary: #e56b6f;
+  --primary: #3813C2;
   --primary-transparent-10: rgba(230, 108, 112, 0.1);
 }
 
+@layer components {
+  .box {
+    @apply max-w-7xl mx-auto px-2 md:px-6;
+  }
 
-
-.box {
-  @apply max-w-7xl mx-auto px-2 md:px-6;
+  .page-header {
+    @apply text-2xl font-bold text-slate-900;
+  }
 }
