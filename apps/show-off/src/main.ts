@@ -3,7 +3,7 @@ import { bootstrapApplication } from '@angular/platform-browser';
 
 import { environment } from './environments/environment';
 import { AppComponent } from './app/app.component';
-import { AUTH_CONFIG } from '@show-off/ui/auth';
+import { AUTH_CONFIG, AuthService, CURRENT_USER } from '@show-off/ui/auth';
 import { ROUTES_PROVIDER } from './app/routes';
 import { APOLLO_PROVIDERS } from './app/config/apollo.config';
 import { HttpClientModule } from '@angular/common/http';
@@ -19,6 +19,11 @@ bootstrapApplication(AppComponent, {
       useValue: {
         authURL: `${environment.apiURL}/api/auth`,
       },
+    },
+    {
+      provide: CURRENT_USER,
+      useFactory: (auth: AuthService) => auth.me(),
+      deps: [AuthService],
     },
     importProvidersFrom(HttpClientModule),
     ...APOLLO_PROVIDERS,
