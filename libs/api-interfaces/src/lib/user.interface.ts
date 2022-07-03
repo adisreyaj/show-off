@@ -5,3 +5,7 @@ export interface BaseUser {
   username: string;
   lastName?: string;
 }
+
+export interface User extends BaseUser {
+  image?: string;
+}
