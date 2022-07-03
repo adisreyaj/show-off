@@ -8,7 +8,6 @@ export class UsersResolver {
 
   @Query('me')
   me(@CurrentUser() user: CurrentUser) {
-    console.log(user);
     return this.userService.findById(user.id);
   }
 }
