@@ -10,6 +10,12 @@ import { Request, Response } from 'express';
 import * as bcrypt from 'bcrypt';
 import { PrismaService } from '@show-off/db';
 import { BaseUser } from '@show-off/api-interfaces';
+import {
+  adjectives,
+  animals,
+  colors,
+  uniqueNamesGenerator,
+} from 'unique-names-generator';
 
 @Injectable()
 export class AuthService {
@@ -39,8 +45,8 @@ export class AuthService {
       email: user.email,
       sub: user.id,
       username: user.username,
-      aud: 'flare-web',
-      iss: 'flare',
+      aud: 'show-off-web',
+      iss: 'show-off',
     };
     return this.jwtService.sign(payload);
   }
@@ -64,7 +70,13 @@ export class AuthService {
     });
 
     if (!user) {
-      user = await this.signup(req.user);
+      user = await this.signup({
+        ...req.user,
+        username: uniqueNamesGenerator({
+          dictionaries: [adjectives, animals, colors],
+          length: 2,
+        }),
+      });
     }
 
     if (!user) {

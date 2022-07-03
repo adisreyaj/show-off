@@ -10,6 +10,7 @@
     "api-users": "libs/api/users",
     "db": "libs/db",
     "show-off": "apps/show-off",
-    "show-off-e2e": "apps/show-off-e2e"
+    "show-off-e2e": "apps/show-off-e2e",
+    "ui-auth": "libs/ui/auth"
   }
 }

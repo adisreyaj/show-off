@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --primary: #e56b6f;
+  --primary-transparent-10: rgba(230, 108, 112, 0.1);
+}
+
+
+
+.box {
+  @apply max-w-7xl mx-auto px-2 md:px-6;
+}

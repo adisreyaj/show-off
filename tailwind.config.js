@@ -2,7 +2,12 @@
 module.exports = {
   content: ['./apps/**/*.{ts,scss}', './libs/**/*.{ts,scss}'],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: 'var(--primary)',
+        'primary-transparent-10': 'var(--primary-transparent-10)',
+      },
+    },
   },
   plugins: [],
 };

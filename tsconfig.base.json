@@ -10,7 +10,7 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "lib": ["es2017", "dom"],
+    "lib": ["es2020", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
@@ -20,7 +20,9 @@
       "@show-off/api/collections": ["libs/api/collections/src/index.ts"],
       "@show-off/api/shared": ["libs/api/shared/src/index.ts"],
       "@show-off/api/users": ["libs/api/users/src/index.ts"],
-      "@show-off/db": ["libs/db/src/index.ts"]
+      "@show-off/db": ["libs/db/src/index.ts"],
+      "@show-off/ui/auth": ["libs/ui/auth/src/index.ts"],
+      "zigzag": ["zigzag/projects/zigzag/src/public-api.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
