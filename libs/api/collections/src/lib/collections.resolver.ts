@@ -1,6 +1,7 @@
-import { Args, Query, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { CollectionsService } from './collections.service';
-import { QueryFilter } from '@show-off/api-interfaces';
+import { CreateCollectionInput, QueryFilter } from '@show-off/api-interfaces';
+import { CurrentUserId } from '@show-off/api/shared';
 
 @Resolver('Collection')
 export class CollectionsResolver {
@@ -10,8 +11,27 @@ export class CollectionsResolver {
   getCollectionById(@Args('id') id: string) {
     return this.collectionsService.findById(id);
   }
+
   @Query('collections')
   getCollections(@Args('filters') filters: QueryFilter) {
     return this.collectionsService.find(filters);
+  }
+
+  @Mutation('createCollection')
+  createCollection(
+    @Args('input') data: CreateCollectionInput,
+    @CurrentUserId() userId: string
+  ) {
+    return this.collectionsService.create(data, userId);
+  }
+
+  @Mutation('likeCollection')
+  likeCollection(@Args('id') id: string, @CurrentUserId() userId: string) {
+    return this.collectionsService.likeCollection(id, userId);
+  }
+
+  @Mutation('unlikeCollection')
+  unlikeCollection(@Args('id') id: string, @CurrentUserId() userId: string) {
+    return this.collectionsService.unlikeCollection(id, userId);
   }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@show-off/db';
-import { QueryFilter } from '@show-off/api-interfaces';
+import { CreateCollectionInput, QueryFilter } from '@show-off/api-interfaces';
 import { Prisma } from '@prisma/client';
 
 const COLLECTION_INCLUDE: Prisma.CollectionInclude = {
@@ -39,10 +39,39 @@ export class CollectionsService {
     });
   }
 
-  create(data: any) {
+  create(input: CreateCollectionInput, userId: string) {
+    const data: Prisma.CollectionUncheckedCreateInput = {
+      ...input,
+      userId,
+    };
     return this.prisma.collection.create({
       data,
       include: COLLECTION_INCLUDE,
+    });
+  }
+
+  likeCollection(id: string, userId: string) {
+    return this.prisma.collection.update({
+      where: {
+        id,
+      },
+      data: {
+        likes: {
+          create: {
+            userId,
+          },
+        },
+      },
+      include: COLLECTION_INCLUDE,
+    });
+  }
+
+  unlikeCollection(id: string, userId: string) {
+    return this.prisma.like.deleteMany({
+      where: {
+        userId,
+        collectionId: id,
+      },
     });
   }
 }

@@ -1,29 +1,29 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["referentialIntegrity"]
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
   referentialIntegrity = "prisma"
 }
 
 model User {
-  id          String       @id @default(cuid())
-  firstName   String
-  lastName    String?
-  image       String?
-  email       String       @unique
-  emailVerified Boolean @default(false)
-  username    String       @unique
-  password    String?
-  completed   Boolean   @default(false)
-  collections Collection[]
-  likes       Like[]
-  shares      Share[]
-  comments    Comment[]
-  items       Item[]
+  id            String       @id @default(cuid())
+  firstName     String
+  lastName      String?
+  image         String?
+  email         String       @unique
+  emailVerified Boolean      @default(false)
+  username      String       @unique
+  password      String?
+  completed     Boolean      @default(false)
+  collections   Collection[]
+  likes         Like[]
+  shares        Share[]
+  comments      Comment[]
+  items         Item[]
 }
 
 model Collection {
@@ -79,6 +79,25 @@ model Item {
   userId       String
   collection   Collection @relation(fields: [collectionId], references: [id])
   collectionId String
+  type         ItemType
 
   @@index([userId, collectionId])
+}
+
+enum ItemType {
+  Laptop
+  Desktop
+  Tablet
+  Phone
+  Keyboard
+  Mouse
+  Monitor
+  Speaker
+  Headphone
+  Microphone
+  Chair
+  Desk
+  Ide
+  IdeTheme
+  IdePlugin
 }

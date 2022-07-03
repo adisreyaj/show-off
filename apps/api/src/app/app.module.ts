@@ -8,6 +8,7 @@ import { join } from 'path';
 import { AppService } from './app.service';
 import { AppResolver } from './app.resolver';
 import { ApiUsersModule } from '@show-off/api/users';
+import { ApiCollectionsModule } from '@show-off/api/collections';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { ApiUsersModule } from '@show-off/api/users';
     }),
     AuthModule,
     ApiUsersModule,
+    ApiCollectionsModule,
   ],
   providers: [
     AppResolver,

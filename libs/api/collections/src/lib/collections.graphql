@@ -2,6 +2,13 @@ type Query {
   collection(id: ID!): Collection
   collections: [Collection]
 }
+type Mutation {
+  createCollection(input: CreateCollectionInput!): Collection
+  deleteCollection(id: ID!): Success
+  updateCollection(id: ID!, input: UpdateCollectionInput!): Collection
+  likeCollection(id: ID!): Collection
+  unlikeCollection(id: ID!): Collection
+}
 
 type Collection {
   id: ID
@@ -36,4 +43,32 @@ type Share {
 
 type Comment {
   id: ID
+}
+
+input CreateCollectionInput {
+  name: String!
+  description: String
+}
+
+input UpdateCollectionInput {
+  name: String
+  description: String
+}
+
+input CreateItemInput {
+  name: String!
+  description: String
+  type: String!
+  price: Float
+  currency: String
+  links: [String]
+}
+
+input UpdateItemInput {
+  name: String
+  description: String
+  type: String
+  price: Float
+  currency: String
+  links: [String]
 }

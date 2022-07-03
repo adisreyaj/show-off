@@ -12,9 +12,9 @@
     "start": "nx serve",
     "build": "nx build",
     "test": "nx test",
-    "prisma:migrate": "prisma migrate dev",
-    "prisma:migrate:prod": "prisma migrate deploy",
-    "primsa:generate": "prisma generate"
+    "prisma:push": "prisma db push",
+    "prisma:generate": "prisma generate",
+    "prisma:format": "prisma format"
   },
   "private": true,
   "dependencies": {
