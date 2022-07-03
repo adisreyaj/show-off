@@ -2,12 +2,17 @@ type Query {
   collection(id: ID!): Collection
   collections: [Collection]
 }
+
 type Mutation {
   createCollection(input: CreateCollectionInput!): Collection
   deleteCollection(id: ID!): Success
   updateCollection(id: ID!, input: UpdateCollectionInput!): Collection
   likeCollection(id: ID!): Collection
   unlikeCollection(id: ID!): Collection
+  addNewItemToCollection(id: ID!, input: AddNewItemsToCollectionInput!): Collection
+  addItemToCollection(id: ID!, itemId: ID!): Collection
+  removeItemFromCollection(id: ID!, itemId: ID!): Collection
+  commentOnCollection(id: ID!, text: String!): Collection
 }
 
 type Collection {
@@ -20,6 +25,8 @@ type Collection {
   comments: [Comment]
   items: [Item]
   _count: CollectionCounts
+  createdAt: DateTime
+  updatedAt: DateTime
 }
 
 type CollectionCounts {
@@ -31,6 +38,20 @@ type CollectionCounts {
 
 type Item {
   id: ID
+  name: String
+  description: String
+  type: String
+  price: Float
+  currency: String
+  links: [Link]
+}
+
+type Link {
+  url: String!
+  name: String
+  description: String
+  type: String
+  metadata: JSON
 }
 
 type Like {
@@ -61,7 +82,8 @@ input CreateItemInput {
   type: String!
   price: Float
   currency: String
-  links: [String]
+  links: [Link]
+
 }
 
 input UpdateItemInput {
@@ -71,4 +93,8 @@ input UpdateItemInput {
   price: Float
   currency: String
   links: [String]
+}
+
+input AddNewItemsToCollectionInput {
+  items: [CreateItemInput]
 }

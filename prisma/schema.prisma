@@ -24,17 +24,23 @@ model User {
   shares        Share[]
   comments      Comment[]
   items         Item[]
+  deleted       Boolean      @default(false)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
 }
 
 model Collection {
-  id       String    @id @default(cuid())
-  name     String
-  user     User      @relation(fields: [userId], references: [id])
-  userId   String
-  likes    Like[]
-  shares   Share[]
-  comments Comment[]
-  items    Item[]
+  id        String    @id @default(cuid())
+  name      String
+  user      User      @relation(fields: [userId], references: [id])
+  userId    String
+  likes     Like[]
+  shares    Share[]
+  comments  Comment[]
+  items     Item[]
+  deleted   Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 
   @@index([userId])
 }
@@ -45,6 +51,7 @@ model Like {
   userId       String
   collection   Collection @relation(fields: [collectionId], references: [id])
   collectionId String
+  createdAt    DateTime   @default(now())
 
   @@index([userId, collectionId])
 }
@@ -55,6 +62,7 @@ model Share {
   userId       String
   collection   Collection @relation(fields: [collectionId], references: [id])
   collectionId String
+  createdAt    DateTime   @default(now())
 
   @@index([userId, collectionId])
 }
@@ -66,6 +74,8 @@ model Comment {
   collection   Collection @relation(fields: [collectionId], references: [id])
   collectionId String
   text         String
+  deleted      Boolean    @default(false)
+  createdAt    DateTime   @default(now())
 
   @@index([userId, collectionId])
 }
@@ -75,11 +85,14 @@ model Item {
   name         String
   description  String?
   images       Json?
+  links        Json?
   user         User       @relation(fields: [userId], references: [id])
   userId       String
   collection   Collection @relation(fields: [collectionId], references: [id])
   collectionId String
   type         ItemType
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
 
   @@index([userId, collectionId])
 }

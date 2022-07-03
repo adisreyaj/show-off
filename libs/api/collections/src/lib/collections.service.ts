@@ -50,7 +50,7 @@ export class CollectionsService {
     });
   }
 
-  likeCollection(id: string, userId: string) {
+  like(id: string, userId: string) {
     return this.prisma.collection.update({
       where: {
         id,
@@ -66,11 +66,86 @@ export class CollectionsService {
     });
   }
 
-  unlikeCollection(id: string, userId: string) {
+  unlike(id: string, userId: string) {
     return this.prisma.like.deleteMany({
       where: {
         userId,
         collectionId: id,
+      },
+    });
+  }
+
+  //TODO: Type this
+  addNewItems(id: string, userId: string, input: any[]) {
+    return this.prisma.collection.update({
+      where: {
+        id,
+      },
+      data: {
+        items: {
+          create: input.map((item) => ({
+            ...item,
+            userId,
+          })),
+        },
+      },
+      include: COLLECTION_INCLUDE,
+    });
+  }
+
+  /**
+   * Copy the item from one collection to another
+   *
+   * @param id - collection id
+   * @param userId - current user id
+   * @param itemId - item id
+   */
+  async addItem(id: string, userId: string, itemId: string) {
+    const item = await this.prisma.item.findUnique({
+      where: {
+        id: itemId,
+      },
+      select: {
+        name: true,
+        description: true,
+        images: true,
+        type: true,
+        links: true,
+      },
+    });
+
+    if (!item) {
+      throw new Error('Item not found');
+    }
+
+    return this.prisma.collection.update({
+      where: {
+        id,
+      },
+      data: {
+        items: {
+          create: {
+            ...item,
+            userId,
+          },
+        },
+      },
+      include: COLLECTION_INCLUDE,
+    });
+  }
+
+  comment(id: string, userId: string, text: string) {
+    return this.prisma.collection.update({
+      where: {
+        id,
+      },
+      data: {
+        comments: {
+          create: {
+            userId,
+            text,
+          },
+        },
       },
     });
   }

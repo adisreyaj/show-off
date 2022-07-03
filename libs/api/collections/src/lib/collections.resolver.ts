@@ -27,11 +27,11 @@ export class CollectionsResolver {
 
   @Mutation('likeCollection')
   likeCollection(@Args('id') id: string, @CurrentUserId() userId: string) {
-    return this.collectionsService.likeCollection(id, userId);
+    return this.collectionsService.like(id, userId);
   }
 
   @Mutation('unlikeCollection')
   unlikeCollection(@Args('id') id: string, @CurrentUserId() userId: string) {
-    return this.collectionsService.unlikeCollection(id, userId);
+    return this.collectionsService.unlike(id, userId);
   }
 }
