@@ -17,6 +17,26 @@ export const ROUTES_PROVIDER = importProvidersFrom(
     {
       path: '',
       component: ShellComponent,
+      children: [
+        {
+          path: '',
+          pathMatch: 'full',
+          loadComponent: () =>
+            import('@show-off/ui/home').then((m) => m.HomeComponent),
+        },
+        {
+          path: 'collections',
+          children: [
+            {
+              path: 'create',
+              loadComponent: () =>
+                import('@show-off/ui/collections').then(
+                  (m) => m.CreateCollectionComponent
+                ),
+            },
+          ],
+        },
+      ],
     },
   ])
 );

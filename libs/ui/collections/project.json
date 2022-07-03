@@ -1,0 +1,25 @@
+{
+  "projectType": "library",
+  "sourceRoot": "libs/ui/collections/src",
+  "prefix": "show-off",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/ui/collections"],
+      "options": {
+        "jestConfig": "libs/ui/collections/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/ui/collections/**/*.ts",
+          "libs/ui/collections/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

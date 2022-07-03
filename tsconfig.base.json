@@ -22,6 +22,9 @@
       "@show-off/api/users": ["libs/api/users/src/index.ts"],
       "@show-off/db": ["libs/db/src/index.ts"],
       "@show-off/ui/auth": ["libs/ui/auth/src/index.ts"],
+      "@show-off/ui/collections": ["libs/ui/collections/src/index.ts"],
+      "@show-off/ui/home": ["libs/ui/home/src/index.ts"],
+      "@show-off/ui/profile": ["libs/ui/profile/src/index.ts"],
       "zigzag": ["zigzag/projects/zigzag/src/public-api.ts"]
     }
   },
