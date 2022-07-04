@@ -84,7 +84,10 @@ model Comment {
 model Item {
   id           String     @id @default(cuid())
   name         String
+  make         String?
   description  String?
+  price        Float?
+  currency     String?
   images       Json?
   links        Json?
   user         User       @relation(fields: [userId], references: [id])
@@ -92,6 +95,7 @@ model Item {
   collection   Collection @relation(fields: [collectionId], references: [id])
   collectionId String
   type         ItemType
+  metadata     Json?
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
 
