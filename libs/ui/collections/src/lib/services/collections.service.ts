@@ -26,6 +26,30 @@ export class CollectionsService {
     });
   }
 
+  addNewItem(collectionId: string, item: any) {
+    return this.apollo.mutate({
+      mutation: gql`
+        mutation AddNewItemToCollection(
+          $id: ID!
+          $input: AddNewItemsToCollectionInput!
+        ) {
+          addNewItemToCollection(id: $id, input: $input) {
+            id
+            name
+            createdAt
+            updatedAt
+          }
+        }
+      `,
+      variables: {
+        id: collectionId,
+        input: {
+          items: [item],
+        },
+      },
+    });
+  }
+
   // TODO: Type this
   getCollections() {
     return this.apollo
@@ -35,6 +59,14 @@ export class CollectionsService {
             collections {
               id
               name
+              user {
+                id
+                username
+                firstName
+                lastName
+                image
+                email
+              }
               _count {
                 likes
                 shares
