@@ -28,10 +28,18 @@ export const ROUTES_PROVIDER = importProvidersFrom(
           path: 'collections',
           children: [
             {
-              path: 'create',
+              path: '',
+              pathMatch: 'full',
               loadComponent: () =>
                 import('@show-off/ui/collections').then(
-                  (m) => m.CreateCollectionComponent
+                  (m) => m.CollectionsComponent
+                ),
+            },
+            {
+              path: ':id',
+              loadComponent: () =>
+                import('@show-off/ui/collections').then(
+                  (m) => m.CollectionDetailComponent
                 ),
             },
           ],

@@ -3,7 +3,7 @@ import {
   ButtonComponent,
   DROPDOWN_COMPONENTS,
   FORM_COMPONENTS,
-  ModalService,
+  ModalRef,
 } from 'zigzag';
 import {
   FormBuilder,
@@ -13,15 +13,20 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { TypeIconPipe } from '@show-off/ui/shared';
-import { ItemTypeChooserComponent } from './item-type-chooser.component';
 
 @Component({
   selector: 'show-off-create-collection',
   template: `
-    <div class="box">
-      <h1 class="page-header">Create Collection</h1>
-      <section>
-        <form class="max-w-md" [formGroup]="this.collectionForm">
+    <div>
+      <header class="modal-header t-0 sticky mb-2 bg-white p-4 text-center">
+        <p>Create Collection</p>
+      </header>
+      <section class="px-4 pb-8">
+        <form
+          class="max-w-md"
+          [formGroup]="this.collectionForm"
+          (ngSubmit)="this.create()"
+        >
           <zz-form-group id="name" class="flex flex-col">
             <zz-form-group-label required>Name</zz-form-group-label>
             <input
@@ -40,19 +45,10 @@ import { ItemTypeChooserComponent } from './item-type-chooser.component';
               placeholder="Add a short description"
               variant="fill"
               zzInput
-              id="name"
+              id="description"
               formControlName="description"
             ></textarea>
           </zz-form-group>
-          <section>
-            <button
-              variant="link"
-              zzButton
-              (click)="this.openItemTypeChooser()"
-            >
-              <p>Choose Type</p>
-            </button>
-          </section>
           <footer>
             <button zzButton variant="primary">Create</button>
           </footer>
@@ -75,17 +71,17 @@ export class CreateCollectionComponent {
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly modal: ModalService
+    private readonly modalRef: ModalRef
   ) {
     this.collectionForm = this.fb.nonNullable.group({
-      name: ['', Validators.required],
+      name: ['', [Validators.required, Validators.minLength(3)]],
       description: ['', [Validators.minLength(5), Validators.maxLength(255)]],
     });
   }
 
-  openItemTypeChooser() {
-    this.modal.open(ItemTypeChooserComponent, {
-      size: 'md',
-    });
+  create() {
+    if (this.collectionForm.valid) {
+      this.modalRef.close(this.collectionForm.value);
+    }
   }
 }

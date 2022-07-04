@@ -6,3 +6,5 @@ type Query {
 type Success {
  success: Boolean
 }
+
+scalar JSON

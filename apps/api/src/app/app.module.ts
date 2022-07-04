@@ -9,6 +9,7 @@ import { AppService } from './app.service';
 import { AppResolver } from './app.resolver';
 import { ApiUsersModule } from '@show-off/api/users';
 import { ApiCollectionsModule } from '@show-off/api/collections';
+import GraphQLJSON from 'graphql-type-json';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { ApiCollectionsModule } from '@show-off/api/collections';
           typePaths: isProd
             ? ['./**/*.graphql']
             : [join(process.cwd(), 'libs/**/*.graphql'), './**/*.graphql'],
+          resolvers: { JSON: GraphQLJSON },
           cors: {
             origin: true,
             credentials: true,

@@ -94,6 +94,7 @@
     "jest-preset-angular": "~11.1.2",
     "nx": "14.4.0",
     "prettier": "^2.7.1",
+    "prettier-plugin-tailwindcss": "^0.1.11",
     "prisma": "^4.0.0",
     "tailwindcss": "^3.1.4",
     "ts-jest": "27.1.4",

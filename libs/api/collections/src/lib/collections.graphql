@@ -25,8 +25,8 @@ type Collection {
   comments: [Comment]
   items: [Item]
   _count: CollectionCounts
-  createdAt: DateTime
-  updatedAt: DateTime
+  createdAt: String
+  updatedAt: String
 }
 
 type CollectionCounts {
@@ -82,7 +82,7 @@ input CreateItemInput {
   type: String!
   price: Float
   currency: String
-  links: [Link]
+  links: [LinkInput]
 
 }
 
@@ -92,9 +92,17 @@ input UpdateItemInput {
   type: String
   price: Float
   currency: String
-  links: [String]
+  links: [LinkInput]
 }
 
 input AddNewItemsToCollectionInput {
   items: [CreateItemInput]
+}
+
+input LinkInput {
+  url: String!
+  name: String
+  description: String
+  type: String
+  metadata: JSON
 }

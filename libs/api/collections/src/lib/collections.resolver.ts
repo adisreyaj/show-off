@@ -14,7 +14,7 @@ export class CollectionsResolver {
 
   @Query('collections')
   getCollections(@Args('filters') filters: QueryFilter) {
-    return this.collectionsService.find(filters);
+    return this.collectionsService.find(filters ?? {});
   }
 
   @Mutation('createCollection')

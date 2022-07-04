@@ -1,1 +1,1 @@
-export * from './lib/create-collection.component';
+export * from './lib/components';

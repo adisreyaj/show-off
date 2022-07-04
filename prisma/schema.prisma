@@ -30,17 +30,18 @@ model User {
 }
 
 model Collection {
-  id        String    @id @default(cuid())
-  name      String
-  user      User      @relation(fields: [userId], references: [id])
-  userId    String
-  likes     Like[]
-  shares    Share[]
-  comments  Comment[]
-  items     Item[]
-  deleted   Boolean   @default(false)
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id          String    @id @default(cuid())
+  name        String
+  description String
+  user        User      @relation(fields: [userId], references: [id])
+  userId      String
+  likes       Like[]
+  shares      Share[]
+  comments    Comment[]
+  items       Item[]
+  deleted     Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
   @@index([userId])
 }
