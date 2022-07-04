@@ -107,6 +107,7 @@ export class CollectionsService {
       },
       select: {
         name: true,
+        metadata: true,
         description: true,
         images: true,
         type: true,

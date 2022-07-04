@@ -3,6 +3,8 @@ import { ItemLaptopComponent } from './items/item-laptop.component';
 import { ButtonComponent, ModalService } from 'zigzag';
 import { CreateItemComponent } from './create-item.component';
 import { CollectionsService } from '../services';
+import { filter, switchMap } from 'rxjs';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'show-off-collection-detail',
@@ -26,19 +28,32 @@ import { CollectionsService } from '../services';
     </div>
   `,
   standalone: true,
-  imports: [ItemLaptopComponent, ButtonComponent],
+  imports: [ItemLaptopComponent, ButtonComponent, RouterModule],
 })
 export class CollectionDetailComponent {
+  private readonly collectionId: string;
+
   constructor(
     private readonly modal: ModalService,
-    private readonly collectionsService: CollectionsService
+    private readonly collectionsService: CollectionsService,
+    private readonly activatedRoute: ActivatedRoute
   ) {
     this.addNewItem();
+    this.collectionId = this.activatedRoute.snapshot.params['id'];
   }
 
   addNewItem() {
     const ref = this.modal.open(CreateItemComponent, {
       size: 'md',
     });
+
+    ref.afterClosed$
+      .pipe(
+        filter(Boolean),
+        switchMap((data) =>
+          this.collectionsService.addNewItem(this.collectionId, data)
+        )
+      )
+      .subscribe();
   }
 }

@@ -18,6 +18,7 @@ type Mutation {
 type Collection {
   id: ID
   name: String
+  description: String
   user: User
   userId: ID
   likes: [Like]
@@ -39,9 +40,11 @@ type CollectionCounts {
 type Item {
   id: ID
   name: String
+  make: String
   description: String
   type: String
   price: Float
+  metadata: JSON
   currency: String
   links: [Link]
 }
@@ -78,9 +81,11 @@ input UpdateCollectionInput {
 
 input CreateItemInput {
   name: String!
+  make: String
   description: String
   type: String!
   price: Float
+  metadata: JSON
   currency: String
   links: [LinkInput]
 
@@ -88,9 +93,11 @@ input CreateItemInput {
 
 input UpdateItemInput {
   name: String
+  make: String
   description: String
   type: String
   price: Float
+  metadata: JSON
   currency: String
   links: [LinkInput]
 }

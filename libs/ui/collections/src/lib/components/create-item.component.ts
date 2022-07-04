@@ -1,14 +1,20 @@
-import { Component } from '@angular/core';
-import { SupportedItemTypes } from '@show-off/api-interfaces';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ComponentRef,
+  Type,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
+import { ItemData, SupportedItemTypes } from '@show-off/api-interfaces';
 import { TypeIconPipe } from '@show-off/ui/shared';
 import { CommonModule } from '@angular/common';
 import { ButtonComponent, FORM_COMPONENTS, ModalRef } from 'zigzag';
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { ItemLaptopFormComponent } from './items/item-laptop-form.component';
+import { ItemFormBase } from './items/item-form-base.class';
+import { isEmpty } from 'lodash-es';
 
 @Component({
   selector: 'show-off-item-type-chooser',
@@ -39,101 +45,80 @@ import {
         </button>
       </section>
       <section *ngIf="this.itemType" class="px-4 pb-8">
-        <form class="" [formGroup]="this.itemForm">
-          <fieldset class="grid grid-cols-2 gap-6">
-            <zz-form-group id="make" class="flex flex-col">
-              <zz-form-group-label required>Make</zz-form-group-label>
-              <input
-                type="text"
-                placeholder="Eg: Apple"
-                variant="fill"
-                zzInput
-                id="make"
-                formControlName="make"
-              />
-            </zz-form-group>
-            <zz-form-group id="name" class="flex flex-col">
-              <zz-form-group-label required>Name</zz-form-group-label>
-              <input
-                type="text"
-                placeholder="Eg: Macbook Pro"
-                variant="fill"
-                zzInput
-                id="name"
-                formControlName="name"
-              />
-            </zz-form-group>
-          </fieldset>
-          <fieldset class="grid grid-cols-3 gap-6">
-            <zz-form-group id="size" class="flex flex-col">
-              <zz-form-group-label required>Size (Inch)</zz-form-group-label>
-              <input
-                type="number"
-                variant="fill"
-                zzInput
-                id="size"
-                formControlName="size"
-              />
-            </zz-form-group>
-            <zz-form-group id="ram" class="flex flex-col">
-              <zz-form-group-label required>RAM (GB)</zz-form-group-label>
-              <input
-                type="number"
-                variant="fill"
-                zzInput
-                id="ram"
-                formControlName="ram"
-              />
-            </zz-form-group>
-            <zz-form-group id="storage" class="flex flex-col">
-              <zz-form-group-label required>Storage (GB)</zz-form-group-label>
-              <input
-                type="number"
-                placeholder=""
-                variant="fill"
-                zzInput
-                id="storage"
-                formControlName="storage"
-              />
-            </zz-form-group>
-          </fieldset>
+        <form>
+          <ng-container #formContainer></ng-container>
           <footer>
-            <button zzButton variant="primary">Add Item</button>
+            <button
+              type="button"
+              zzButton
+              variant="primary"
+              [disabled]="!this.formComponentRef?.instance?.isValid?.()"
+              (click)="this.addItem()"
+            >
+              Add Item
+            </button>
           </footer>
         </form>
       </section>
     </div>
   `,
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     TypeIconPipe,
     CommonModule,
     ButtonComponent,
     ...FORM_COMPONENTS,
     ReactiveFormsModule,
+    ItemLaptopFormComponent,
   ],
 })
 export class CreateItemComponent {
   availableTypes = Object.values(SupportedItemTypes);
   itemType?: SupportedItemTypes;
-  itemForm: FormGroup;
   modalTitle = 'Choose Item Type';
+  formComponentRef?: ComponentRef<ItemFormBase<ItemData>>;
+
+  @ViewChild('formContainer', { read: ViewContainerRef })
+  private formContainer?: ViewContainerRef;
+  private readonly formComponents: Record<
+    string,
+    Type<ItemFormBase<ItemData>>
+  > = {
+    [SupportedItemTypes.Laptop]: ItemLaptopFormComponent,
+  };
 
   constructor(
     public readonly modalRef: ModalRef,
-    private readonly fb: FormBuilder
-  ) {
-    this.itemForm = this.fb.group({
-      make: ['', [Validators.required]],
-      name: ['', [Validators.required]],
-      size: ['', [Validators.required]],
-      ram: ['', [Validators.required]],
-      storage: ['', [Validators.required]],
-    });
-  }
+    private readonly fb: FormBuilder,
+    private readonly cd: ChangeDetectorRef
+  ) {}
 
   setItemType(type: string) {
     this.itemType = type as SupportedItemTypes;
     this.modalTitle = `Add ${type}`;
+    this.cd.detectChanges();
+    this.attachCorrespondingForm(this.itemType);
+  }
+
+  addItem() {
+    if (!this.formComponentRef) {
+      return;
+    }
+    const isValid = this.formComponentRef.instance.isValid();
+    const value = this.formComponentRef.instance.getValue();
+    if (isValid && !isEmpty(value) && this.itemType) {
+      const data = {
+        ...value,
+        type: this.itemType,
+      };
+      this.modalRef.close(data);
+    }
+  }
+
+  private attachCorrespondingForm(type: SupportedItemTypes) {
+    const component = this.formComponents[type];
+    this.formComponentRef = this.formContainer?.createComponent(component);
+    this.cd.detectChanges();
   }
 }

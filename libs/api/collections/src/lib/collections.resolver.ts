@@ -25,6 +25,24 @@ export class CollectionsResolver {
     return this.collectionsService.create(data, userId);
   }
 
+  @Mutation('addNewItemToCollection')
+  addNewItemToCollection(
+    @Args('id') id: string,
+    @Args('input') data: { items: any[] },
+    @CurrentUserId() userId: string
+  ) {
+    return this.collectionsService.addNewItems(id, userId, data.items);
+  }
+
+  @Mutation('addItemToCollection')
+  copyExistingItemToCollection(
+    @Args('id') id: string,
+    @Args('itemId') itemId: string,
+    @CurrentUserId() userId: string
+  ) {
+    return this.collectionsService.addItem(id, userId, itemId);
+  }
+
   @Mutation('likeCollection')
   likeCollection(@Args('id') id: string, @CurrentUserId() userId: string) {
     return this.collectionsService.like(id, userId);
