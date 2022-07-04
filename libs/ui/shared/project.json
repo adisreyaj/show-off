@@ -1,0 +1,25 @@
+{
+  "projectType": "library",
+  "sourceRoot": "libs/ui/shared/src",
+  "prefix": "show-off",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/ui/shared"],
+      "options": {
+        "jestConfig": "libs/ui/shared/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/ui/shared/**/*.ts",
+          "libs/ui/shared/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

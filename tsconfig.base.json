@@ -25,6 +25,7 @@
       "@show-off/ui/collections": ["libs/ui/collections/src/index.ts"],
       "@show-off/ui/home": ["libs/ui/home/src/index.ts"],
       "@show-off/ui/profile": ["libs/ui/profile/src/index.ts"],
+      "@show-off/ui/shared": ["libs/ui/shared/src/index.ts"],
       "zigzag": ["zigzag/projects/zigzag/src/public-api.ts"]
     }
   },

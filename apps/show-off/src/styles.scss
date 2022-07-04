@@ -26,4 +26,8 @@ body {
   .page-header {
     @apply text-2xl font-bold text-slate-900;
   }
+
+  .modal-header {
+    @apply text-xl font-bold text-slate-700;
+  }
 }
