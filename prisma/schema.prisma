@@ -118,4 +118,6 @@ enum ItemType {
   Ide
   IdeTheme
   IdePlugin
+  Terminal
+  Browser
 }
