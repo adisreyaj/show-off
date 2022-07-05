@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'show-off-home',
   template: ` <div class="box">
-    <h1 class="page-header">Home</h1>
+    <h1 class="page-header-text">Home</h1>
     <section></section>
     <section>
       <header>
