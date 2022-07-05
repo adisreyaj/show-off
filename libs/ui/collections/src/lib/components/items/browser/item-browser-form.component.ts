@@ -8,17 +8,17 @@ import {
   Validators,
 } from '@angular/forms';
 import { ItemFormBase } from '../item-form-base.class';
-import { IdeData, SupportedItemTypes } from '@show-off/api-interfaces';
+import { BrowserData, SupportedItemTypes } from '@show-off/api-interfaces';
 
 @Component({
-  selector: 'show-off-item-ide-form',
-  template: ` <div [formGroup]="this.ideForm">
+  selector: 'show-off-item-browser-form',
+  template: ` <div [formGroup]="this.browserForm">
     <fieldset class="grid grid-cols-2 gap-6">
       <zz-form-group id="make" class="flex flex-col">
         <zz-form-group-label required>Publisher</zz-form-group-label>
         <input
           type="text"
-          placeholder="Eg: Microsoft"
+          placeholder="Eg: Google"
           variant="fill"
           zzInput
           id="make"
@@ -29,7 +29,7 @@ import { IdeData, SupportedItemTypes } from '@show-off/api-interfaces';
         <zz-form-group-label required>Name</zz-form-group-label>
         <input
           type="text"
-          placeholder="Eg: Visual Studio Code"
+          placeholder="Eg: Chrome"
           variant="fill"
           zzInput
           id="name"
@@ -47,37 +47,37 @@ import { IdeData, SupportedItemTypes } from '@show-off/api-interfaces';
     ReactiveFormsModule,
   ],
 })
-export class ItemIdeFormComponent extends ItemFormBase<IdeData> {
-  ideForm: FormGroup;
+export class ItemBrowserFormComponent extends ItemFormBase<BrowserData> {
+  browserForm: FormGroup;
 
   constructor(private readonly fb: FormBuilder) {
     super();
 
-    this.ideForm = this.fb.group({
+    this.browserForm = this.fb.group({
       make: ['', [Validators.required]],
       name: ['', [Validators.required]],
     });
   }
 
-  getValue(): IdeData {
-    const { make, name } = this.ideForm.value;
+  getValue(): BrowserData {
+    const { make, name } = this.browserForm.value;
     return {
       make,
       name,
-      type: SupportedItemTypes.Ide,
+      type: SupportedItemTypes.Browser,
       links: [],
     };
   }
 
   isValid(): boolean {
-    return this.ideForm.valid;
+    return this.browserForm.valid;
   }
 
   reset(): void {
-    this.ideForm.reset();
+    this.browserForm.reset();
   }
 
-  setValue(value: IdeData): void {
-    this.ideForm.setValue(value);
+  setValue(value: BrowserData): void {
+    this.browserForm.setValue(value);
   }
 }

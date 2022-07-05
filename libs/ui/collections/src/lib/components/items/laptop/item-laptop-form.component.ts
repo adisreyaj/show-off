@@ -7,7 +7,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ItemFormBase } from './item-form-base.class';
+import { ItemFormBase } from '../item-form-base.class';
 import { LaptopData, SupportedItemTypes } from '@show-off/api-interfaces';
 
 @Component({
@@ -138,5 +138,3 @@ export class ItemLaptopFormComponent extends ItemFormBase<LaptopData> {
     this.laptopForm.setValue(value);
   }
 }
-
-interface LaptopForm {}

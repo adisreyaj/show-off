@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { LaptopData, SupportedItemTypes } from '@show-off/api-interfaces';
 import {
   DataListComponent,
@@ -10,14 +10,13 @@ import {
   selector: 'show-off-item-laptop',
   template: `
     <div class="rounded-md border border-gray-200 p-4 shadow-sm">
-      <header class="mb-2 flex gap-2">
+      <header class="mb-3 flex gap-2">
         <img
-          width="30"
-          height="30"
+          class="h-6"
           [src]="'${SupportedItemTypes.Laptop}' | typeIcon"
-          alt="Laptop"
+          alt="${SupportedItemTypes.Laptop}"
         />
-        <p class="text-lg">Laptop</p>
+        <p class="text-lg">${SupportedItemTypes.Laptop}</p>
       </header>
       <section>
         <show-off-data-list [data]="this.datalist"></show-off-data-list>
@@ -25,6 +24,7 @@ import {
     </div>
   `,
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TypeIconPipe, DataListComponent],
 })
 export class ItemLaptopComponent {

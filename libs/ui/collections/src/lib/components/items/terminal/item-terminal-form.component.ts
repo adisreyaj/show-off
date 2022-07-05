@@ -8,28 +8,17 @@ import {
   Validators,
 } from '@angular/forms';
 import { ItemFormBase } from '../item-form-base.class';
-import { IdeData, SupportedItemTypes } from '@show-off/api-interfaces';
+import { SupportedItemTypes, TerminalData } from '@show-off/api-interfaces';
 
 @Component({
-  selector: 'show-off-item-ide-form',
-  template: ` <div [formGroup]="this.ideForm">
+  selector: 'show-off-item-terminal-form',
+  template: ` <div [formGroup]="this.terminalForm">
     <fieldset class="grid grid-cols-2 gap-6">
-      <zz-form-group id="make" class="flex flex-col">
-        <zz-form-group-label required>Publisher</zz-form-group-label>
-        <input
-          type="text"
-          placeholder="Eg: Microsoft"
-          variant="fill"
-          zzInput
-          id="make"
-          formControlName="make"
-        />
-      </zz-form-group>
       <zz-form-group id="name" class="flex flex-col">
         <zz-form-group-label required>Name</zz-form-group-label>
         <input
           type="text"
-          placeholder="Eg: Visual Studio Code"
+          placeholder="Eg: iTerm2"
           variant="fill"
           zzInput
           id="name"
@@ -47,37 +36,35 @@ import { IdeData, SupportedItemTypes } from '@show-off/api-interfaces';
     ReactiveFormsModule,
   ],
 })
-export class ItemIdeFormComponent extends ItemFormBase<IdeData> {
-  ideForm: FormGroup;
+export class ItemTerminalFormComponent extends ItemFormBase<TerminalData> {
+  terminalForm: FormGroup;
 
   constructor(private readonly fb: FormBuilder) {
     super();
 
-    this.ideForm = this.fb.group({
-      make: ['', [Validators.required]],
+    this.terminalForm = this.fb.group({
       name: ['', [Validators.required]],
     });
   }
 
-  getValue(): IdeData {
-    const { make, name } = this.ideForm.value;
+  getValue(): TerminalData {
+    const { name } = this.terminalForm.value;
     return {
-      make,
       name,
-      type: SupportedItemTypes.Ide,
+      type: SupportedItemTypes.Terminal,
       links: [],
     };
   }
 
   isValid(): boolean {
-    return this.ideForm.valid;
+    return this.terminalForm.valid;
   }
 
   reset(): void {
-    this.ideForm.reset();
+    this.terminalForm.reset();
   }
 
-  setValue(value: IdeData): void {
-    this.ideForm.setValue(value);
+  setValue(value: TerminalData): void {
+    this.terminalForm.setValue(value);
   }
 }

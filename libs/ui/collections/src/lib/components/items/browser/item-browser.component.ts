@@ -4,18 +4,18 @@ import {
   DataListData,
   TypeIconPipe,
 } from '@show-off/ui/shared';
-import { IdeData, SupportedItemTypes } from '@show-off/api-interfaces';
+import { BrowserData, SupportedItemTypes } from '@show-off/api-interfaces';
 
 @Component({
-  selector: 'show-off-item-ide',
+  selector: 'show-off-item-browser',
   template: ` <div class="rounded-md border border-gray-200 p-4 shadow-sm">
     <header class="mb-3 flex gap-2">
       <img
         class="h-6"
-        [src]="'${SupportedItemTypes.Ide}' | typeIcon"
-        alt="${SupportedItemTypes.Ide}"
+        [src]="'${SupportedItemTypes.Browser}' | typeIcon"
+        alt="${SupportedItemTypes.Browser}"
       />
-      <p class="text-lg">${SupportedItemTypes.Ide}</p>
+      <p class="text-lg">${SupportedItemTypes.Browser}</p>
     </header>
     <section>
       <show-off-data-list [data]="this.datalist"></show-off-data-list>
@@ -25,11 +25,11 @@ import { IdeData, SupportedItemTypes } from '@show-off/api-interfaces';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TypeIconPipe, DataListComponent],
 })
-export class ItemIdeComponent {
+export class ItemBrowserComponent {
   public datalist: DataListData[] = [];
 
   @Input()
-  set data(data: IdeData) {
+  set data(data: BrowserData) {
     this.datalist = [
       {
         label: 'Publisher',
