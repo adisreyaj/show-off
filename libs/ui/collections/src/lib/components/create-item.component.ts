@@ -12,9 +12,13 @@ import { TypeIconPipe } from '@show-off/ui/shared';
 import { CommonModule } from '@angular/common';
 import { ButtonComponent, FORM_COMPONENTS, ModalRef } from 'zigzag';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { ItemLaptopFormComponent } from './items/item-laptop-form.component';
+import { ItemLaptopFormComponent } from './items/laptop/item-laptop-form.component';
 import { ItemFormBase } from './items/item-form-base.class';
 import { isEmpty } from 'lodash-es';
+import { ItemTabletFormComponent } from './items/tablet/item-tablet-form.component';
+import { ItemIdeFormComponent } from './items/ide/item-ide-form.component';
+import { ItemTerminalFormComponent } from './items/terminal/item-terminal-form.component';
+import { ItemBrowserFormComponent } from './items/browser/item-browser-form.component';
 
 @Component({
   selector: 'show-off-item-type-chooser',
@@ -86,6 +90,10 @@ export class CreateItemComponent {
     Type<ItemFormBase<ItemData>>
   > = {
     [SupportedItemTypes.Laptop]: ItemLaptopFormComponent,
+    [SupportedItemTypes.Tablet]: ItemTabletFormComponent,
+    [SupportedItemTypes.Ide]: ItemIdeFormComponent,
+    [SupportedItemTypes.Terminal]: ItemTerminalFormComponent,
+    [SupportedItemTypes.Browser]: ItemBrowserFormComponent,
   };
 
   constructor(

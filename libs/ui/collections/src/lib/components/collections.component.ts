@@ -11,7 +11,7 @@ import { RouterModule } from '@angular/router';
   template: ` <div class="box">
     <header class="mb-4 flex justify-between">
       <div>
-        <h1 class="page-header">Collections</h1>
+        <h1 class="page-header-text">Collections</h1>
       </div>
       <section>
         <button zzButton variant="primary" (click)="this.createNew()">
