@@ -32,9 +32,8 @@ export class CollectionsService {
   }
 
   findById(id: string) {
-    return this.prisma.collection.findUnique({
+    return this.prisma.collection.findUniqueOrThrow({
       where: { id },
-      rejectOnNotFound: true,
       include: COLLECTION_INCLUDE,
     });
   }
