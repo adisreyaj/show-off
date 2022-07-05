@@ -8,29 +8,33 @@ import { User } from '@show-off/api-interfaces';
 @Component({
   selector: 'show-off-shell',
   template: `
-    <header class="box h-16 flex items-center justify-between">
-      <div>
-        <img
-          src="assets/images/logo.svg"
-          height="50"
-          width="50"
-          aria-hidden="true"
-          alt="Show-off"
-        />
-      </div>
-      <div
-        *ngIf="this.user$ | async as user"
-        class="flex gap-2 items-center cursor-pointer"
-      >
-        <img
-          class="rounded-full"
-          width="40"
-          height="40"
-          [src]="user.image"
-          [alt]="user.firstName"
-        />
+    <header class="flex h-16 border-b border-slate-200 shadow-md">
+      <div class="box flex w-full items-center justify-between">
         <div>
-          <p>{{ user.firstName }}</p>
+          <img
+            routerLink="/"
+            class="cursor-pointer"
+            src="assets/images/logo.svg"
+            height="50"
+            width="50"
+            aria-hidden="true"
+            alt="Show-off"
+          />
+        </div>
+        <div
+          *ngIf="this.user$ | async as user"
+          class="flex cursor-pointer items-center gap-2"
+        >
+          <img
+            class="rounded-full"
+            width="40"
+            height="40"
+            [src]="user.image"
+            [alt]="user.firstName"
+          />
+          <div>
+            <p>{{ user.firstName }}</p>
+          </div>
         </div>
       </div>
     </header>

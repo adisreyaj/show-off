@@ -20,10 +20,18 @@ body {
 
 @layer components {
   .box {
-    @apply max-w-7xl mx-auto px-2 md:px-6;
+    @apply max-w-7xl mx-auto px-4 md:px-6;
+  }
+
+  .page {
+    @apply mt-8;
   }
 
   .page-header {
+    @apply mb-6;
+  }
+
+  .page-header-text {
     @apply text-2xl font-bold text-slate-900;
   }
 
