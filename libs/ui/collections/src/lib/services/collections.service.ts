@@ -79,4 +79,46 @@ export class CollectionsService {
       })
       .pipe(map((result) => result.data.collections));
   }
+
+  getCollection(id: string, refresh = false) {
+    return this.apollo
+      .query<{ collection: any }>({
+        query: gql`
+          query GetCollection($id: ID!) {
+            collection(id: $id) {
+              id
+              name
+              user {
+                id
+                username
+                firstName
+                lastName
+                image
+                email
+              }
+              items {
+                id
+                name
+                description
+                make
+                price
+                metadata
+                type
+              }
+              _count {
+                likes
+                shares
+                comments
+                items
+              }
+            }
+          }
+        `,
+        variables: {
+          id,
+        },
+        fetchPolicy: refresh ? 'network-only' : 'cache-first',
+      })
+      .pipe(map((result) => result.data.collection));
+  }
 }
