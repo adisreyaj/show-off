@@ -7,6 +7,7 @@ import { AUTH_CONFIG, AuthService, CURRENT_USER } from '@show-off/ui/auth';
 import { ROUTES_PROVIDER } from './app/routes';
 import { APOLLO_PROVIDERS } from './app/config/apollo.config';
 import { HttpClientModule } from '@angular/common/http';
+import { ICONS } from './app/config/icons.config';
 
 if (environment.production) {
   enableProdMode();
@@ -27,6 +28,7 @@ bootstrapApplication(AppComponent, {
     },
     importProvidersFrom(HttpClientModule),
     ...APOLLO_PROVIDERS,
+    ICONS,
     ROUTES_PROVIDER,
   ],
 }).catch((err) => console.error(err));

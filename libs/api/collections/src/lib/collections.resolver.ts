@@ -8,8 +8,8 @@ export class CollectionsResolver {
   constructor(private readonly collectionsService: CollectionsService) {}
 
   @Query('collection')
-  getCollectionById(@Args('id') id: string) {
-    return this.collectionsService.findById(id);
+  getCollectionById(@Args('id') id: string, @CurrentUserId() userId: string) {
+    return this.collectionsService.findById(id, userId);
   }
 
   @Query('collections')
@@ -51,5 +51,14 @@ export class CollectionsResolver {
   @Mutation('unlikeCollection')
   unlikeCollection(@Args('id') id: string, @CurrentUserId() userId: string) {
     return this.collectionsService.unlike(id, userId);
+  }
+
+  @Mutation('commentOnCollection')
+  commentOnCollection(
+    @Args('id') id: string,
+    @Args('comment') comment: string,
+    @CurrentUserId() userId: string
+  ) {
+    return this.collectionsService.comment(id, userId, comment);
   }
 }

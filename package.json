@@ -40,6 +40,7 @@
     "@nrwl/angular": "14.4.0",
     "@prisma/client": "^4.0.0",
     "@tailwindcss/line-clamp": "^0.4.0",
+    "angular-remix-icon": "^3.0.0",
     "apollo-angular": "^3.0.1",
     "apollo-server-express": "^3.9.0",
     "bcrypt": "^5.0.1",

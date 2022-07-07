@@ -12,7 +12,7 @@ type Mutation {
   addNewItemToCollection(id: ID!, input: AddNewItemsToCollectionInput!): Collection
   addItemToCollection(id: ID!, itemId: ID!): Collection
   removeItemFromCollection(id: ID!, itemId: ID!): Collection
-  commentOnCollection(id: ID!, text: String!): Collection
+  commentOnCollection(id: ID!, comment: String!): Collection
 }
 
 type Collection {
@@ -21,6 +21,7 @@ type Collection {
   description: String
   user: User
   userId: ID
+  liked: Boolean
   likes: [Like]
   shares: [Share]
   comments: [Comment]
@@ -59,14 +60,18 @@ type Link {
 
 type Like {
   id: ID
+  user: User
 }
 
 type Share {
   id: ID
+  user: User
 }
 
 type Comment {
   id: ID
+  text: String
+  user: User
 }
 
 input CreateCollectionInput {

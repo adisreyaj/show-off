@@ -105,6 +105,17 @@ export class CollectionsService {
                 metadata
                 type
               }
+              comments {
+                text
+                user {
+                  id
+                  username
+                  firstName
+                  lastName
+                  image
+                }
+              }
+              liked
               _count {
                 likes
                 shares
@@ -120,5 +131,51 @@ export class CollectionsService {
         fetchPolicy: refresh ? 'network-only' : 'cache-first',
       })
       .pipe(map((result) => result.data.collection));
+  }
+
+  like(id: string) {
+    return this.apollo.mutate({
+      mutation: gql`
+        mutation LikeCollection($id: ID!) {
+          likeCollection(id: $id) {
+            id
+          }
+        }
+      `,
+      variables: {
+        id,
+      },
+    });
+  }
+
+  unlike(id: string) {
+    return this.apollo.mutate({
+      mutation: gql`
+        mutation UnlikeCollection($id: ID!) {
+          unlikeCollection(id: $id) {
+            id
+          }
+        }
+      `,
+      variables: {
+        id,
+      },
+    });
+  }
+
+  comment(id: string, comment: string) {
+    return this.apollo.mutate({
+      mutation: gql`
+        mutation CommentOnCollection($id: ID!, $comment: String!) {
+          commentOnCollection(id: $id, comment: $comment) {
+            id
+          }
+        }
+      `,
+      variables: {
+        id,
+        comment,
+      },
+    });
   }
 }

@@ -19,6 +19,7 @@ import { ItemTabletFormComponent } from './items/tablet/item-tablet-form.compone
 import { ItemIdeFormComponent } from './items/ide/item-ide-form.component';
 import { ItemTerminalFormComponent } from './items/terminal/item-terminal-form.component';
 import { ItemBrowserFormComponent } from './items/browser/item-browser-form.component';
+import { ItemKeyboardFormComponent } from './items/keyboard/item-keyboard-form.component';
 
 @Component({
   selector: 'show-off-item-type-chooser',
@@ -36,7 +37,7 @@ import { ItemBrowserFormComponent } from './items/browser/item-browser-form.comp
           class="w-full"
           [style.max-width.px]="150"
           size="sm"
-          variant="link"
+          variant="neutral"
           zzButton
           (click)="this.setItemType(type)"
         >
@@ -94,6 +95,7 @@ export class CreateItemComponent {
     [SupportedItemTypes.Ide]: ItemIdeFormComponent,
     [SupportedItemTypes.Terminal]: ItemTerminalFormComponent,
     [SupportedItemTypes.Browser]: ItemBrowserFormComponent,
+    [SupportedItemTypes.Keyboard]: ItemKeyboardFormComponent,
   };
 
   constructor(

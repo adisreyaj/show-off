@@ -6,7 +6,11 @@ import { Prisma } from '@prisma/client';
 const COLLECTION_INCLUDE: Prisma.CollectionInclude = {
   likes: true,
   items: true,
-  comments: true,
+  comments: {
+    include: {
+      user: true,
+    },
+  },
   shares: true,
   user: true,
   _count: {
@@ -31,11 +35,25 @@ export class CollectionsService {
     });
   }
 
-  findById(id: string) {
-    return this.prisma.collection.findUniqueOrThrow({
+  async findById(id: string, userId: string) {
+    const isLiked = this.prisma.like.findFirst({
+      where: {
+        userId,
+        collectionId: id,
+      },
+    });
+    const collection = this.prisma.collection.findUniqueOrThrow({
       where: { id },
       include: COLLECTION_INCLUDE,
     });
+    const [liked, collectionData] = await this.prisma.$transaction([
+      isLiked,
+      collection,
+    ]);
+    return {
+      ...collectionData,
+      liked: !!liked,
+    };
   }
 
   create(input: CreateCollectionInput, userId: string) {
@@ -134,7 +152,7 @@ export class CollectionsService {
     });
   }
 
-  comment(id: string, userId: string, text: string) {
+  comment(id: string, userId: string, comment: string) {
     return this.prisma.collection.update({
       where: {
         id,
@@ -143,7 +161,7 @@ export class CollectionsService {
         comments: {
           create: {
             userId,
-            text,
+            text: comment,
           },
         },
       },
