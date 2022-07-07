@@ -8,7 +8,7 @@ import { SupportedItemTypes, TerminalData } from '@show-off/api-interfaces';
 
 @Component({
   selector: 'show-off-item-terminal',
-  template: ` <div class="rounded-md border border-gray-200 p-4 shadow-sm">
+  template: ` <div class="rounded-md border border-slate-100 p-4 shadow-md">
     <header class="mb-3 flex gap-2">
       <img
         class="h-6"
