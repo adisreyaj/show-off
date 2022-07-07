@@ -5,7 +5,9 @@
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/apps/show-off",
         "index": "apps/show-off/src/index.html",
@@ -13,7 +15,10 @@
         "polyfills": "apps/show-off/src/polyfills.ts",
         "tsConfig": "apps/show-off/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
-        "assets": ["apps/show-off/src/favicon.ico", "apps/show-off/src/assets"],
+        "assets": [
+          "apps/show-off/src/favicon.ico",
+          "apps/show-off/src/assets"
+        ],
         "styles": [
           "apps/show-off/src/styles.scss",
           "zigzag/projects/zigzag/styles/components/index.scss"
@@ -31,7 +36,7 @@
             {
               "type": "anyComponentStyle",
               "maximumWarning": "2kb",
-              "maximumError": "4kb"
+              "maximumError": "10kb"
             }
           ],
           "fileReplacements": [
@@ -77,12 +82,17 @@
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "options": {
-        "lintFilePatterns": ["apps/show-off/**/*.ts", "apps/show-off/**/*.html"]
+        "lintFilePatterns": [
+          "apps/show-off/**/*.ts",
+          "apps/show-off/**/*.html"
+        ]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/show-off"],
+      "outputs": [
+        "coverage/apps/show-off"
+      ],
       "options": {
         "jestConfig": "apps/show-off/jest.config.ts",
         "passWithNoTests": true
