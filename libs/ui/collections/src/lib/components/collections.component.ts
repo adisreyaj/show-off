@@ -1,13 +1,18 @@
 import { Component } from '@angular/core';
 import { ButtonComponent, DROPDOWN_COMPONENTS, ModalService } from 'zigzag';
 import { CollectionsService } from '../services';
-import { filter, map, Observable, switchMap } from 'rxjs';
+import { BehaviorSubject, filter, map, Observable, switchMap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { CreateCollectionComponent } from './create-collection.component';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { UserInfoComponent } from '@show-off/ui/shared';
 import { RemixIconModule } from 'angular-remix-icon';
 import { CollectionCardComponent } from './collection-card.component';
+import {
+  CollectionOrderBy,
+  CollectionOrderByType,
+  OrderByDirection,
+} from '@show-off/api-interfaces';
 
 @Component({
   selector: 'show-off-collections',
@@ -18,30 +23,38 @@ import { CollectionCardComponent } from './collection-card.component';
       </div>
       <section class="flex items-center gap-4">
         <div class="flex">
-          <button zzButton variant="neutral">
-            <rmx-icon name="sort-desc" class="icon-sm"></rmx-icon>
+          <button
+            zzButton
+            variant="neutral"
+            (click)="this.changeSortDirection()"
+          >
+            <rmx-icon
+              [name]="(this.sortIcon$ | async)!"
+              class="icon-sm"
+            ></rmx-icon>
           </button>
           <button
             [zzDropdownTrigger]="sortByOptions"
             placement="bottom-start"
             variant="neutral"
             zzButton
+            style="width: 130px;text-align: left"
           >
-            <p>Sort</p>
+            <p>{{ (this.sort$ | async)!.key }}</p>
             <zz-dropdown #sortByOptions>
               <div class="flex flex-col gap-2">
-                <div class="w-full" size="sm" variant="link" zzButton>
-                  <p>Last Updated</p>
-                </div>
-                <div class="w-full" size="sm" variant="link" zzButton>
-                  <p>Creation Date</p>
-                </div>
-                <div class="w-full" size="sm" variant="link" zzButton>
-                  <p>Last Updated</p>
-                </div>
-                <div class="w-full" size="sm" variant="link" zzButton>
-                  <p>Likes</p>
-                </div>
+                <ng-container *ngFor="let option of this.sortOptions">
+                  <div
+                    class="w-full"
+                    size="sm"
+                    variant="link"
+                    zzButton
+                    zzDropdownCloseOnClick
+                    (click)="this.sort(option)"
+                  >
+                    <p>{{ option }}</p>
+                  </div>
+                </ng-container>
               </div>
             </zz-dropdown>
           </button>
@@ -74,12 +87,29 @@ export class CollectionsComponent {
   collections$: Observable<any[]>;
   title$: Observable<string>;
 
+  sortOptions: CollectionOrderByType[] = Object.values(CollectionOrderByType);
+  sortChangeSubject = new BehaviorSubject<CollectionOrderBy>({
+    key: CollectionOrderByType.LastUpdated,
+    direction: OrderByDirection.Desc,
+  });
+
+  sort$ = this.sortChangeSubject.asObservable();
+  sortIcon$: Observable<string> = this.sortChangeSubject.pipe(
+    map((sort) => {
+      return sort.direction === OrderByDirection.Desc
+        ? 'sort-desc'
+        : 'sort-asc';
+    })
+  );
+
   constructor(
     private readonly collectionsService: CollectionsService,
     private readonly modal: ModalService,
     private readonly activatedRoute: ActivatedRoute
   ) {
-    this.collections$ = this.collectionsService.getCollections();
+    this.collections$ = this.sortChangeSubject.pipe(
+      switchMap((sort) => this.collectionsService.getCollections(sort))
+    );
     this.title$ = this.activatedRoute.data.pipe(
       map((data) => data['header'].text)
     );
@@ -96,5 +126,22 @@ export class CollectionsComponent {
         switchMap((data) => this.collectionsService.create(data))
       )
       .subscribe();
+  }
+
+  sort(option: CollectionOrderByType) {
+    this.sortChangeSubject.next({
+      key: option,
+      direction: this.sortChangeSubject.value.direction,
+    });
+  }
+
+  changeSortDirection() {
+    this.sortChangeSubject.next({
+      key: this.sortChangeSubject.value.key,
+      direction:
+        this.sortChangeSubject.value.direction === OrderByDirection.Desc
+          ? OrderByDirection.Asc
+          : OrderByDirection.Desc,
+    });
   }
 }

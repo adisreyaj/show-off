@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@show-off/db';
 import {
+  CollectionOrderByType,
   CreateCollectionInput,
   OrderByDirection,
-  QueryFilter,
+  QueryArgs,
 } from '@show-off/api-interfaces';
 import { Prisma } from '@prisma/client';
 
@@ -31,13 +32,36 @@ const COLLECTION_INCLUDE: Prisma.CollectionInclude = {
 export class CollectionsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  find({ take = 100, skip = 0 }: QueryFilter) {
+  find({
+    take = 100,
+    skip = 0,
+    orderBy = {
+      key: CollectionOrderByType.CreatedAt,
+      direction: OrderByDirection.Desc,
+    },
+  }: QueryArgs) {
+    const orderByMapping = {
+      [CollectionOrderByType.Comments]: {
+        comments: {
+          _count: orderBy.direction,
+        },
+      },
+      [CollectionOrderByType.Likes]: {
+        likes: {
+          _count: orderBy.direction,
+        },
+      },
+      [CollectionOrderByType.CreatedAt]: {
+        createdAt: orderBy.direction,
+      },
+      [CollectionOrderByType.LastUpdated]: {
+        updatedAt: orderBy.direction,
+      },
+    };
     return this.prisma.collection.findMany({
       take,
       skip,
-      orderBy: {
-        createdAt: OrderByDirection.Desc,
-      },
+      orderBy: orderByMapping[orderBy.key],
       include: COLLECTION_INCLUDE,
     });
   }

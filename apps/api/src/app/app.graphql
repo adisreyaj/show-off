@@ -8,3 +8,20 @@ type Success {
 }
 
 scalar JSON
+
+input QueryArgs {
+  take: Int
+  skip: Int
+  orderBy: QueryArgsOrderBy
+}
+
+input QueryArgsOrderBy {
+    key: String
+    direction: OrderByDirection
+}
+
+
+enum OrderByDirection {
+ asc
+ desc
+}

@@ -1,6 +1,6 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { CollectionsService } from './collections.service';
-import { CreateCollectionInput, QueryFilter } from '@show-off/api-interfaces';
+import { CreateCollectionInput, QueryArgs } from '@show-off/api-interfaces';
 import { CurrentUserId, Public } from '@show-off/api/shared';
 
 @Resolver('Collection')
@@ -15,8 +15,8 @@ export class CollectionsResolver {
 
   @Public()
   @Query('collections')
-  getCollections(@Args('filters') filters: QueryFilter) {
-    return this.collectionsService.find(filters ?? {});
+  getCollections(@Args('args') args: QueryArgs) {
+    return this.collectionsService.find(args ?? {});
   }
 
   @Mutation('createCollection')
