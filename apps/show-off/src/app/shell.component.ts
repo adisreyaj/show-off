@@ -10,10 +10,8 @@ import { User } from '@show-off/api-interfaces';
   template: `
     <header class="flex h-16 border-b border-slate-200 shadow-md">
       <div class="box flex w-full items-center justify-between">
-        <div class="flex items-center gap-1">
+        <div class="flex cursor-pointer items-center gap-1" routerLink="/">
           <img
-            routerLink="/"
-            class="cursor-pointer"
             src="assets/images/logo.svg"
             height="45"
             width="45"
