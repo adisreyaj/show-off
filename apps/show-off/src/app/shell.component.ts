@@ -40,7 +40,7 @@ import { User } from '@show-off/api-interfaces';
         </div>
       </div>
     </header>
-    <main>
+    <main class="flex-1">
       <router-outlet></router-outlet>
     </main>
   `,
@@ -49,6 +49,8 @@ import { User } from '@show-off/api-interfaces';
     `
       :host {
         height: 100vh;
+        display: flex;
+        flex-direction: column;
       }
     `,
   ],

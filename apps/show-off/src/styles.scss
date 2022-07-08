@@ -24,7 +24,7 @@ body {
   }
 
   .page {
-    @apply mt-8;
+    @apply py-8 h-full flex flex-col;
   }
 
   .page-header {
