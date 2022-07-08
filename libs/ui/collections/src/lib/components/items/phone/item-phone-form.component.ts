@@ -3,10 +3,14 @@ import { CommonModule } from '@angular/common';
 import { ButtonComponent, FORM_COMPONENTS } from 'zigzag';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ItemFormBase } from '../item-form-base.class';
-import { KeyboardData, SupportedItemTypes } from '@show-off/api-interfaces';
+import {
+  PhoneData,
+  SupportedItemTypes,
+  TabletData,
+} from '@show-off/api-interfaces';
 
 @Component({
-  selector: 'show-off-item-keyboard-form',
+  selector: 'show-off-item-phone-form',
   template: ` <div [formGroup]="this.form">
     <fieldset class="grid grid-cols-2 gap-6">
       <zz-form-group id="make" class="flex flex-col">
@@ -33,6 +37,27 @@ import { KeyboardData, SupportedItemTypes } from '@show-off/api-interfaces';
       </zz-form-group>
     </fieldset>
     <fieldset class="grid grid-cols-4 gap-6">
+      <zz-form-group id="ram" class="flex flex-col">
+        <zz-form-group-label required>RAM (GB)</zz-form-group-label>
+        <input
+          type="number"
+          variant="fill"
+          zzInput
+          id="ram"
+          formControlName="ram"
+        />
+      </zz-form-group>
+      <zz-form-group id="storage" class="flex flex-col">
+        <zz-form-group-label required>Storage (GB)</zz-form-group-label>
+        <input
+          type="number"
+          placeholder=""
+          variant="fill"
+          zzInput
+          id="storage"
+          formControlName="storage"
+        />
+      </zz-form-group>
       <zz-form-group id="price" class="flex flex-col">
         <zz-form-group-label required>Price ($)</zz-form-group-label>
         <input
@@ -55,26 +80,32 @@ import { KeyboardData, SupportedItemTypes } from '@show-off/api-interfaces';
     ReactiveFormsModule,
   ],
 })
-export class ItemKeyboardFormComponent extends ItemFormBase<KeyboardData> {
+export class ItemPhoneFormComponent extends ItemFormBase<PhoneData> {
   override buildForm(): FormGroup {
     return this.fb.group({
       make: ['', [Validators.required]],
       name: ['', [Validators.required]],
+      ram: [null, [Validators.required]],
+      storage: [null, [Validators.required]],
       price: [null, []],
       currency: ['$', []],
     });
   }
 
-  override getValue(): KeyboardData {
-    const { make, name, price, currency } = this.form.value;
+  override getValue(): TabletData {
+    const { make, name, price, currency, ram, storage, size } = this.form.value;
     return {
       make,
       name,
       price,
       currency,
       links: [],
-      type: SupportedItemTypes.Keyboard,
-      metadata: {},
+      type: SupportedItemTypes.Tablet,
+      metadata: {
+        ram,
+        storage,
+        size,
+      },
     };
   }
 }

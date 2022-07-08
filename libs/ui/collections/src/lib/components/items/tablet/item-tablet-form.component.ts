@@ -1,18 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonComponent, FORM_COMPONENTS } from 'zigzag';
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ItemFormBase } from '../item-form-base.class';
 import { SupportedItemTypes, TabletData } from '@show-off/api-interfaces';
 
 @Component({
   selector: 'show-off-item-tablet-form',
-  template: ` <div [formGroup]="this.tabletForm">
+  template: ` <div [formGroup]="this.form">
     <fieldset class="grid grid-cols-2 gap-6">
       <zz-form-group id="make" class="flex flex-col">
         <zz-form-group-label required>Make</zz-form-group-label>
@@ -92,12 +87,8 @@ import { SupportedItemTypes, TabletData } from '@show-off/api-interfaces';
   ],
 })
 export class ItemTabletFormComponent extends ItemFormBase<TabletData> {
-  tabletForm: FormGroup;
-
-  constructor(private readonly fb: FormBuilder) {
-    super();
-
-    this.tabletForm = this.fb.group({
+  override buildForm(): FormGroup {
+    return this.fb.group({
       make: ['', [Validators.required]],
       name: ['', [Validators.required]],
       size: [null, [Validators.required]],
@@ -108,9 +99,8 @@ export class ItemTabletFormComponent extends ItemFormBase<TabletData> {
     });
   }
 
-  getValue(): TabletData {
-    const { make, name, price, currency, ram, storage, size } =
-      this.tabletForm.value;
+  override getValue(): TabletData {
+    const { make, name, price, currency, ram, storage, size } = this.form.value;
     return {
       make,
       name,
@@ -124,17 +114,5 @@ export class ItemTabletFormComponent extends ItemFormBase<TabletData> {
         size,
       },
     };
-  }
-
-  isValid(): boolean {
-    return this.tabletForm.valid;
-  }
-
-  reset(): void {
-    this.tabletForm.reset();
-  }
-
-  setValue(value: TabletData): void {
-    this.tabletForm.setValue(value);
   }
 }

@@ -1,18 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonComponent, FORM_COMPONENTS } from 'zigzag';
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ItemFormBase } from '../item-form-base.class';
 import { LaptopData, SupportedItemTypes } from '@show-off/api-interfaces';
 
 @Component({
   selector: 'show-off-item-laptop-form',
-  template: ` <div [formGroup]="this.laptopForm">
+  template: ` <div [formGroup]="this.form">
     <fieldset class="grid grid-cols-2 gap-6">
       <zz-form-group id="make" class="flex flex-col">
         <zz-form-group-label required>Make</zz-form-group-label>
@@ -92,12 +87,8 @@ import { LaptopData, SupportedItemTypes } from '@show-off/api-interfaces';
   ],
 })
 export class ItemLaptopFormComponent extends ItemFormBase<LaptopData> {
-  laptopForm: FormGroup;
-
-  constructor(private readonly fb: FormBuilder) {
-    super();
-
-    this.laptopForm = this.fb.group({
+  override buildForm(): FormGroup {
+    return this.fb.group({
       make: ['', [Validators.required]],
       name: ['', [Validators.required]],
       size: [null, [Validators.required]],
@@ -108,9 +99,8 @@ export class ItemLaptopFormComponent extends ItemFormBase<LaptopData> {
     });
   }
 
-  getValue(): LaptopData {
-    const { make, name, price, currency, ram, storage, size } =
-      this.laptopForm.value;
+  override getValue(): LaptopData {
+    const { make, name, price, currency, ram, storage, size } = this.form.value;
     return {
       make,
       name,
@@ -124,17 +114,5 @@ export class ItemLaptopFormComponent extends ItemFormBase<LaptopData> {
         size,
       },
     };
-  }
-
-  isValid(): boolean {
-    return this.laptopForm.valid;
-  }
-
-  reset(): void {
-    this.laptopForm.reset();
-  }
-
-  setValue(value: LaptopData): void {
-    this.laptopForm.setValue(value);
   }
 }

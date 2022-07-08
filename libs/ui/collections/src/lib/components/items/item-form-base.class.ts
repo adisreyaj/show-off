@@ -1,9 +1,27 @@
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Directive } from '@angular/core';
+
+@Directive()
 export abstract class ItemFormBase<Data> {
-  abstract getValue(): Data;
+  form: FormGroup = this.buildForm();
 
-  abstract setValue(value: Data): void;
+  constructor(protected readonly fb: FormBuilder) {}
 
-  abstract reset(): void;
+  abstract buildForm(): FormGroup;
 
-  abstract isValid(): boolean;
+  public getValue() {
+    return this.form.value;
+  }
+
+  public reset() {
+    this.form.reset();
+  }
+
+  public isValid() {
+    return this.form.valid;
+  }
+
+  public setValue(value: Data) {
+    this.form.setValue(value);
+  }
 }

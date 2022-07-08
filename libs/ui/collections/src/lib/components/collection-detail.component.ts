@@ -25,6 +25,7 @@ import {
 } from '@show-off/ui/shared';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CollectionDetailHeaderComponent } from './collection-detail-header.component';
+import { ItemPhoneComponent } from './items/phone/item-phone.component';
 
 @Component({
   selector: 'show-off-collection-detail',
@@ -35,11 +36,15 @@ import { CollectionDetailHeaderComponent } from './collection-detail-header.comp
         (addNewItem)="this.addNewItem()"
         (toggleLike)="this.toggleLike($event)"
       ></show-off-collection-detail-header>
-      <section class="flex gap-4">
+      <section class="grid flex-1 grid-cols-1 sm:grid-cols-[1fr_300px]">
         <div class="flex-1">
           <div class="flex gap-4">
             <show-off-masonry-grid>
-              <article masonryGridItem *ngFor="let item of collection.items">
+              <article
+                class="min-w-[200px]"
+                masonryGridItem
+                *ngFor="let item of collection.items"
+              >
                 <ng-container
                   *ngTemplateOutlet="itemViewTpl; context: { $implicit: item }"
                 ></ng-container>
@@ -48,8 +53,7 @@ import { CollectionDetailHeaderComponent } from './collection-detail-header.comp
             <section #grid class="grid"></section>
           </div>
         </div>
-
-        <aside style="width: 300px;" class="bg-slate-100 p-4">
+        <aside class="bg-slate-100 p-4">
           <header class="mb-2">
             <p class="text-lg font-medium">Comments</p>
           </header>
@@ -114,10 +118,21 @@ import { CollectionDetailHeaderComponent } from './collection-detail-header.comp
         <ng-container *ngSwitchCase="'${SupportedItemTypes.Keyboard}'">
           <show-off-item-keyboard [data]="data"></show-off-item-keyboard>
         </ng-container>
+        <ng-container *ngSwitchCase="'${SupportedItemTypes.Phone}'">
+          <show-off-item-phone [data]="data"></show-off-item-phone>
+        </ng-container>
       </ng-container>
     </ng-template>
   `,
   standalone: true,
+  styles: [
+    `
+      :host {
+        height: 100%;
+        display: block;
+      }
+    `,
+  ],
   imports: [
     ItemLaptopComponent,
     ItemTabletComponent,
@@ -125,6 +140,7 @@ import { CollectionDetailHeaderComponent } from './collection-detail-header.comp
     ItemTerminalComponent,
     ItemBrowserComponent,
     ItemKeyboardComponent,
+    ItemPhoneComponent,
     ButtonComponent,
     CollectionDetailHeaderComponent,
     UserInfoComponent,

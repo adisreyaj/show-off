@@ -20,6 +20,7 @@ import { ItemIdeFormComponent } from './items/ide/item-ide-form.component';
 import { ItemTerminalFormComponent } from './items/terminal/item-terminal-form.component';
 import { ItemBrowserFormComponent } from './items/browser/item-browser-form.component';
 import { ItemKeyboardFormComponent } from './items/keyboard/item-keyboard-form.component';
+import { ItemPhoneFormComponent } from './items/phone/item-phone-form.component';
 
 @Component({
   selector: 'show-off-item-type-chooser',
@@ -96,6 +97,7 @@ export class CreateItemComponent {
     [SupportedItemTypes.Terminal]: ItemTerminalFormComponent,
     [SupportedItemTypes.Browser]: ItemBrowserFormComponent,
     [SupportedItemTypes.Keyboard]: ItemKeyboardFormComponent,
+    [SupportedItemTypes.Phone]: ItemPhoneFormComponent,
   };
 
   constructor(
