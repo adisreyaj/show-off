@@ -12,7 +12,7 @@ import { UserInfoComponent } from '@show-off/ui/shared';
 @Component({
   selector: 'show-off-collection-detail-header',
   template: ` <header
-    class="page-header mb-6 flex items-center justify-between"
+    class="page-header mb-6 flex flex-wrap items-center justify-between gap-4"
   >
     <section>
       <div class="mb-2">
@@ -33,13 +33,13 @@ import { UserInfoComponent } from '@show-off/ui/shared';
             class="icon-sm"
             [class.text-pink-500]="collection.liked"
           ></rmx-icon>
-          <p>Like</p>
+          <p class="hidden sm:block">Like</p>
         </div>
       </button>
       <button zzButton variant="neutral">
         <div class="flex items-center gap-2">
           <rmx-icon name="share-line" class="icon-sm"></rmx-icon>
-          <p>Share</p>
+          <p class="hidden sm:block">Share</p>
         </div>
       </button>
       <button zzButton variant="neutral">
@@ -50,7 +50,7 @@ import { UserInfoComponent } from '@show-off/ui/shared';
       <button zzButton variant="primary" (click)="this.addNewItem.emit()">
         <div class="flex items-center gap-2">
           <rmx-icon name="add-line" class="icon-sm"></rmx-icon>
-          <p>Add Item</p>
+          <p class="hidden sm:block">Add Item</p>
         </div>
       </button>
     </section>
