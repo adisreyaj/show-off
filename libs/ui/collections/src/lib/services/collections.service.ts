@@ -59,6 +59,11 @@ export class CollectionsService {
             collections {
               id
               name
+              items {
+                id
+                name
+                type
+              }
               user {
                 id
                 username
@@ -67,6 +72,8 @@ export class CollectionsService {
                 image
                 email
               }
+              createdAt
+              updatedAt
               _count {
                 likes
                 shares

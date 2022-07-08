@@ -1,6 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@show-off/db';
-import { CreateCollectionInput, QueryFilter } from '@show-off/api-interfaces';
+import {
+  CreateCollectionInput,
+  OrderByDirection,
+  QueryFilter,
+} from '@show-off/api-interfaces';
 import { Prisma } from '@prisma/client';
 
 const COLLECTION_INCLUDE: Prisma.CollectionInclude = {
@@ -31,20 +35,23 @@ export class CollectionsService {
     return this.prisma.collection.findMany({
       take,
       skip,
+      orderBy: {
+        createdAt: OrderByDirection.Desc,
+      },
       include: COLLECTION_INCLUDE,
     });
   }
 
   async findById(id: string, userId: string) {
+    const collection = this.prisma.collection.findUniqueOrThrow({
+      where: { id },
+      include: COLLECTION_INCLUDE,
+    });
     const isLiked = this.prisma.like.findFirst({
       where: {
         userId,
         collectionId: id,
       },
-    });
-    const collection = this.prisma.collection.findUniqueOrThrow({
-      where: { id },
-      include: COLLECTION_INCLUDE,
     });
     const [liked, collectionData] = await this.prisma.$transaction([
       isLiked,

@@ -6,6 +6,7 @@ export const ROUTES_PROVIDER = importProvidersFrom(
   RouterModule.forRoot([
     {
       path: 'login',
+      title: 'Login | Show Off',
       loadComponent: () =>
         import('@show-off/ui/auth').then((m) => m.LoginComponent),
     },
@@ -21,11 +22,25 @@ export const ROUTES_PROVIDER = importProvidersFrom(
         {
           path: '',
           pathMatch: 'full',
+          title: 'Home | Show Off',
+          data: {
+            header: {
+              text: 'Home',
+            },
+          },
           loadComponent: () =>
-            import('@show-off/ui/home').then((m) => m.HomeComponent),
+            import('@show-off/ui/collections').then(
+              (m) => m.CollectionsComponent
+            ),
         },
         {
           path: 'collections',
+          title: 'My Collections | Show Off',
+          data: {
+            header: {
+              text: 'My Collections',
+            },
+          },
           children: [
             {
               path: '',

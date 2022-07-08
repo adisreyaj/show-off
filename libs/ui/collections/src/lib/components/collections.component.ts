@@ -1,19 +1,51 @@
 import { Component } from '@angular/core';
-import { ButtonComponent, ModalService } from 'zigzag';
+import { ButtonComponent, DROPDOWN_COMPONENTS, ModalService } from 'zigzag';
 import { CollectionsService } from '../services';
-import { filter, Observable, switchMap } from 'rxjs';
+import { filter, map, Observable, switchMap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { CreateCollectionComponent } from './create-collection.component';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { UserInfoComponent } from '@show-off/ui/shared';
+import { RemixIconModule } from 'angular-remix-icon';
+import { CollectionCardComponent } from './collection-card.component';
 
 @Component({
   selector: 'show-off-collections',
-  template: ` <div class="box">
+  template: ` <div class="box page">
     <header class="mb-4 flex justify-between">
       <div>
-        <h1 class="page-header-text">Collections</h1>
+        <h1 class="page-header-text">{{ this.title$ | async }}</h1>
       </div>
-      <section>
+      <section class="flex items-center gap-4">
+        <div class="flex">
+          <button zzButton variant="neutral">
+            <rmx-icon name="sort-desc" class="icon-sm"></rmx-icon>
+          </button>
+          <button
+            [zzDropdownTrigger]="sortByOptions"
+            placement="bottom-start"
+            variant="neutral"
+            zzButton
+          >
+            <p>Sort</p>
+            <zz-dropdown #sortByOptions>
+              <div class="flex flex-col gap-2">
+                <div class="w-full" size="sm" variant="link" zzButton>
+                  <p>Last Updated</p>
+                </div>
+                <div class="w-full" size="sm" variant="link" zzButton>
+                  <p>Creation Date</p>
+                </div>
+                <div class="w-full" size="sm" variant="link" zzButton>
+                  <p>Last Updated</p>
+                </div>
+                <div class="w-full" size="sm" variant="link" zzButton>
+                  <p>Likes</p>
+                </div>
+              </div>
+            </zz-dropdown>
+          </button>
+        </div>
         <button zzButton variant="primary" (click)="this.createNew()">
           Create New
         </button>
@@ -21,50 +53,36 @@ import { RouterModule } from '@angular/router';
     </header>
     <section class="flex gap-4">
       <ng-container *ngFor="let collection of this.collections$ | async">
-        <article
-          class="cursor-pointer rounded-md border border-slate-200 p-4 shadow-sm"
-          [routerLink]="['/collections', collection.id]"
-        >
-          <header>
-            <p class="text-lg font-semibold">{{ collection.name }}</p>
-          </header>
-          <div>
-            <section></section>
-          </div>
-          <footer class="flex items-center gap-4">
-            <div>
-              <img
-                width="30"
-                height="30"
-                class="rounded-full"
-                [src]="collection.user.image"
-                [alt]="collection.user.firstName"
-              />
-            </div>
-            <div class="text-sm">
-              <p>
-                {{ collection.user.firstName }} {{ collection.user.lastName }}
-              </p>
-              <p class="-mt-1 text-xs text-slate-600">
-                @{{ collection.user.username }}
-              </p>
-            </div>
-          </footer>
-        </article>
+        <show-off-collection-card
+          [collection]="collection"
+        ></show-off-collection-card>
       </ng-container>
     </section>
   </div>`,
   standalone: true,
-  imports: [ButtonComponent, CommonModule, RouterModule],
+  imports: [
+    ButtonComponent,
+    CommonModule,
+    UserInfoComponent,
+    RouterModule,
+    RemixIconModule,
+    CollectionCardComponent,
+    ...DROPDOWN_COMPONENTS,
+  ],
 })
 export class CollectionsComponent {
   collections$: Observable<any[]>;
+  title$: Observable<string>;
 
   constructor(
     private readonly collectionsService: CollectionsService,
-    private readonly modal: ModalService
+    private readonly modal: ModalService,
+    private readonly activatedRoute: ActivatedRoute
   ) {
     this.collections$ = this.collectionsService.getCollections();
+    this.title$ = this.activatedRoute.data.pipe(
+      map((data) => data['header'].text)
+    );
   }
 
   createNew() {

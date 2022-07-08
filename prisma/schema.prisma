@@ -39,6 +39,8 @@ model Collection {
   shares      Share[]
   comments    Comment[]
   items       Item[]
+  published   Boolean   @default(true)
+  private    Boolean   @default(false)
   deleted     Boolean   @default(false)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt

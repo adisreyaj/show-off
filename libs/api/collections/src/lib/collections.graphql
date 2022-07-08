@@ -22,6 +22,8 @@ type Collection {
   user: User
   userId: ID
   liked: Boolean
+  private: Boolean
+  published: Boolean
   likes: [Like]
   shares: [Share]
   comments: [Comment]

@@ -32,6 +32,8 @@ import { CollectionDetailHeaderComponent } from './collection-detail-header.comp
     <div class="box page" *ngIf="this.collection$ | async as collection">
       <show-off-collection-detail-header
         [collection]="collection"
+        (addNewItem)="this.addNewItem()"
+        (toggleLike)="this.toggleLike($event)"
       ></show-off-collection-detail-header>
       <section class="flex gap-4">
         <div class="flex-1">
@@ -47,7 +49,7 @@ import { CollectionDetailHeaderComponent } from './collection-detail-header.comp
           </div>
         </div>
 
-        <aside style="width: 300px;" class="rounded-md bg-slate-100 p-4">
+        <aside style="width: 300px;" class="bg-slate-100 p-4">
           <header class="mb-2">
             <p class="text-lg font-medium">Comments</p>
           </header>
@@ -72,7 +74,7 @@ import { CollectionDetailHeaderComponent } from './collection-detail-header.comp
           <section class="mt-4">
             <ul class="list-style-none flex flex-col gap-4">
               <li
-                class="rounded-md bg-white p-2"
+                class="bg-white p-2"
                 *ngFor="let comment of collection.comments"
               >
                 <header class="mb-2">

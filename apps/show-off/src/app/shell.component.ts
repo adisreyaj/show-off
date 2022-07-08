@@ -43,6 +43,13 @@ import { User } from '@show-off/api-interfaces';
     </main>
   `,
   standalone: true,
+  styles: [
+    `
+      :host {
+        height: 100vh;
+      }
+    `,
+  ],
   imports: [RouterModule, CommonModule],
 })
 export class ShellComponent {

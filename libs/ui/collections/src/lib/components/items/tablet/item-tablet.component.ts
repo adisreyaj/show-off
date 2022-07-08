@@ -9,7 +9,7 @@ import {
 @Component({
   selector: 'show-off-item-tablet',
   template: `
-    <div class="rounded-md border border-slate-100 p-4 shadow-md">
+    <div class="border border-slate-100 p-4 shadow-sm">
       <header class="mb-3 flex items-center gap-2">
         <img
           class="h-6"
