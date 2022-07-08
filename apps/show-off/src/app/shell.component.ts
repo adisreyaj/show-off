@@ -10,16 +10,20 @@ import { User } from '@show-off/api-interfaces';
   template: `
     <header class="flex h-16 border-b border-slate-200 shadow-md">
       <div class="box flex w-full items-center justify-between">
-        <div>
+        <div class="flex items-center gap-1">
           <img
             routerLink="/"
             class="cursor-pointer"
             src="assets/images/logo.svg"
-            height="50"
-            width="50"
+            height="45"
+            width="45"
             aria-hidden="true"
             alt="Show-off"
           />
+          <div>
+            <p class="text-2xl font-semibold uppercase">Show Off</p>
+            <p class="-mt-2 text-sm text-slate-500">Showcase your setup</p>
+          </div>
         </div>
         <div
           *ngIf="this.user$ | async as user"
