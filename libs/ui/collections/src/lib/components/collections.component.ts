@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ButtonComponent, DROPDOWN_COMPONENTS, ModalService } from 'zigzag';
 import { CollectionsService } from '../services';
-import { BehaviorSubject, filter, map, Observable, switchMap } from 'rxjs';
+import { BehaviorSubject, filter, map, Observable, switchMap, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { CreateCollectionComponent } from './create-collection.component';
 import { ActivatedRoute, RouterModule } from '@angular/router';
@@ -88,12 +88,20 @@ export class CollectionsComponent {
   title$: Observable<string>;
 
   sortOptions: CollectionOrderByType[] = Object.values(CollectionOrderByType);
-  sortChangeSubject = new BehaviorSubject<CollectionOrderBy>({
-    key: CollectionOrderByType.LastUpdated,
-    direction: OrderByDirection.Desc,
-  });
+  savedSort = localStorage.getItem('collection:sort');
+  defaultSort: CollectionOrderBy = this.savedSort
+    ? JSON.parse(this.savedSort)
+    : {
+        key: CollectionOrderByType.LastUpdated,
+        direction: OrderByDirection.Desc,
+      };
+  sortChangeSubject = new BehaviorSubject<CollectionOrderBy>(this.defaultSort);
 
-  sort$ = this.sortChangeSubject.asObservable();
+  sort$ = this.sortChangeSubject.asObservable().pipe(
+    tap((sort) => {
+      localStorage.setItem('collection:sort', JSON.stringify(sort));
+    })
+  );
   sortIcon$: Observable<string> = this.sortChangeSubject.pipe(
     map((sort) => {
       return sort.direction === OrderByDirection.Desc

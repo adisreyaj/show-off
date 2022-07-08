@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TooltipDirective } from 'zigzag';
 import { uniqBy } from 'lodash-es';
+import { Collection } from '@show-off/api-interfaces';
 
 @Pipe({
   name: 'uniqueItems',
@@ -25,6 +26,7 @@ export class UniqueItemsPipe<Data> implements PipeTransform {
 @Component({
   selector: 'show-off-collection-card',
   template: ` <article
+    *ngIf="this.collection"
     class="cursor-pointer border border-slate-100 p-4 shadow-sm hover:shadow-lg"
     [routerLink]="['/collections', collection.id]"
   >
@@ -32,14 +34,25 @@ export class UniqueItemsPipe<Data> implements PipeTransform {
       <p class="text-lg font-semibold">{{ collection.name }}</p>
     </header>
     <div>
-      <section class="mb-3 grid grid-cols-5">
-        <ng-container *ngFor="let item of collection.items | uniqueItems">
+      <section class="mb-3 grid min-h-[40px] grid-cols-5">
+        <ng-container
+          *ngFor="let item of collection.items | slice: 0:4 | uniqueItems"
+        >
           <div class="grid h-10 w-10 place-items-center rounded-full">
             <img
               class="block h-6 w-6"
               [src]="item.type | typeIcon"
               [alt]="item.type"
             />
+          </div>
+        </ng-container>
+        <ng-container
+          *ngIf="
+            (collection.items | slice: 4 | uniqueItems).length as remainingItems
+          "
+        >
+          <div class="grid h-10 w-10 place-items-center rounded-full">
+            <p class="text-sm">+ {{ remainingItems }}</p>
           </div>
         </ng-container>
       </section>
@@ -81,5 +94,5 @@ export class UniqueItemsPipe<Data> implements PipeTransform {
 })
 export class CollectionCardComponent {
   @Input()
-  collection: any;
+  collection?: Collection;
 }
