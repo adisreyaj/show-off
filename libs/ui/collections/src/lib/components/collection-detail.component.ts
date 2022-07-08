@@ -21,74 +21,20 @@ import { ItemKeyboardComponent } from './items/keyboard/item-keyboard.component'
 import {
   MasonryGridComponent,
   MasonryGridItemDirective,
+  UserInfoComponent,
 } from '@show-off/ui/shared';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { CollectionDetailHeaderComponent } from './collection-detail-header.component';
 
 @Component({
   selector: 'show-off-collection-detail',
   template: `
     <div class="box page" *ngIf="this.collection$ | async as collection">
+      <show-off-collection-detail-header
+        [collection]="collection"
+      ></show-off-collection-detail-header>
       <section class="flex gap-4">
         <div class="flex-1">
-          <header class="page-header mb-6 flex items-center justify-between">
-            <section>
-              <div class="mb-2">
-                <h1 class="page-header-text">{{ collection.name }}</h1>
-                <p>{{ collection?.description }}</p>
-              </div>
-              <div class="flex items-center gap-2">
-                <img
-                  width="30"
-                  height="30"
-                  class="rounded-full"
-                  [src]="collection.user.image"
-                  [alt]="collection.user.firstName"
-                />
-                <div class="text-sm">
-                  <p>
-                    {{ collection.user.firstName }}
-                    {{ collection.user.lastName }}
-                  </p>
-                  <p class="-mt-1 text-xs text-slate-600">
-                    @{{ collection.user.username }}
-                  </p>
-                </div>
-              </div>
-            </section>
-            <section class="flex gap-4">
-              <button
-                zzButton
-                variant="neutral"
-                (click)="toggleLike(collection.liked)"
-              >
-                <div class="flex items-center gap-2">
-                  <rmx-icon
-                    [name]="collection.liked ? 'heart-3-fill' : 'heart-3-line'"
-                    class="icon-sm"
-                    [class.text-pink-500]="collection.liked"
-                  ></rmx-icon>
-                  <p>Like</p>
-                </div>
-              </button>
-              <button zzButton variant="neutral">
-                <div class="flex items-center gap-2">
-                  <rmx-icon name="share-line" class="icon-sm"></rmx-icon>
-                  <p>Share</p>
-                </div>
-              </button>
-              <button zzButton variant="neutral">
-                <div class="flex items-center gap-2">
-                  <rmx-icon name="settings-3-line" class="icon-sm"></rmx-icon>
-                </div>
-              </button>
-              <button zzButton variant="primary" (click)="this.addNewItem()">
-                <div class="flex items-center gap-2">
-                  <rmx-icon name="add-line" class="icon-sm"></rmx-icon>
-                  <p>Add Item</p>
-                </div>
-              </button>
-            </section>
-          </header>
           <div class="flex gap-4">
             <show-off-masonry-grid>
               <article masonryGridItem *ngFor="let item of collection.items">
@@ -101,10 +47,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
           </div>
         </div>
 
-        <aside
-          style="width: 300px;margin-top: calc(80px + 16px)"
-          class="rounded-md bg-slate-100 p-4"
-        >
+        <aside style="width: 300px;" class="rounded-md bg-slate-100 p-4">
           <header class="mb-2">
             <p class="text-lg font-medium">Comments</p>
           </header>
@@ -133,24 +76,9 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
                 *ngFor="let comment of collection.comments"
               >
                 <header class="mb-2">
-                  <div class="flex items-center gap-2">
-                    <img
-                      width="30"
-                      height="30"
-                      class="rounded-full"
-                      [src]="comment.user.image"
-                      [alt]="comment.user.firstName"
-                    />
-                    <div class="text-sm">
-                      <p>
-                        {{ comment.user.firstName }}
-                        {{ comment.user.lastName }}
-                      </p>
-                      <p class="-mt-1 text-xs text-slate-600">
-                        @{{ comment.user.username }}
-                      </p>
-                    </div>
-                  </div>
+                  <show-off-user-info
+                    [user]="comment.user"
+                  ></show-off-user-info>
                 </header>
                 <div>
                   <p class="text-sm line-clamp-3">
@@ -196,6 +124,8 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
     ItemBrowserComponent,
     ItemKeyboardComponent,
     ButtonComponent,
+    CollectionDetailHeaderComponent,
+    UserInfoComponent,
     MasonryGridComponent,
     MasonryGridItemDirective,
     RouterModule,
