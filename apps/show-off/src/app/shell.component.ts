@@ -40,7 +40,7 @@ import { User } from '@show-off/api-interfaces';
         </div>
       </div>
     </header>
-    <main class="flex-1">
+    <main class="flex-1 overflow-y-auto">
       <router-outlet></router-outlet>
     </main>
   `,
