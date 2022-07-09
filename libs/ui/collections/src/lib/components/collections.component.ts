@@ -15,7 +15,10 @@ import {
 import { CommonModule } from '@angular/common';
 import { CreateCollectionComponent } from './create-collection.component';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { UserInfoComponent } from '@show-off/ui/shared';
+import {
+  ShowIfLoggedInDirective,
+  UserInfoComponent,
+} from '@show-off/ui/shared';
 import { RemixIconModule } from 'angular-remix-icon';
 import { CollectionCardComponent } from './collection-card.component';
 import {
@@ -72,7 +75,12 @@ import { CURRENT_USER } from '@show-off/ui/auth';
             </zz-dropdown>
           </button>
         </div>
-        <button zzButton variant="primary" (click)="this.createNew()">
+        <button
+          *showIfLoggedIn
+          zzButton
+          variant="primary"
+          (click)="this.createNew()"
+        >
           <div class="flex items-center gap-2">
             <rmx-icon name="add-line" class="icon-sm"></rmx-icon>
             <p class="hidden sm:block">Create New</p>
@@ -98,6 +106,7 @@ import { CURRENT_USER } from '@show-off/ui/auth';
     RouterModule,
     RemixIconModule,
     CollectionCardComponent,
+    ShowIfLoggedInDirective,
     ...DROPDOWN_COMPONENTS,
   ],
 })

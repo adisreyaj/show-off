@@ -7,7 +7,10 @@ import {
 } from '@angular/core';
 import { RemixIconModule } from 'angular-remix-icon';
 import { ButtonComponent } from 'zigzag';
-import { UserInfoComponent } from '@show-off/ui/shared';
+import {
+  ShowIfLoggedInDirective,
+  UserInfoComponent,
+} from '@show-off/ui/shared';
 
 @Component({
   selector: 'show-off-collection-detail-header',
@@ -23,6 +26,7 @@ import { UserInfoComponent } from '@show-off/ui/shared';
     </section>
     <section class="flex gap-4">
       <button
+        *showIfLoggedIn
         zzButton
         variant="neutral"
         (click)="this.toggleLike.emit(collection.liked)"
@@ -57,7 +61,12 @@ import { UserInfoComponent } from '@show-off/ui/shared';
   </header>`,
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ButtonComponent, UserInfoComponent, RemixIconModule],
+  imports: [
+    ButtonComponent,
+    UserInfoComponent,
+    RemixIconModule,
+    ShowIfLoggedInDirective,
+  ],
 })
 export class CollectionDetailHeaderComponent {
   @Input()
