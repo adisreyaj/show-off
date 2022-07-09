@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiURL: 'http://localhost:3333',
+  apiURL: 'https://show-off-api.adi.so',
 };
