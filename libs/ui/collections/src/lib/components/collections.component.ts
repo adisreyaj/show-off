@@ -64,7 +64,9 @@ import {
         </button>
       </section>
     </header>
-    <section class="flex gap-4">
+    <section
+      class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+    >
       <ng-container *ngFor="let collection of this.collections$ | async">
         <show-off-collection-card
           [collection]="collection"
