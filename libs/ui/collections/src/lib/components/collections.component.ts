@@ -3,10 +3,12 @@ import { ButtonComponent, DROPDOWN_COMPONENTS, ModalService } from 'zigzag';
 import { CollectionsService } from '../services';
 import {
   BehaviorSubject,
+  catchError,
   combineLatest,
   filter,
   map,
   Observable,
+  of,
   switchMap,
   tap,
 } from 'rxjs';
@@ -137,17 +139,22 @@ export class CollectionsComponent {
       this.activatedRoute.data.pipe(
         map((data) => data['context'] as CollectionPageContext)
       ),
-      this.currentUser$,
+      this.currentUser$.pipe(catchError(() => of(null))),
     ]).pipe(
       switchMap(([sort, context, currentUser]) => {
         if (context === CollectionPageContext.Home) {
-          return this.collectionsService.getCollections({ orderBy: sort });
-        } else {
+          return this.collectionsService.getCollections({
+            orderBy: sort,
+            filters: [{ private: false, published: true }],
+          });
+        }
+        if (currentUser) {
           return this.collectionsService.getCollections({
             orderBy: sort,
             filters: [{ userId: currentUser.id }],
           });
         }
+        return of([]);
       })
     );
 

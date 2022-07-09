@@ -70,7 +70,6 @@ export class CollectionsService {
                 firstName
                 lastName
                 image
-                email
               }
               createdAt
               updatedAt

@@ -1,7 +1,15 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { BehaviorSubject, combineLatest, map } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  combineLatest,
+  map,
+  Observable,
+  of,
+  throwError,
+} from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 import { Apollo, gql } from 'apollo-angular';
 
@@ -26,7 +34,7 @@ export class AuthService {
     private readonly cookieService: CookieService
   ) {}
 
-  me(refresh = false) {
+  me(refresh = false): Observable<User | null> {
     return this.apollo
       .query<{ me: User }>({
         query: gql`
@@ -43,7 +51,15 @@ export class AuthService {
         `,
         fetchPolicy: refresh ? 'network-only' : 'cache-first',
       })
-      .pipe(map((result) => result.data.me));
+      .pipe(
+        map((result) => result.data.me),
+        catchError((err) => {
+          if (err?.message === 'Unauthorized') {
+            return of(null);
+          }
+          return throwError(() => new Error('Something went wrong'));
+        })
+      );
   }
 
   init() {

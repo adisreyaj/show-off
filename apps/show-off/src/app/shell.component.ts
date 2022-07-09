@@ -1,9 +1,11 @@
 import { Component, Inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { CURRENT_USER } from '@show-off/ui/auth';
+import { AuthService, CURRENT_USER } from '@show-off/ui/auth';
 import { Observable } from 'rxjs';
 import { User } from '@show-off/api-interfaces';
+import { ButtonComponent, DROPDOWN_COMPONENTS } from 'zigzag';
+import { RemixIconModule } from 'angular-remix-icon';
 
 @Component({
   selector: 'show-off-shell',
@@ -23,21 +25,47 @@ import { User } from '@show-off/api-interfaces';
             <p class="-mt-2 text-sm text-slate-500">Showcase your setup</p>
           </div>
         </div>
-        <div
-          *ngIf="this.user$ | async as user"
-          class="flex cursor-pointer items-center gap-2"
-        >
-          <img
-            class="rounded-full"
-            width="40"
-            height="40"
-            [src]="user.image"
-            [alt]="user.firstName"
-          />
-          <div>
-            <p>{{ user.firstName }}</p>
+        <ng-container *ngIf="this.user$ | async as user; else loginButtonTpl">
+          <div
+            class="flex cursor-pointer items-center gap-2"
+            [zzDropdownTrigger]="profileDropdown"
+            placement="bottom-start"
+          >
+            <img
+              class="rounded-full"
+              width="40"
+              height="40"
+              [src]="user.image"
+              [alt]="user.firstName"
+            />
+            <div>
+              <p>{{ user.firstName }}</p>
+            </div>
+
+            <zz-dropdown #profileDropdown>
+              <div class="flex flex-col gap-2">
+                <div
+                  class="w-full"
+                  size="sm"
+                  variant="link"
+                  zzButton
+                  zzDropdownCloseOnClick
+                  (click)="this.authService.logout()"
+                >
+                  <p>Logout</p>
+                </div>
+              </div>
+            </zz-dropdown>
           </div>
-        </div>
+        </ng-container>
+        <ng-template #loginButtonTpl>
+          <button zzButton variant="primary" routerLink="/login">
+            <div class="flex items-center gap-2">
+              <rmx-icon name="login-box-line" class="icon-sm"></rmx-icon>
+              <p class="hidden sm:block">Login</p>
+            </div>
+          </button>
+        </ng-template>
       </div>
     </header>
     <main class="flex-1 overflow-y-auto">
@@ -54,8 +82,17 @@ import { User } from '@show-off/api-interfaces';
       }
     `,
   ],
-  imports: [RouterModule, CommonModule],
+  imports: [
+    RouterModule,
+    CommonModule,
+    ...DROPDOWN_COMPONENTS,
+    ButtonComponent,
+    RemixIconModule,
+  ],
 })
 export class ShellComponent {
-  constructor(@Inject(CURRENT_USER) public readonly user$: Observable<User>) {}
+  constructor(
+    @Inject(CURRENT_USER) public readonly user$: Observable<User>,
+    public readonly authService: AuthService
+  ) {}
 }
