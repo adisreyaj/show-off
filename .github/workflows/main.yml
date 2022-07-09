@@ -1,7 +1,7 @@
 name: Deploy API
 on:
   push:
-    branches: [main]
+    branches: [ main ]
   workflow_dispatch:
 jobs:
   build:
@@ -44,6 +44,7 @@ jobs:
           script: |
             cd /home/$REMOTE_SERVER_USER/show-off
             tar -xzvf build.tar.gz
+            npm install
             npm run prod
             pm2 stop show-off
             pm2 start dist/apps/api/main.js --name show-off

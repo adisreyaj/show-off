@@ -14,7 +14,8 @@
     "test": "nx test",
     "prisma:push": "prisma db push",
     "prisma:generate": "prisma generate",
-    "prisma:format": "prisma format"
+    "prisma:format": "prisma format",
+    "prod": "npm i && npm run primsa:generate"
   },
   "private": true,
   "dependencies": {
