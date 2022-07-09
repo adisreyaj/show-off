@@ -85,6 +85,7 @@ export class CollectionsService {
       isLiked,
       collection,
     ]);
+    console.log({ userId, liked });
     return {
       ...collectionData,
       liked: !!liked,

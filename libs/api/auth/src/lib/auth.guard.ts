@@ -21,8 +21,16 @@ export class AuthGuard extends PassportAuthGuard('jwt') {
       IS_PUBLIC_KEY,
       [context.getHandler(), context.getClass()]
     );
+    /**
+     * We need to call the `canActivate` method of the superclass inorder to
+     * get the logged-in user id.
+     *
+     * Without that all `Public` endpoints won't be able to get the user from the `req` object
+     */
     if (isPublicEndpoint) {
-      return true;
+      (super.canActivate(context) as Promise<boolean>).then().finally(() => {
+        return true;
+      });
     }
     return super.canActivate(context);
   }
