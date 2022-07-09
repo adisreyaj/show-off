@@ -60,7 +60,10 @@ import {
           </button>
         </div>
         <button zzButton variant="primary" (click)="this.createNew()">
-          Create New
+          <div class="flex items-center gap-2">
+            <rmx-icon name="add-line" class="icon-sm"></rmx-icon>
+            <p class="hidden sm:block">Create New</p>
+          </div>
         </button>
       </section>
     </header>
