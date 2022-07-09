@@ -36,9 +36,11 @@ import { ItemPhoneComponent } from './items/phone/item-phone.component';
         (addNewItem)="this.addNewItem()"
         (toggleLike)="this.toggleLike($event)"
       ></show-off-collection-detail-header>
-      <section class="grid flex-1 grid-cols-1 sm:grid-cols-[1fr_300px]">
+      <section
+        class="grid flex-1 grid-cols-1 gap-0 sm:grid-cols-[1fr_300px] sm:gap-4"
+      >
         <div class="flex-1">
-          <div class="flex gap-4">
+          <div class="flex">
             <show-off-masonry-grid>
               <article
                 class="min-w-[200px]"
