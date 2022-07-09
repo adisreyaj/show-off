@@ -2,6 +2,7 @@ export interface QueryArgs {
   take?: number;
   skip?: number;
   orderBy?: OrderBy;
+  filters?: Record<string, string | number | boolean>[];
 }
 
 export enum CollectionOrderByType {

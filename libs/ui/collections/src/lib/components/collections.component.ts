@@ -1,7 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { ButtonComponent, DROPDOWN_COMPONENTS, ModalService } from 'zigzag';
 import { CollectionsService } from '../services';
-import { BehaviorSubject, filter, map, Observable, switchMap, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  filter,
+  map,
+  Observable,
+  switchMap,
+  tap,
+} from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { CreateCollectionComponent } from './create-collection.component';
 import { ActivatedRoute, RouterModule } from '@angular/router';
@@ -9,10 +17,13 @@ import { UserInfoComponent } from '@show-off/ui/shared';
 import { RemixIconModule } from 'angular-remix-icon';
 import { CollectionCardComponent } from './collection-card.component';
 import {
+  Collection,
   CollectionOrderBy,
   CollectionOrderByType,
   OrderByDirection,
+  User,
 } from '@show-off/api-interfaces';
+import { CURRENT_USER } from '@show-off/ui/auth';
 
 @Component({
   selector: 'show-off-collections',
@@ -89,7 +100,7 @@ import {
   ],
 })
 export class CollectionsComponent {
-  collections$: Observable<any[]>;
+  collections$: Observable<Collection[]>;
   title$: Observable<string>;
 
   sortOptions: CollectionOrderByType[] = Object.values(CollectionOrderByType);
@@ -118,11 +129,28 @@ export class CollectionsComponent {
   constructor(
     private readonly collectionsService: CollectionsService,
     private readonly modal: ModalService,
-    private readonly activatedRoute: ActivatedRoute
+    private readonly activatedRoute: ActivatedRoute,
+    @Inject(CURRENT_USER) private readonly currentUser$: Observable<User>
   ) {
-    this.collections$ = this.sortChangeSubject.pipe(
-      switchMap((sort) => this.collectionsService.getCollections(sort))
+    this.collections$ = combineLatest([
+      this.sortChangeSubject,
+      this.activatedRoute.data.pipe(
+        map((data) => data['context'] as CollectionPageContext)
+      ),
+      this.currentUser$,
+    ]).pipe(
+      switchMap(([sort, context, currentUser]) => {
+        if (context === CollectionPageContext.Home) {
+          return this.collectionsService.getCollections({ orderBy: sort });
+        } else {
+          return this.collectionsService.getCollections({
+            orderBy: sort,
+            filters: [{ userId: currentUser.id }],
+          });
+        }
+      })
     );
+
     this.title$ = this.activatedRoute.data.pipe(
       map((data) => data['header'].text)
     );
@@ -157,4 +185,9 @@ export class CollectionsComponent {
           : OrderByDirection.Desc,
     });
   }
+}
+
+export enum CollectionPageContext {
+  Home,
+  MyCollections,
 }

@@ -1,6 +1,6 @@
 type Query {
   collection(id: ID!): Collection
-  collections(args: QueryArgs): [Collection]
+  collections(args: QueryArgs, userId: ID): [Collection]
 }
 
 type Mutation {

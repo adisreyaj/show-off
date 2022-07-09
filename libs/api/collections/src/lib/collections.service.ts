@@ -39,6 +39,7 @@ export class CollectionsService {
       key: CollectionOrderByType.CreatedAt,
       direction: OrderByDirection.Desc,
     },
+    filters = [],
   }: QueryArgs) {
     const orderByMapping = {
       [CollectionOrderByType.Comments]: {
@@ -61,6 +62,9 @@ export class CollectionsService {
     return this.prisma.collection.findMany({
       take,
       skip,
+      where: {
+        AND: filters,
+      },
       orderBy: orderByMapping[orderBy.key],
       include: COLLECTION_INCLUDE,
     });

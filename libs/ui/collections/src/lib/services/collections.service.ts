@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { map } from 'rxjs';
-import { CollectionOrderBy } from '@show-off/api-interfaces';
+import { Collection, QueryArgs } from '@show-off/api-interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -51,10 +51,9 @@ export class CollectionsService {
     });
   }
 
-  // TODO: Type this
-  getCollections(sort: CollectionOrderBy) {
+  getCollections(queryArgs: QueryArgs) {
     return this.apollo
-      .query<{ collections: any[] }>({
+      .query<{ collections: Collection[] }>({
         query: gql`
           query GetCollections($args: QueryArgs) {
             collections(args: $args) {
@@ -85,9 +84,7 @@ export class CollectionsService {
           }
         `,
         variables: {
-          args: {
-            orderBy: sort,
-          },
+          args: queryArgs,
         },
       })
       .pipe(map((result) => result.data.collections));
@@ -95,7 +92,7 @@ export class CollectionsService {
 
   getCollection(id: string, refresh = false) {
     return this.apollo
-      .query<{ collection: any }>({
+      .query<{ collection: Collection }>({
         query: gql`
           query GetCollection($id: ID!) {
             collection(id: $id) {

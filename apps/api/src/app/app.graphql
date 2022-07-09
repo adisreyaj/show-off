@@ -13,11 +13,12 @@ input QueryArgs {
   take: Int
   skip: Int
   orderBy: QueryArgsOrderBy
+  filters: JSON
 }
 
 input QueryArgsOrderBy {
-    key: String
-    direction: OrderByDirection
+  key: String
+  direction: OrderByDirection
 }
 
 

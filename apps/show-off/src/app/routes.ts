@@ -1,6 +1,7 @@
 import { importProvidersFrom } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ShellComponent } from './shell.component';
+import { CollectionPageContext } from '@show-off/ui/collections';
 
 export const ROUTES_PROVIDER = importProvidersFrom(
   RouterModule.forRoot([
@@ -24,6 +25,7 @@ export const ROUTES_PROVIDER = importProvidersFrom(
           pathMatch: 'full',
           title: 'Home | Show Off',
           data: {
+            context: CollectionPageContext.Home,
             header: {
               text: 'Home',
             },
@@ -37,6 +39,7 @@ export const ROUTES_PROVIDER = importProvidersFrom(
           path: 'collections',
           title: 'My Collections | Show Off',
           data: {
+            context: CollectionPageContext.MyCollections,
             header: {
               text: 'My Collections',
             },
