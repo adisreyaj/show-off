@@ -29,6 +29,7 @@ import { ItemPhoneComponent } from '../items/phone/item-phone.component';
 import { ItemHeadphonesComponent } from '../items/headphones/item-headphones.component';
 import { ItemMicrophoneComponent } from '../items/microphone/item-microphone.component';
 import { ItemWebcamComponent } from '../items/webcam/item-webcam.component';
+import { ItemMouseComponent } from '../items/mouse/item-mouse.component';
 
 @Component({
   selector: 'show-off-collection-detail',
@@ -136,6 +137,9 @@ import { ItemWebcamComponent } from '../items/webcam/item-webcam.component';
         <ng-container *ngSwitchCase="'${SupportedItemTypes.Webcam}'">
           <show-off-item-webcam [data]="data"></show-off-item-webcam>
         </ng-container>
+        <ng-container *ngSwitchCase="'${SupportedItemTypes.Mouse}'">
+          <show-off-item-mouse [data]="data"></show-off-item-mouse>
+        </ng-container>
       </ng-container>
     </ng-template>
   `,
@@ -169,6 +173,7 @@ import { ItemWebcamComponent } from '../items/webcam/item-webcam.component';
     ReactiveFormsModule,
     ...FORM_COMPONENTS,
     ItemWebcamComponent,
+    ItemMouseComponent,
   ],
 })
 export class CollectionDetailComponent {

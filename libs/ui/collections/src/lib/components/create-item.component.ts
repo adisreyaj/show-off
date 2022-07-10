@@ -24,6 +24,7 @@ import { ItemPhoneFormComponent } from './items/phone/item-phone-form.component'
 import { ItemHeadphonesFormComponent } from './items/headphones/item-headphones-form.component';
 import { ItemMicrophoneFormComponent } from './items/microphone/item-microphone-form.component';
 import { ItemWebcamFormComponent } from './items/webcam/item-webcam-form.component';
+import { ItemMouseFormComponent } from './items/mouse/item-mouse-form.component';
 
 @Component({
   selector: 'show-off-item-type-chooser',
@@ -112,6 +113,7 @@ export class CreateItemComponent {
     [SupportedItemTypes.Headphones]: ItemHeadphonesFormComponent,
     [SupportedItemTypes.Microphone]: ItemMicrophoneFormComponent,
     [SupportedItemTypes.Webcam]: ItemWebcamFormComponent,
+    [SupportedItemTypes.Mouse]: ItemMouseFormComponent,
   };
 
   constructor(
