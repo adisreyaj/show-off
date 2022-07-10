@@ -10,6 +10,7 @@ import { AppResolver } from './app.resolver';
 import { ApiUsersModule } from '@show-off/api/users';
 import { ApiCollectionsModule } from '@show-off/api/collections';
 import GraphQLJSON from 'graphql-type-json';
+import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 
 @Module({
   imports: [
@@ -30,6 +31,12 @@ import GraphQLJSON from 'graphql-type-json';
             credentials: true,
           },
           context: ({ req, res }) => ({ req, res }),
+          playground: false,
+          plugins: [
+            ApolloServerPluginLandingPageLocalDefault({
+              embed: true,
+            }),
+          ],
         };
       },
       inject: [ConfigService],
