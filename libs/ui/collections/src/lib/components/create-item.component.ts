@@ -33,20 +33,20 @@ import { ItemMicrophoneFormComponent } from './items/microphone/item-microphone-
       </header>
       <section
         *ngIf="!this.itemType"
-        class="flex flex-wrap justify-center gap-6 px-4 pb-8"
+        class="flex flex-wrap justify-center gap-4 px-4 pb-8"
       >
         <button
           *ngFor="let type of this.availableTypes"
           class="w-full"
-          [style.max-width.px]="150"
+          [style.max-width.px]="120"
           size="sm"
           variant="neutral"
           zzButton
           (click)="this.setItemType(type)"
         >
-          <div class="flex items-center gap-2 rounded-md">
+          <div class="flex items-center">
             <div class="grid h-10 w-10 place-items-center rounded-full">
-              <img class="block h-6 w-6" [src]="type | typeIcon" [alt]="type" />
+              <img class="block h-5 w-5" [src]="type | typeIcon" [alt]="type" />
             </div>
             <p>{{ type }}</p>
           </div>
@@ -55,7 +55,7 @@ import { ItemMicrophoneFormComponent } from './items/microphone/item-microphone-
       <section *ngIf="this.itemType" class="px-4 pb-8">
         <form>
           <ng-container #formContainer></ng-container>
-          <footer>
+          <footer class="flex items-center gap-4">
             <button
               type="button"
               zzButton
@@ -64,6 +64,14 @@ import { ItemMicrophoneFormComponent } from './items/microphone/item-microphone-
               (click)="this.addItem()"
             >
               Add Item
+            </button>
+            <button
+              type="button"
+              zzButton
+              variant="link"
+              (click)="this.itemType = undefined"
+            >
+              Back
             </button>
           </footer>
         </form>

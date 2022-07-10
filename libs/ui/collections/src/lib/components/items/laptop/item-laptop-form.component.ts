@@ -32,7 +32,7 @@ import { LaptopData, SupportedItemTypes } from '@show-off/api-interfaces';
         />
       </zz-form-group>
     </fieldset>
-    <fieldset class="grid grid-cols-4 gap-6">
+    <fieldset class="grid grid-cols-2 gap-4 sm:grid-cols-4 sm:gap-6">
       <zz-form-group id="size" class="flex flex-col">
         <zz-form-group-label required>Size (Inch)</zz-form-group-label>
         <input

@@ -32,7 +32,7 @@ import { HeadphonesData, SupportedItemTypes } from '@show-off/api-interfaces';
         />
       </zz-form-group>
     </fieldset>
-    <fieldset class="grid grid-cols-4 gap-6">
+    <fieldset class="grid grid-cols-2 gap-4 sm:grid-cols-4 sm:gap-6">
       <zz-form-group id="price" class="flex flex-col">
         <zz-form-group-label required>Price ($)</zz-form-group-label>
         <input
