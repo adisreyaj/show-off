@@ -27,6 +27,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CollectionDetailHeaderComponent } from './collection-detail-header.component';
 import { ItemPhoneComponent } from '../items/phone/item-phone.component';
 import { ItemHeadphonesComponent } from '../items/headphones/item-headphones.component';
+import { ItemMicrophoneComponent } from '../items/microphone/item-microphone.component';
 
 @Component({
   selector: 'show-off-collection-detail',
@@ -127,6 +128,9 @@ import { ItemHeadphonesComponent } from '../items/headphones/item-headphones.com
         <ng-container *ngSwitchCase="'${SupportedItemTypes.Headphones}'">
           <show-off-item-headphones [data]="data"></show-off-item-headphones>
         </ng-container>
+        <ng-container *ngSwitchCase="'${SupportedItemTypes.Microphone}'">
+          <show-off-item-microphone [data]="data"></show-off-item-microphone>
+        </ng-container>
       </ng-container>
     </ng-template>
   `,
@@ -148,6 +152,7 @@ import { ItemHeadphonesComponent } from '../items/headphones/item-headphones.com
     ItemKeyboardComponent,
     ItemPhoneComponent,
     ItemHeadphonesComponent,
+    ItemMicrophoneComponent,
     ButtonComponent,
     CollectionDetailHeaderComponent,
     UserInfoComponent,
