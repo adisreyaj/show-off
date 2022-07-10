@@ -16,7 +16,7 @@ export class AuthGuard extends PassportAuthGuard('jwt') {
     return ctx.getContext().req;
   }
 
-  canActivate(context: ExecutionContext) {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const isPublicEndpoint = this.reflector.getAllAndOverride<boolean>(
       IS_PUBLIC_KEY,
       [context.getHandler(), context.getClass()]
@@ -28,10 +28,12 @@ export class AuthGuard extends PassportAuthGuard('jwt') {
      * Without that all `Public` endpoints won't be able to get the user from the `req` object
      */
     if (isPublicEndpoint) {
-      (super.canActivate(context) as Promise<boolean>).then().finally(() => {
-        return true;
-      });
+      try {
+        await (super.canActivate(context) as Promise<boolean>);
+      } catch (e) {
+        return Promise.resolve(true);
+      }
     }
-    return super.canActivate(context);
+    return super.canActivate(context) as Promise<boolean>;
   }
 }
