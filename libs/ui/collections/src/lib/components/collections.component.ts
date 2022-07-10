@@ -188,46 +188,15 @@ export class CollectionsComponent {
       this.currentUser$.pipe(catchError(() => of(null))),
     ]).pipe(
       switchMap(([sort, searchTerm, context, currentUser]) => {
+        const searchFilter =
+          searchTerm !== ''
+            ? [new QueryFilter('name', FilterOperator.Contains, searchTerm)]
+            : [];
         if (context === CollectionPageContext.Home) {
-          const filters = [
-            new QueryFilter('private', FilterOperator.Equals, false),
-            new QueryFilter('published', FilterOperator.Equals, true),
-            ...(searchTerm !== ''
-              ? [new QueryFilter('name', FilterOperator.Contains, searchTerm)]
-              : []),
-          ];
-          const filterCombination = {
-            [FilterCombination.And]: filters,
-          };
-          return this.collectionsService.getCollections(
-            {
-              orderBy: sort,
-              filters: filterCombination,
-            },
-            true
-          );
+          return this.getCollections(searchFilter, sort);
         }
         if (currentUser) {
-          const currentUserFilter = new QueryFilter(
-            'userId',
-            FilterOperator.Equals,
-            currentUser.id
-          );
-          const filterCombination = {
-            [FilterCombination.And]: [
-              currentUserFilter,
-              ...(searchTerm !== ''
-                ? [new QueryFilter('name', FilterOperator.Contains, searchTerm)]
-                : []),
-            ],
-          };
-          return this.collectionsService.getCollections(
-            {
-              orderBy: sort,
-              filters: filterCombination,
-            },
-            true
-          );
+          return this.getMyCollections(currentUser.id, searchFilter, sort);
         }
         return of([]);
       })
@@ -266,6 +235,46 @@ export class CollectionsComponent {
           ? OrderByDirection.Asc
           : OrderByDirection.Desc,
     });
+  }
+
+  private getCollections(searchFilter: QueryFilter[], sort: CollectionOrderBy) {
+    const filters = [
+      new QueryFilter('private', FilterOperator.Equals, false),
+      new QueryFilter('published', FilterOperator.Equals, true),
+      ...searchFilter,
+    ];
+    const filterCombination = {
+      [FilterCombination.And]: filters,
+    };
+    return this.collectionsService.getCollections(
+      {
+        orderBy: sort,
+        filters: filterCombination,
+      },
+      true
+    );
+  }
+
+  private getMyCollections(
+    currentUserId: string,
+    searchFilter: QueryFilter[],
+    sort: CollectionOrderBy
+  ) {
+    const currentUserFilter = new QueryFilter(
+      'userId',
+      FilterOperator.Equals,
+      currentUserId
+    );
+    const filterCombination = {
+      [FilterCombination.And]: [currentUserFilter, ...searchFilter],
+    };
+    return this.collectionsService.getCollections(
+      {
+        orderBy: sort,
+        filters: filterCombination,
+      },
+      true
+    );
   }
 }
 
