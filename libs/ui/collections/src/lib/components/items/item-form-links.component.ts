@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   forwardRef,
   OnDestroy,
@@ -69,7 +70,9 @@ import { RemixIconModule } from 'angular-remix-icon';
             type="button"
             (click)="this.addNewLink()"
           >
-            Add Another Link
+            {{
+              this.linksFormArray.length === 0 ? 'Add Link' : 'Add Another Link'
+            }}
           </button>
         </footer>
       </ng-container>
@@ -99,14 +102,9 @@ export class ItemFormLinksComponent implements ControlValueAccessor, OnDestroy {
   private onChanged!: (link: Link) => void;
   private sub: Subscription;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef) {
     this.form = this.fb.group({
-      links: this.fb.array([
-        this.getLinkFormGroup({
-          url: '',
-          type: LinkType.Link,
-        }),
-      ]),
+      links: this.fb.array([]),
     });
 
     this.sub = this.form.valueChanges.subscribe(() => {
@@ -138,6 +136,7 @@ export class ItemFormLinksComponent implements ControlValueAccessor, OnDestroy {
     value.forEach((link) => {
       this.linksFormArray.push(this.getLinkFormGroup(link));
     });
+    this.cdr.detectChanges();
   }
 
   addNewLink() {

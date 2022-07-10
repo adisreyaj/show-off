@@ -154,3 +154,7 @@ export type ItemData =
   | IdeData
   | TerminalData
   | BrowserData;
+
+export type ItemServerData = ItemData & { id: string };
+export type ItemUpdateInput = Partial<Omit<ItemServerData, 'links' | 'type'>>;
+export type CreateItemData = Omit<ItemData, 'links'>;

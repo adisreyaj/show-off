@@ -3,11 +3,13 @@ import { PrismaService } from '@show-off/db';
 import {
   CollectionOrderByType,
   CreateCollectionInput,
+  CreateItemData,
+  ItemUpdateInput,
   OrderByDirection,
   QueryArgs,
   UpdateCollectionInput,
 } from '@show-off/api-interfaces';
-import { Prisma } from '@prisma/client';
+import { ItemType, Prisma } from '@prisma/client';
 import { convertFilterCombinationToPrismaFilters } from '@show-off/api/shared';
 
 const COLLECTION_INCLUDE: Prisma.CollectionInclude = {
@@ -130,7 +132,7 @@ export class CollectionsService {
   }
 
   //TODO: Type this
-  addNewItems(id: string, userId: string, input: any[]) {
+  addNewItems(id: string, userId: string, input: CreateItemData[]) {
     return this.prisma.collection.update({
       where: {
         id,
@@ -139,6 +141,7 @@ export class CollectionsService {
         items: {
           create: input.map((item) => ({
             ...item,
+            type: item.type as ItemType,
             userId,
           })),
         },
@@ -211,6 +214,15 @@ export class CollectionsService {
         id,
       },
       data,
+    });
+  }
+
+  updateItem(id: string, userId: string, input: ItemUpdateInput) {
+    return this.prisma.item.update({
+      where: {
+        id,
+      },
+      data: input,
     });
   }
 }

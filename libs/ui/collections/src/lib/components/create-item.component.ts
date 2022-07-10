@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -7,25 +8,29 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { ItemData, SupportedItemTypes } from '@show-off/api-interfaces';
+import {
+  ItemData,
+  ItemServerData,
+  SupportedItemTypes,
+} from '@show-off/api-interfaces';
 import { TypeIconPipe } from '@show-off/ui/shared';
 import { CommonModule } from '@angular/common';
 import { ButtonComponent, FORM_COMPONENTS, ModalRef } from 'zigzag';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { ItemLaptopFormComponent } from './items/laptop/item-laptop-form.component';
 import { ItemFormBase } from './items/item-form-base.class';
-import { isEmpty } from 'lodash-es';
+import { isEmpty, isNil } from 'lodash-es';
 import { ItemTabletFormComponent } from './items/tablet/item-tablet-form.component';
 import { ItemIdeFormComponent } from './items/ide/item-ide-form.component';
 import { ItemTerminalFormComponent } from './items/terminal/item-terminal-form.component';
 import { ItemBrowserFormComponent } from './items/browser/item-browser-form.component';
 import { ItemKeyboardFormComponent } from './items/keyboard/item-keyboard-form.component';
-import { ItemPhoneFormComponent } from './items/phone/item-phone-form.component';
 import { ItemHeadphonesFormComponent } from './items/headphones/item-headphones-form.component';
 import { ItemMicrophoneFormComponent } from './items/microphone/item-microphone-form.component';
 import { ItemWebcamFormComponent } from './items/webcam/item-webcam-form.component';
 import { ItemMouseFormComponent } from './items/mouse/item-mouse-form.component';
 import { ItemMonitorFormComponent } from './items/monitor/item-monitor-form.component';
+import { ItemPhoneFormComponent } from './items/phone/item-phone-form.component';
 
 @Component({
   selector: 'show-off-item-type-chooser',
@@ -63,10 +68,10 @@ import { ItemMonitorFormComponent } from './items/monitor/item-monitor-form.comp
               type="button"
               zzButton
               variant="primary"
-              [disabled]="!this.formComponentRef?.instance?.isValid?.()"
-              (click)="this.addItem()"
+              [disabled]="this.formComponentRef?.instance?.isInValid$ | async"
+              (click)="this.addOrUpdateItem()"
             >
-              Add Item
+              {{ this.isEditMode ? 'Update' : 'Add' }} Item
             </button>
             <button
               type="button"
@@ -92,11 +97,12 @@ import { ItemMonitorFormComponent } from './items/monitor/item-monitor-form.comp
     ItemLaptopFormComponent,
   ],
 })
-export class CreateItemComponent {
+export class CreateItemComponent implements AfterViewInit {
   availableTypes = Object.values(SupportedItemTypes);
   itemType?: SupportedItemTypes;
   modalTitle = 'Choose Item Type';
   formComponentRef?: ComponentRef<ItemFormBase<ItemData>>;
+  isEditMode = false;
 
   @ViewChild('formContainer', { read: ViewContainerRef })
   private formContainer?: ViewContainerRef;
@@ -119,10 +125,22 @@ export class CreateItemComponent {
   };
 
   constructor(
-    public readonly modalRef: ModalRef,
+    public readonly modalRef: ModalRef<ItemServerData>,
     private readonly fb: FormBuilder,
     private readonly cd: ChangeDetectorRef
   ) {}
+
+  get modalData(): ItemServerData | undefined {
+    return this.modalRef.data;
+  }
+
+  ngAfterViewInit() {
+    if (!isEmpty(this.modalData) && !isNil(this.modalData)) {
+      this.isEditMode = true;
+      this.setItemType(this.modalData.type);
+      this.formComponentRef?.instance.patchValue(this.modalData);
+    }
+  }
 
   setItemType(type: string) {
     this.itemType = type as SupportedItemTypes;
@@ -131,7 +149,7 @@ export class CreateItemComponent {
     this.attachCorrespondingForm(this.itemType);
   }
 
-  addItem() {
+  addOrUpdateItem() {
     if (!this.formComponentRef) {
       return;
     }
@@ -140,6 +158,7 @@ export class CreateItemComponent {
     if (isValid && !isEmpty(value) && this.itemType) {
       const data = {
         ...value,
+        ...(!isNil(this.modalData?.id) && { id: this.modalData?.id }),
         type: this.itemType,
       };
       this.modalRef.close(data);
@@ -147,8 +166,10 @@ export class CreateItemComponent {
   }
 
   private attachCorrespondingForm(type: SupportedItemTypes) {
-    const component = this.formComponents[type];
-    this.formComponentRef = this.formContainer?.createComponent(component);
-    this.cd.detectChanges();
+    if (this.formContainer) {
+      const component = this.formComponents[type];
+      this.formComponentRef = this.formContainer.createComponent(component);
+      this.cd.detectChanges();
+    }
   }
 }

@@ -13,6 +13,7 @@ type Mutation {
   addItemToCollection(id: ID!, itemId: ID!): Collection
   removeItemFromCollection(id: ID!, itemId: ID!): Collection
   commentOnCollection(id: ID!, comment: String!): Collection
+  updateItem(id: ID!, input: UpdateItemInput!): Collection
 }
 
 type Collection {
@@ -104,7 +105,6 @@ input UpdateItemInput {
   name: String
   make: String
   description: String
-  type: String
   price: Float
   metadata: JSON
   currency: String

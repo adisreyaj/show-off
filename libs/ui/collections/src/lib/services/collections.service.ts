@@ -4,6 +4,8 @@ import { map } from 'rxjs';
 import {
   Collection,
   CreateCollectionInput,
+  ItemData,
+  ItemUpdateInput,
   QueryArgs,
 } from '@show-off/api-interfaces';
 
@@ -31,7 +33,7 @@ export class CollectionsService {
     });
   }
 
-  addNewItem(collectionId: string, item: any) {
+  addNewItem(collectionId: string, item: ItemData) {
     return this.apollo.mutate({
       mutation: gql`
         mutation AddNewItemToCollection(
@@ -216,6 +218,23 @@ export class CollectionsService {
         input: {
           private: isPrivate,
         },
+      },
+    });
+  }
+
+  updateItem(data: ItemUpdateInput) {
+    const { id, ...restData } = data;
+    return this.apollo.mutate({
+      mutation: gql`
+        mutation UpdateItem($id: ID!, $input: UpdateItemInput!) {
+          updateItem(id: $id, input: $input) {
+            id
+          }
+        }
+      `,
+      variables: {
+        id,
+        input: restData,
       },
     });
   }

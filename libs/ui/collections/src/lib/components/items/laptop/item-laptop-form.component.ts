@@ -122,4 +122,17 @@ export class ItemLaptopFormComponent extends ItemFormBase<LaptopData> {
       },
     };
   }
+
+  override patchValue(value: LaptopData) {
+    this.form.patchValue({
+      make: value.make,
+      name: value.name,
+      price: value.price,
+      currency: value.currency,
+      ram: value.metadata?.['ram'],
+      storage: value.metadata?.['storage'],
+      size: value.metadata?.['size'],
+      links: value.links,
+    });
+  }
 }

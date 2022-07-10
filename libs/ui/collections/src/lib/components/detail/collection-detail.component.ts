@@ -13,10 +13,23 @@ import {
 } from 'zigzag';
 import { CreateItemComponent } from '../create-item.component';
 import { CollectionsService } from '../../services';
-import { filter, mapTo, Observable, startWith, Subject, switchMap } from 'rxjs';
+import {
+  filter,
+  map,
+  mapTo,
+  Observable,
+  startWith,
+  Subject,
+  switchMap,
+} from 'rxjs';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { Collection, SupportedItemTypes } from '@show-off/api-interfaces';
+import {
+  Collection,
+  ItemData,
+  ItemServerData,
+  SupportedItemTypes,
+} from '@show-off/api-interfaces';
 import { ItemTabletComponent } from '../items/tablet/item-tablet.component';
 import { ItemIdeComponent } from '../items/ide/item-ide.component';
 import { ItemTerminalComponent } from '../items/terminal/item-terminal.component';
@@ -265,6 +278,7 @@ import { ItemMonitorComponent } from '../items/monitor/item-monitor.component';
             variant="link"
             zzButton
             zzDropdownCloseOnClick
+            (click)="this.editItem(data)"
           >
             <div class="flex items-center gap-2">
               <rmx-icon name="pencil-line" class="icon-xs"></rmx-icon>
@@ -350,7 +364,7 @@ export class CollectionDetailComponent {
   }
 
   addNewItem() {
-    const ref = this.modal.open(CreateItemComponent, {
+    const ref = this.modal.open<never, ItemData>(CreateItemComponent, {
       size: 'md',
     });
 
@@ -360,6 +374,31 @@ export class CollectionDetailComponent {
         switchMap((data) =>
           this.collectionsService.addNewItem(this.collectionId, data)
         )
+      )
+      .subscribe(() => {
+        this.refreshSubject.next();
+      });
+  }
+
+  editItem(data: ItemData) {
+    const ref = this.modal.open<ItemData, ItemServerData>(CreateItemComponent, {
+      size: 'md',
+      data,
+    });
+
+    ref.afterClosed$
+      .pipe(
+        filter(Boolean),
+        /**
+         * Type of the item cannot be edited afterwards
+         */
+        map((item) => {
+          const { type, ...rest } = item;
+          return rest;
+        }),
+        switchMap((data) => {
+          return this.collectionsService.updateItem(data);
+        })
       )
       .subscribe(() => {
         this.refreshSubject.next();
