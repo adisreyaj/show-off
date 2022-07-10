@@ -5,6 +5,7 @@ import {
   CreateCollectionInput,
   OrderByDirection,
   QueryArgs,
+  UpdateCollectionInput,
 } from '@show-off/api-interfaces';
 import { Prisma } from '@prisma/client';
 import { convertFilterCombinationToPrismaFilters } from '@show-off/api/shared';
@@ -201,6 +202,15 @@ export class CollectionsService {
           },
         },
       },
+    });
+  }
+
+  update(id: string, userId: string, data: UpdateCollectionInput) {
+    return this.prisma.collection.update({
+      where: {
+        id,
+      },
+      data,
     });
   }
 }

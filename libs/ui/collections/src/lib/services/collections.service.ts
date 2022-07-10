@@ -126,6 +126,8 @@ export class CollectionsService {
                 }
               }
               liked
+              private
+              published
               _count {
                 likes
                 shares
@@ -185,6 +187,27 @@ export class CollectionsService {
       variables: {
         id,
         comment,
+      },
+    });
+  }
+
+  updateVisibility(id: string, isPrivate: boolean) {
+    return this.apollo.mutate({
+      mutation: gql`
+        mutation UpdateVisibilityStatus(
+          $id: ID!
+          $input: UpdateCollectionInput!
+        ) {
+          updateCollection(id: $id, input: $input) {
+            id
+          }
+        }
+      `,
+      variables: {
+        id,
+        input: {
+          private: isPrivate,
+        },
       },
     });
   }

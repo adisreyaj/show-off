@@ -50,7 +50,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
       <div>
         <h1 class="page-header-text">{{ this.title$ | async }}</h1>
       </div>
-      <section class="flex items-center gap-4">
+      <section class="flex flex-wrap items-center gap-4">
         <div class="group relative">
           <div class="absolute top-0 left-2 grid h-full place-items-center">
             <rmx-icon

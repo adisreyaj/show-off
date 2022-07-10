@@ -11,7 +11,7 @@ import { CollectionsService } from '../../services';
 import { filter, mapTo, Observable, startWith, Subject, switchMap } from 'rxjs';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { SupportedItemTypes } from '@show-off/api-interfaces';
+import { Collection, SupportedItemTypes } from '@show-off/api-interfaces';
 import { ItemTabletComponent } from '../items/tablet/item-tablet.component';
 import { ItemIdeComponent } from '../items/ide/item-ide.component';
 import { ItemTerminalComponent } from '../items/terminal/item-terminal.component';
@@ -37,6 +37,7 @@ import { ItemMicrophoneComponent } from '../items/microphone/item-microphone.com
         [collection]="collection"
         (addNewItem)="this.addNewItem()"
         (toggleLike)="this.toggleLike($event)"
+        (visibilityChange)="this.updateVisibility($event)"
       ></show-off-collection-detail-header>
       <section
         class="grid flex-1 grid-cols-1 gap-0 sm:grid-cols-[1fr_300px] sm:gap-4"
@@ -167,7 +168,8 @@ import { ItemMicrophoneComponent } from '../items/microphone/item-microphone.com
 })
 export class CollectionDetailComponent {
   commentControl = new FormControl<string>('', { nonNullable: true });
-  readonly collection$: Observable<any>;
+  readonly collection$: Observable<Collection>;
+  showComments = true;
 
   @ViewChild('grid')
   private grid?: ElementRef;
@@ -216,6 +218,14 @@ export class CollectionDetailComponent {
       this.refreshSubject.next();
       this.commentControl.reset('');
     });
+  }
+
+  updateVisibility(isPrivate: boolean) {
+    this.collectionsService
+      .updateVisibility(this.collectionId, isPrivate)
+      .subscribe(() => {
+        this.refreshSubject.next();
+      });
   }
 
   private like() {

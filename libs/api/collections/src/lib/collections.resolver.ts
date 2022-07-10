@@ -1,6 +1,10 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { CollectionsService } from './collections.service';
-import { CreateCollectionInput, QueryArgs } from '@show-off/api-interfaces';
+import {
+  CreateCollectionInput,
+  QueryArgs,
+  UpdateCollectionInput,
+} from '@show-off/api-interfaces';
 import { CurrentUserId, Public } from '@show-off/api/shared';
 
 @Resolver('Collection')
@@ -25,6 +29,15 @@ export class CollectionsResolver {
     @CurrentUserId() userId: string
   ) {
     return this.collectionsService.create(data, userId);
+  }
+
+  @Mutation('updateCollection')
+  updateCollection(
+    @Args('id') id: string,
+    @Args('input') input: UpdateCollectionInput,
+    @CurrentUserId() userId: string
+  ) {
+    return this.collectionsService.update(id, userId, input);
   }
 
   @Mutation('addNewItemToCollection')

@@ -5,6 +5,8 @@ import {
   RiChat1Line,
   RiHeart3Fill,
   RiHeart3Line,
+  RiLockLine,
+  RiLockUnlockLine,
   RiLoginBoxLine,
   RiSearchLine,
   RiSettings3Line,
@@ -26,6 +28,8 @@ const icons = {
   RiSortAsc,
   RiSortDesc,
   RiLoginBoxLine,
+  RiLockLine,
+  RiLockUnlockLine,
 };
 
 export const ICONS = importProvidersFrom(RemixIconModule.configure(icons));

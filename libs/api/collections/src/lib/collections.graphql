@@ -84,6 +84,8 @@ input CreateCollectionInput {
 input UpdateCollectionInput {
   name: String
   description: String
+  private: Boolean
+  published: Boolean
 }
 
 input CreateItemInput {

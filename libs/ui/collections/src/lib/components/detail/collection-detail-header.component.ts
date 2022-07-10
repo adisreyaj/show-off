@@ -6,7 +6,7 @@ import {
   Output,
 } from '@angular/core';
 import { RemixIconModule } from 'angular-remix-icon';
-import { ButtonComponent } from 'zigzag';
+import { ButtonComponent, TooltipDirective } from 'zigzag';
 import {
   ShowIfLoggedInDirective,
   UserInfoComponent,
@@ -28,6 +28,20 @@ import { CommonModule } from '@angular/common';
       <show-off-user-info [user]="collection.user"></show-off-user-info>
     </section>
     <section class="flex gap-4">
+      <button
+        *showIfLoggedIn
+        zzButton
+        variant="neutral"
+        [zzTooltip]="collection.private ? 'Make Public' : 'Make Private'"
+        (click)="this.visibilityChange.emit(!collection.private)"
+      >
+        <div class="flex items-center gap-2">
+          <rmx-icon
+            [name]="collection.private ? 'lock-line' : 'lock-unlock-line'"
+            class="icon-sm"
+          ></rmx-icon>
+        </div>
+      </button>
       <button
         *showIfLoggedIn
         zzButton
@@ -75,6 +89,7 @@ import { CommonModule } from '@angular/common';
     UserInfoComponent,
     RemixIconModule,
     ShowIfLoggedInDirective,
+    TooltipDirective,
   ],
 })
 export class CollectionDetailHeaderComponent {
@@ -83,6 +98,9 @@ export class CollectionDetailHeaderComponent {
 
   @Output()
   addNewItem = new EventEmitter<void>();
+
+  @Output()
+  visibilityChange = new EventEmitter<boolean>();
 
   @Output()
   toggleLike = new EventEmitter<boolean>();
