@@ -4,6 +4,7 @@ import { ButtonComponent, FORM_COMPONENTS } from 'zigzag';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ItemFormBase } from '../item-form-base.class';
 import { HeadphonesData, SupportedItemTypes } from '@show-off/api-interfaces';
+import { ItemFormLinksComponent } from '../item-form-links.component';
 
 @Component({
   selector: 'show-off-item-headphones-form',
@@ -13,7 +14,7 @@ import { HeadphonesData, SupportedItemTypes } from '@show-off/api-interfaces';
         <zz-form-group-label required>Make</zz-form-group-label>
         <input
           type="text"
-          placeholder="Eg: Apple"
+          placeholder="Eg: Sony"
           variant="fill"
           zzInput
           id="make"
@@ -24,7 +25,7 @@ import { HeadphonesData, SupportedItemTypes } from '@show-off/api-interfaces';
         <zz-form-group-label required>Name</zz-form-group-label>
         <input
           type="text"
-          placeholder="Eg: Macbook Pro"
+          placeholder="Eg: WH1000MX4"
           variant="fill"
           zzInput
           id="name"
@@ -45,6 +46,9 @@ import { HeadphonesData, SupportedItemTypes } from '@show-off/api-interfaces';
         />
       </zz-form-group>
     </fieldset>
+    <show-off-item-form-links
+      formControlName="links"
+    ></show-off-item-form-links>
   </div>`,
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -53,6 +57,7 @@ import { HeadphonesData, SupportedItemTypes } from '@show-off/api-interfaces';
     ButtonComponent,
     ...FORM_COMPONENTS,
     ReactiveFormsModule,
+    ItemFormLinksComponent,
   ],
 })
 export class ItemHeadphonesFormComponent extends ItemFormBase<HeadphonesData> {
@@ -61,18 +66,19 @@ export class ItemHeadphonesFormComponent extends ItemFormBase<HeadphonesData> {
       make: ['', [Validators.required]],
       name: ['', [Validators.required]],
       price: [null, []],
+      links: [[]],
       currency: ['$', []],
     });
   }
 
   override getValue(): HeadphonesData {
-    const { make, name, price, currency } = this.form.value;
+    const { make, name, price, currency, links } = this.form.value;
     return {
       make,
       name,
       price,
       currency,
-      links: [],
+      links,
       type: SupportedItemTypes.Headphones,
       metadata: {},
     };

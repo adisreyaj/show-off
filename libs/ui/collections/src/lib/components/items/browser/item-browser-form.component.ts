@@ -4,6 +4,7 @@ import { ButtonComponent, FORM_COMPONENTS } from 'zigzag';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ItemFormBase } from '../item-form-base.class';
 import { BrowserData, SupportedItemTypes } from '@show-off/api-interfaces';
+import { ItemFormLinksComponent } from '../item-form-links.component';
 
 @Component({
   selector: 'show-off-item-browser-form',
@@ -32,6 +33,9 @@ import { BrowserData, SupportedItemTypes } from '@show-off/api-interfaces';
         />
       </zz-form-group>
     </fieldset>
+    <show-off-item-form-links
+      formControlName="links"
+    ></show-off-item-form-links>
   </div>`,
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -40,6 +44,7 @@ import { BrowserData, SupportedItemTypes } from '@show-off/api-interfaces';
     ButtonComponent,
     ...FORM_COMPONENTS,
     ReactiveFormsModule,
+    ItemFormLinksComponent,
   ],
 })
 export class ItemBrowserFormComponent extends ItemFormBase<BrowserData> {
@@ -47,16 +52,17 @@ export class ItemBrowserFormComponent extends ItemFormBase<BrowserData> {
     return this.fb.group({
       make: ['', [Validators.required]],
       name: ['', [Validators.required]],
+      links: [[]],
     });
   }
 
   override getValue(): BrowserData {
-    const { make, name } = this.form.value;
+    const { make, name, links } = this.form.value;
     return {
       make,
       name,
       type: SupportedItemTypes.Browser,
-      links: [],
+      links,
     };
   }
 }
