@@ -4,6 +4,7 @@ import {
   DROPDOWN_COMPONENTS,
   FORM_COMPONENTS,
   ModalService,
+  TooltipDirective,
 } from 'zigzag';
 import { CollectionsService } from '../services';
 import {
@@ -62,7 +63,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
             style="padding-left: 32px;"
             type="text"
             placeholder="Search collection"
-            variant="fill"
+            variant="outline"
             zzInput
             [formControl]="this.searchControl"
           />
@@ -71,6 +72,8 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
           <button
             zzButton
             variant="neutral"
+            placement="bottom-start"
+            [zzTooltip]="'Sort: ' + (this.sortDirection$ | async)"
             (click)="this.changeSortDirection()"
           >
             <rmx-icon
@@ -79,6 +82,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
             ></rmx-icon>
           </button>
           <button
+            zzTooltip="Change sort basis"
             [zzDropdownTrigger]="sortByOptions"
             placement="bottom-start"
             variant="neutral"
@@ -136,6 +140,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
     RemixIconModule,
     CollectionCardComponent,
     ShowIfLoggedInDirective,
+    TooltipDirective,
     ...DROPDOWN_COMPONENTS,
     ...FORM_COMPONENTS,
     ReactiveFormsModule,
@@ -157,6 +162,14 @@ export class CollectionsComponent {
   sort$ = this.sortChangeSubject.asObservable().pipe(
     tap((sort) => {
       localStorage.setItem('collection:sort', JSON.stringify(sort));
+    })
+  );
+  sortDirection$ = this.sortChangeSubject.asObservable().pipe(
+    map((sort) => {
+      return {
+        [OrderByDirection.Desc]: 'Descending',
+        [OrderByDirection.Asc]: 'Ascending',
+      }[sort.direction];
     })
   );
   sortIcon$: Observable<string> = this.sortChangeSubject.pipe(

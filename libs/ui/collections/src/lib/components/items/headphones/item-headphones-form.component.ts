@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 import { ButtonComponent, FORM_COMPONENTS } from 'zigzag';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ItemFormBase } from '../item-form-base.class';
-import { KeyboardData, SupportedItemTypes } from '@show-off/api-interfaces';
+import { HeadphonesData, SupportedItemTypes } from '@show-off/api-interfaces';
 
 @Component({
-  selector: 'show-off-item-keyboard-form',
+  selector: 'show-off-item-headphones-form',
   template: ` <div [formGroup]="this.form">
     <fieldset class="grid grid-cols-2 gap-6">
       <zz-form-group id="make" class="flex flex-col">
@@ -55,7 +55,7 @@ import { KeyboardData, SupportedItemTypes } from '@show-off/api-interfaces';
     ReactiveFormsModule,
   ],
 })
-export class ItemKeyboardFormComponent extends ItemFormBase<KeyboardData> {
+export class ItemHeadphonesFormComponent extends ItemFormBase<HeadphonesData> {
   override buildForm(): FormGroup {
     return this.fb.group({
       make: ['', [Validators.required]],
@@ -65,7 +65,7 @@ export class ItemKeyboardFormComponent extends ItemFormBase<KeyboardData> {
     });
   }
 
-  override getValue(): KeyboardData {
+  override getValue(): HeadphonesData {
     const { make, name, price, currency } = this.form.value;
     return {
       make,
@@ -73,7 +73,7 @@ export class ItemKeyboardFormComponent extends ItemFormBase<KeyboardData> {
       price,
       currency,
       links: [],
-      type: SupportedItemTypes.Keyboard,
+      type: SupportedItemTypes.Headphones,
       metadata: {},
     };
   }

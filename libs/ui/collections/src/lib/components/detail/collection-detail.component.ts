@@ -4,20 +4,20 @@ import {
   ElementRef,
   ViewChild,
 } from '@angular/core';
-import { ItemLaptopComponent } from './items/laptop/item-laptop.component';
+import { ItemLaptopComponent } from '../items/laptop/item-laptop.component';
 import { ButtonComponent, FORM_COMPONENTS, ModalService } from 'zigzag';
-import { CreateItemComponent } from './create-item.component';
-import { CollectionsService } from '../services';
+import { CreateItemComponent } from '../create-item.component';
+import { CollectionsService } from '../../services';
 import { filter, mapTo, Observable, startWith, Subject, switchMap } from 'rxjs';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { SupportedItemTypes } from '@show-off/api-interfaces';
-import { ItemTabletComponent } from './items/tablet/item-tablet.component';
-import { ItemIdeComponent } from './items/ide/item-ide.component';
-import { ItemTerminalComponent } from './items/terminal/item-terminal.component';
-import { ItemBrowserComponent } from './items/browser/item-browser.component';
+import { ItemTabletComponent } from '../items/tablet/item-tablet.component';
+import { ItemIdeComponent } from '../items/ide/item-ide.component';
+import { ItemTerminalComponent } from '../items/terminal/item-terminal.component';
+import { ItemBrowserComponent } from '../items/browser/item-browser.component';
 import { RemixIconModule } from 'angular-remix-icon';
-import { ItemKeyboardComponent } from './items/keyboard/item-keyboard.component';
+import { ItemKeyboardComponent } from '../items/keyboard/item-keyboard.component';
 import {
   MasonryGridComponent,
   MasonryGridItemDirective,
@@ -25,7 +25,8 @@ import {
 } from '@show-off/ui/shared';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CollectionDetailHeaderComponent } from './collection-detail-header.component';
-import { ItemPhoneComponent } from './items/phone/item-phone.component';
+import { ItemPhoneComponent } from '../items/phone/item-phone.component';
+import { ItemHeadphonesComponent } from '../items/headphones/item-headphones.component';
 
 @Component({
   selector: 'show-off-collection-detail',
@@ -123,6 +124,9 @@ import { ItemPhoneComponent } from './items/phone/item-phone.component';
         <ng-container *ngSwitchCase="'${SupportedItemTypes.Phone}'">
           <show-off-item-phone [data]="data"></show-off-item-phone>
         </ng-container>
+        <ng-container *ngSwitchCase="'${SupportedItemTypes.Headphones}'">
+          <show-off-item-headphones [data]="data"></show-off-item-headphones>
+        </ng-container>
       </ng-container>
     </ng-template>
   `,
@@ -143,6 +147,7 @@ import { ItemPhoneComponent } from './items/phone/item-phone.component';
     ItemBrowserComponent,
     ItemKeyboardComponent,
     ItemPhoneComponent,
+    ItemHeadphonesComponent,
     ButtonComponent,
     CollectionDetailHeaderComponent,
     UserInfoComponent,

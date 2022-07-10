@@ -58,12 +58,6 @@ export class ItemTabletComponent {
         type: 'number',
       },
       {
-        label: 'Size',
-        value: data.metadata?.['size'],
-        suffix: 'inch',
-        type: 'number',
-      },
-      {
         label: 'Price',
         prefix: '$',
         value: data.price,

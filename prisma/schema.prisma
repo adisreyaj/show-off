@@ -113,8 +113,8 @@ enum ItemType {
   Keyboard
   Mouse
   Monitor
-  Speaker
-  Headphone
+  Speakers
+  Headphones
   Microphone
   Chair
   Desk

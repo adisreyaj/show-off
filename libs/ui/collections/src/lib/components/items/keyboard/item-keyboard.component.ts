@@ -42,29 +42,6 @@ export class ItemKeyboardComponent {
         value: data.name,
       },
       {
-        label: 'Year',
-        value: data.metadata?.['year'],
-        type: 'number',
-      },
-      {
-        label: 'RAM',
-        value: data.metadata?.['ram'],
-        suffix: 'GB',
-        type: 'number',
-      },
-      {
-        label: 'Storage',
-        value: data.metadata?.['storage'],
-        suffix: 'GB',
-        type: 'number',
-      },
-      {
-        label: 'Size',
-        value: data.metadata?.['size'],
-        suffix: 'inch',
-        type: 'number',
-      },
-      {
         label: 'Price',
         prefix: '$',
         value: data.price,

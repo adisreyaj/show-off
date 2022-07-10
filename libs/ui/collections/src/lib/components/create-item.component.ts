@@ -21,6 +21,7 @@ import { ItemTerminalFormComponent } from './items/terminal/item-terminal-form.c
 import { ItemBrowserFormComponent } from './items/browser/item-browser-form.component';
 import { ItemKeyboardFormComponent } from './items/keyboard/item-keyboard-form.component';
 import { ItemPhoneFormComponent } from './items/phone/item-phone-form.component';
+import { ItemHeadphonesFormComponent } from './items/headphones/item-headphones-form.component';
 
 @Component({
   selector: 'show-off-item-type-chooser',
@@ -98,6 +99,7 @@ export class CreateItemComponent {
     [SupportedItemTypes.Browser]: ItemBrowserFormComponent,
     [SupportedItemTypes.Keyboard]: ItemKeyboardFormComponent,
     [SupportedItemTypes.Phone]: ItemPhoneFormComponent,
+    [SupportedItemTypes.Headphones]: ItemHeadphonesFormComponent,
   };
 
   constructor(

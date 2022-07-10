@@ -1,4 +1,5 @@
 import { Item } from './items.interface';
+import { User } from './user.interface';
 
 export interface CreateCollectionInput {
   name: string;
@@ -12,7 +13,8 @@ export interface Collection {
   items: Item[];
   createdAt: string;
   updatedAt: string;
-  user: any;
+  liked: boolean;
+  user: User;
   _count: {
     likes: number;
     shares: number;

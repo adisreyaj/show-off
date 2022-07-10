@@ -11,10 +11,13 @@ import {
   ShowIfLoggedInDirective,
   UserInfoComponent,
 } from '@show-off/ui/shared';
+import { Collection } from '@show-off/api-interfaces';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'show-off-collection-detail-header',
   template: ` <header
+    *ngIf="this.collection"
     class="page-header mb-6 flex flex-wrap items-center justify-between gap-4"
   >
     <section>
@@ -51,7 +54,12 @@ import {
           <rmx-icon name="settings-3-line" class="icon-sm"></rmx-icon>
         </div>
       </button>
-      <button zzButton variant="primary" (click)="this.addNewItem.emit()">
+      <button
+        zzButton
+        variant="primary"
+        *showIfLoggedIn
+        (click)="this.addNewItem.emit()"
+      >
         <div class="flex items-center gap-2">
           <rmx-icon name="add-line" class="icon-sm"></rmx-icon>
           <p class="hidden sm:block">Add Item</p>
@@ -62,6 +70,7 @@ import {
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    CommonModule,
     ButtonComponent,
     UserInfoComponent,
     RemixIconModule,
@@ -70,7 +79,7 @@ import {
 })
 export class CollectionDetailHeaderComponent {
   @Input()
-  collection: any;
+  collection?: Collection;
 
   @Output()
   addNewItem = new EventEmitter<void>();
