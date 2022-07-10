@@ -25,6 +25,7 @@ import { ItemHeadphonesFormComponent } from './items/headphones/item-headphones-
 import { ItemMicrophoneFormComponent } from './items/microphone/item-microphone-form.component';
 import { ItemWebcamFormComponent } from './items/webcam/item-webcam-form.component';
 import { ItemMouseFormComponent } from './items/mouse/item-mouse-form.component';
+import { ItemMonitorFormComponent } from './items/monitor/item-monitor-form.component';
 
 @Component({
   selector: 'show-off-item-type-chooser',
@@ -100,7 +101,7 @@ export class CreateItemComponent {
   @ViewChild('formContainer', { read: ViewContainerRef })
   private formContainer?: ViewContainerRef;
   private readonly formComponents: Record<
-    string,
+    SupportedItemTypes,
     Type<ItemFormBase<ItemData>>
   > = {
     [SupportedItemTypes.Laptop]: ItemLaptopFormComponent,
@@ -114,6 +115,7 @@ export class CreateItemComponent {
     [SupportedItemTypes.Microphone]: ItemMicrophoneFormComponent,
     [SupportedItemTypes.Webcam]: ItemWebcamFormComponent,
     [SupportedItemTypes.Mouse]: ItemMouseFormComponent,
+    [SupportedItemTypes.Monitor]: ItemMonitorFormComponent,
   };
 
   constructor(

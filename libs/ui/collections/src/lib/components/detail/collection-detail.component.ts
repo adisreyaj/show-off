@@ -30,6 +30,7 @@ import { ItemHeadphonesComponent } from '../items/headphones/item-headphones.com
 import { ItemMicrophoneComponent } from '../items/microphone/item-microphone.component';
 import { ItemWebcamComponent } from '../items/webcam/item-webcam.component';
 import { ItemMouseComponent } from '../items/mouse/item-mouse.component';
+import { ItemMonitorComponent } from '../items/monitor/item-monitor.component';
 
 @Component({
   selector: 'show-off-collection-detail',
@@ -140,6 +141,9 @@ import { ItemMouseComponent } from '../items/mouse/item-mouse.component';
         <ng-container *ngSwitchCase="'${SupportedItemTypes.Mouse}'">
           <show-off-item-mouse [data]="data"></show-off-item-mouse>
         </ng-container>
+        <ng-container *ngSwitchCase="'${SupportedItemTypes.Monitor}'">
+          <show-off-item-monitor [data]="data"></show-off-item-monitor>
+        </ng-container>
       </ng-container>
     </ng-template>
   `,
@@ -174,6 +178,7 @@ import { ItemMouseComponent } from '../items/mouse/item-mouse.component';
     ...FORM_COMPONENTS,
     ItemWebcamComponent,
     ItemMouseComponent,
+    ItemMonitorComponent,
   ],
 })
 export class CollectionDetailComponent {

@@ -7,7 +7,6 @@ export enum SupportedItemTypes {
   Webcam = 'Webcam',
   Mouse = 'Mouse',
   Monitor = 'Monitor',
-  Speakers = 'Speakers',
   Headphones = 'Headphones',
   Microphone = 'Microphone',
   // Chair = 'Chair',
@@ -114,14 +113,6 @@ export interface MonitorData
   type: SupportedItemTypes.Monitor;
 }
 
-export interface SpeakersData
-  extends BasicData,
-    LinksData,
-    PriceData,
-    ItemMetadata {
-  type: SupportedItemTypes.Speakers;
-}
-
 export interface HeadphonesData
   extends BasicData,
     LinksData,
@@ -158,7 +149,6 @@ export type ItemData =
   | WebcamData
   | MouseData
   | MonitorData
-  | SpeakersData
   | HeadphonesData
   | MicrophoneData
   | IdeData
