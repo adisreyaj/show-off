@@ -27,10 +27,15 @@ export type Item = ItemData & {
 
 export interface Link {
   url: string;
-  name: string;
-  description?: string;
-  type?: string;
-  metadata: unknown;
+  type: LinkType;
+  metadata?: unknown;
+}
+
+export enum LinkType {
+  Link = 'Link',
+  Buy = 'Buy',
+  Affiliate = 'Affiliate',
+  Video = 'Video',
 }
 
 export interface BasicData {

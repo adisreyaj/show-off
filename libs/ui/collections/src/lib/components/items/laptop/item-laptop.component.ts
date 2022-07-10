@@ -1,10 +1,15 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { LaptopData, SupportedItemTypes } from '@show-off/api-interfaces';
+import { LaptopData, Link, SupportedItemTypes } from '@show-off/api-interfaces';
 import {
   DataListComponent,
   DataListData,
+  LinkTypeIconPipe,
   TypeIconPipe,
 } from '@show-off/ui/shared';
+import { CommonModule } from '@angular/common';
+import { RemixIconModule } from 'angular-remix-icon';
+import { ButtonComponent, TooltipDirective } from 'zigzag';
+import { ItemLinksComponent } from '../item-links.component';
 
 @Component({
   selector: 'show-off-item-laptop',
@@ -18,20 +23,32 @@ import {
         />
         <p class="text-lg">${SupportedItemTypes.Laptop}</p>
       </header>
-      <section>
+      <section class="pb-2">
         <show-off-data-list [data]="this.datalist"></show-off-data-list>
       </section>
+      <show-off-item-links [links]="this.links"></show-off-item-links>
     </div>
   `,
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TypeIconPipe, DataListComponent],
+  imports: [
+    CommonModule,
+    TypeIconPipe,
+    LinkTypeIconPipe,
+    DataListComponent,
+    RemixIconModule,
+    ButtonComponent,
+    TooltipDirective,
+    ItemLinksComponent,
+  ],
 })
 export class ItemLaptopComponent {
   public datalist: DataListData[] = [];
+  public links: Link[] = [];
 
   @Input()
   set data(data: LaptopData) {
+    this.links = data.links ?? [];
     this.datalist = [
       {
         label: 'Make',

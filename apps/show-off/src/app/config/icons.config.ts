@@ -3,6 +3,8 @@ import {
   RemixIconModule,
   RiAddLine,
   RiChat1Line,
+  RiDeleteBin4Line,
+  RiEarthLine,
   RiHeart3Fill,
   RiHeart3Line,
   RiLockLine,
@@ -12,8 +14,10 @@ import {
   RiSettings3Line,
   RiShareForwardLine,
   RiShareLine,
+  RiShoppingCart2Line,
   RiSortAsc,
   RiSortDesc,
+  RiVideoLine,
 } from 'angular-remix-icon';
 
 const icons = {
@@ -30,6 +34,10 @@ const icons = {
   RiLoginBoxLine,
   RiLockLine,
   RiLockUnlockLine,
+  RiDeleteBin4Line,
+  RiShoppingCart2Line,
+  RiEarthLine,
+  RiVideoLine,
 };
 
 export const ICONS = importProvidersFrom(RemixIconModule.configure(icons));

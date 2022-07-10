@@ -117,8 +117,6 @@ input AddNewItemsToCollectionInput {
 
 input LinkInput {
   url: String!
-  name: String
-  description: String
   type: String
   metadata: JSON
 }

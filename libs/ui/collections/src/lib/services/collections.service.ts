@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { map } from 'rxjs';
-import { Collection, QueryArgs } from '@show-off/api-interfaces';
+import {
+  Collection,
+  CreateCollectionInput,
+  QueryArgs,
+} from '@show-off/api-interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +13,7 @@ import { Collection, QueryArgs } from '@show-off/api-interfaces';
 export class CollectionsService {
   constructor(private readonly apollo: Apollo) {}
 
-  create(data: any) {
+  create(data: CreateCollectionInput) {
     return this.apollo.mutate({
       mutation: gql`
         mutation CreateCollection($input: CreateCollectionInput!) {
@@ -114,6 +118,10 @@ export class CollectionsService {
                 price
                 metadata
                 type
+                links {
+                  url
+                  type
+                }
               }
               comments {
                 text

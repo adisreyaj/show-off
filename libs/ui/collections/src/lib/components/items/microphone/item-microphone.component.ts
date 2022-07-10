@@ -1,10 +1,15 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { MicrophoneData, SupportedItemTypes } from '@show-off/api-interfaces';
+import {
+  Link,
+  MicrophoneData,
+  SupportedItemTypes,
+} from '@show-off/api-interfaces';
 import {
   DataListComponent,
   DataListData,
   TypeIconPipe,
 } from '@show-off/ui/shared';
+import { ItemLinksComponent } from '../item-links.component';
 
 @Component({
   selector: 'show-off-item-microphone',
@@ -21,17 +26,21 @@ import {
       <section>
         <show-off-data-list [data]="this.datalist"></show-off-data-list>
       </section>
+      <show-off-item-links [links]="this.links"></show-off-item-links>
     </div>
   `,
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TypeIconPipe, DataListComponent],
+  imports: [TypeIconPipe, DataListComponent, ItemLinksComponent],
 })
 export class ItemMicrophoneComponent {
   public datalist: DataListData[] = [];
+  public links: Link[] = [];
 
   @Input()
   set data(data: MicrophoneData) {
+    this.links = data.links ?? [];
+
     this.datalist = [
       {
         label: 'Make',

@@ -4,6 +4,7 @@ import { ButtonComponent, FORM_COMPONENTS } from 'zigzag';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ItemFormBase } from '../item-form-base.class';
 import { LaptopData, SupportedItemTypes } from '@show-off/api-interfaces';
+import { ItemFormLinksComponent } from '../item-form-links.component';
 
 @Component({
   selector: 'show-off-item-laptop-form',
@@ -76,6 +77,9 @@ import { LaptopData, SupportedItemTypes } from '@show-off/api-interfaces';
         />
       </zz-form-group>
     </fieldset>
+    <show-off-item-form-links
+      formControlName="links"
+    ></show-off-item-form-links>
   </div>`,
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -84,6 +88,7 @@ import { LaptopData, SupportedItemTypes } from '@show-off/api-interfaces';
     ButtonComponent,
     ...FORM_COMPONENTS,
     ReactiveFormsModule,
+    ItemFormLinksComponent,
   ],
 })
 export class ItemLaptopFormComponent extends ItemFormBase<LaptopData> {
@@ -94,19 +99,21 @@ export class ItemLaptopFormComponent extends ItemFormBase<LaptopData> {
       size: [null, [Validators.required]],
       ram: [null, [Validators.required]],
       storage: [null, [Validators.required]],
+      links: [[]],
       price: [null, []],
       currency: ['$', []],
     });
   }
 
   override getValue(): LaptopData {
-    const { make, name, price, currency, ram, storage, size } = this.form.value;
+    const { make, name, price, currency, ram, storage, size, links } =
+      this.form.value;
     return {
       make,
       name,
       price,
       currency,
-      links: [],
+      links,
       type: SupportedItemTypes.Laptop,
       metadata: {
         ram,

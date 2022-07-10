@@ -4,7 +4,12 @@ import {
   DataListData,
   TypeIconPipe,
 } from '@show-off/ui/shared';
-import { SupportedItemTypes, TerminalData } from '@show-off/api-interfaces';
+import {
+  Link,
+  SupportedItemTypes,
+  TerminalData,
+} from '@show-off/api-interfaces';
+import { ItemLinksComponent } from '../item-links.component';
 
 @Component({
   selector: 'show-off-item-terminal',
@@ -20,16 +25,20 @@ import { SupportedItemTypes, TerminalData } from '@show-off/api-interfaces';
     <section>
       <show-off-data-list [data]="this.datalist"></show-off-data-list>
     </section>
+    <show-off-item-links [links]="this.links"></show-off-item-links>
   </div>`,
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TypeIconPipe, DataListComponent],
+  imports: [TypeIconPipe, DataListComponent, ItemLinksComponent],
 })
 export class ItemTerminalComponent {
   public datalist: DataListData[] = [];
+  public links: Link[] = [];
 
   @Input()
   set data(data: TerminalData) {
+    this.links = data.links ?? [];
+
     this.datalist = [
       {
         label: 'Publisher',

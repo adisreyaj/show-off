@@ -4,7 +4,8 @@ import {
   DataListData,
   TypeIconPipe,
 } from '@show-off/ui/shared';
-import { IdeData, SupportedItemTypes } from '@show-off/api-interfaces';
+import { IdeData, Link, SupportedItemTypes } from '@show-off/api-interfaces';
+import { ItemLinksComponent } from '../item-links.component';
 
 @Component({
   selector: 'show-off-item-ide',
@@ -20,16 +21,20 @@ import { IdeData, SupportedItemTypes } from '@show-off/api-interfaces';
     <section>
       <show-off-data-list [data]="this.datalist"></show-off-data-list>
     </section>
+    <show-off-item-links [links]="this.links"></show-off-item-links>
   </div>`,
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TypeIconPipe, DataListComponent],
+  imports: [TypeIconPipe, DataListComponent, ItemLinksComponent],
 })
 export class ItemIdeComponent {
   public datalist: DataListData[] = [];
+  public links: Link[] = [];
 
   @Input()
   set data(data: IdeData) {
+    this.links = data.links ?? [];
+
     this.datalist = [
       {
         label: 'Publisher',

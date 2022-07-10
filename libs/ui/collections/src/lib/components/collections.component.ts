@@ -34,6 +34,7 @@ import {
   Collection,
   CollectionOrderBy,
   CollectionOrderByType,
+  CreateCollectionInput,
   FilterCombination,
   FilterOperator,
   OrderByDirection,
@@ -221,9 +222,12 @@ export class CollectionsComponent {
   }
 
   createNew() {
-    const ref = this.modal.open(CreateCollectionComponent, {
-      size: 'md',
-    });
+    const ref = this.modal.open<never, CreateCollectionInput>(
+      CreateCollectionComponent,
+      {
+        size: 'md',
+      }
+    );
 
     ref.afterClosed$
       .pipe(
