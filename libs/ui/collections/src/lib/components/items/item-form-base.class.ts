@@ -9,7 +9,7 @@ export abstract class ItemFormBase<Data> {
 
   abstract buildForm(): FormGroup;
 
-  public getValue() {
+  public getValue(): Data {
     return this.form.value;
   }
 
