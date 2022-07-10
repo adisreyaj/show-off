@@ -1,5 +1,10 @@
 import { Component, Inject } from '@angular/core';
-import { ButtonComponent, DROPDOWN_COMPONENTS, ModalService } from 'zigzag';
+import {
+  ButtonComponent,
+  DROPDOWN_COMPONENTS,
+  FORM_COMPONENTS,
+  ModalService,
+} from 'zigzag';
 import { CollectionsService } from '../services';
 import {
   BehaviorSubject,
@@ -25,7 +30,10 @@ import {
   Collection,
   CollectionOrderBy,
   CollectionOrderByType,
+  FilterCombination,
+  FilterOperator,
   OrderByDirection,
+  QueryFilter,
   User,
 } from '@show-off/api-interfaces';
 import { CURRENT_USER } from '@show-off/ui/auth';
@@ -38,6 +46,22 @@ import { CURRENT_USER } from '@show-off/ui/auth';
         <h1 class="page-header-text">{{ this.title$ | async }}</h1>
       </div>
       <section class="flex items-center gap-4">
+        <div class="group relative">
+          <div class="absolute top-0 left-2 grid h-full place-items-center">
+            <rmx-icon
+              name="search-line"
+              class="icon-sm text-slate-500 group-focus-within:text-primary"
+            ></rmx-icon>
+          </div>
+          <input
+            class="h-[38px]"
+            style="padding-left: 32px;"
+            type="text"
+            placeholder="Search by name or user"
+            variant="fill"
+            zzInput
+          />
+        </div>
         <div class="flex">
           <button
             zzButton
@@ -108,6 +132,7 @@ import { CURRENT_USER } from '@show-off/ui/auth';
     CollectionCardComponent,
     ShowIfLoggedInDirective,
     ...DROPDOWN_COMPONENTS,
+    ...FORM_COMPONENTS,
   ],
 })
 export class CollectionsComponent {
@@ -152,15 +177,30 @@ export class CollectionsComponent {
     ]).pipe(
       switchMap(([sort, context, currentUser]) => {
         if (context === CollectionPageContext.Home) {
+          const filters = [
+            new QueryFilter('private', FilterOperator.Equals, false),
+            new QueryFilter('published', FilterOperator.Equals, true),
+          ];
+          const filterCombination = {
+            [FilterCombination.And]: filters,
+          };
           return this.collectionsService.getCollections({
             orderBy: sort,
-            filters: [{ private: false, published: true }],
+            filters: filterCombination,
           });
         }
         if (currentUser) {
+          const currentUserFilter = new QueryFilter(
+            'userId',
+            FilterOperator.Equals,
+            currentUser.id
+          );
+          const filterCombination = {
+            [FilterCombination.And]: [currentUserFilter],
+          };
           return this.collectionsService.getCollections({
             orderBy: sort,
-            filters: [{ userId: currentUser.id }],
+            filters: filterCombination,
           });
         }
         return of([]);

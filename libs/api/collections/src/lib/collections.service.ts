@@ -7,6 +7,7 @@ import {
   QueryArgs,
 } from '@show-off/api-interfaces';
 import { Prisma } from '@prisma/client';
+import { convertFilterCombinationToPrismaFilters } from '@show-off/api/shared';
 
 const COLLECTION_INCLUDE: Prisma.CollectionInclude = {
   likes: true,
@@ -39,7 +40,7 @@ export class CollectionsService {
       key: CollectionOrderByType.CreatedAt,
       direction: OrderByDirection.Desc,
     },
-    filters = [],
+    filters = null,
   }: QueryArgs) {
     const orderByMapping = {
       [CollectionOrderByType.Comments]: {
@@ -59,12 +60,11 @@ export class CollectionsService {
         updatedAt: orderBy.direction,
       },
     };
+
     return this.prisma.collection.findMany({
       take,
       skip,
-      where: {
-        AND: filters,
-      },
+      where: convertFilterCombinationToPrismaFilters(filters),
       orderBy: orderByMapping[orderBy.key],
       include: COLLECTION_INCLUDE,
     });

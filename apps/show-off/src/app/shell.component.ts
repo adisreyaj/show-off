@@ -50,6 +50,18 @@ import { RemixIconModule } from 'angular-remix-icon';
                   variant="link"
                   zzButton
                   zzDropdownCloseOnClick
+                  routerLink="/collections"
+                >
+                  <p>My Collections</p>
+                </div>
+              </div>
+              <div class="flex flex-col gap-2">
+                <div
+                  class="w-full"
+                  size="sm"
+                  variant="link"
+                  zzButton
+                  zzDropdownCloseOnClick
                   (click)="this.authService.logout()"
                 >
                   <p>Logout</p>

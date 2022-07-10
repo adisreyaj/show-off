@@ -6,6 +6,7 @@ import {
   RiHeart3Fill,
   RiHeart3Line,
   RiLoginBoxLine,
+  RiSearchLine,
   RiSettings3Line,
   RiShareForwardLine,
   RiShareLine,
@@ -14,6 +15,7 @@ import {
 } from 'angular-remix-icon';
 
 const icons = {
+  RiSearchLine,
   RiHeart3Line,
   RiChat1Line,
   RiShareForwardLine,
