@@ -10,6 +10,8 @@ import {
   RiLockLine,
   RiLockUnlockLine,
   RiLoginBoxLine,
+  RiMoreFill,
+  RiPencilLine,
   RiSearchLine,
   RiSettings3Line,
   RiShareForwardLine,
@@ -38,6 +40,8 @@ const icons = {
   RiShoppingCart2Line,
   RiEarthLine,
   RiVideoLine,
+  RiMoreFill,
+  RiPencilLine,
 };
 
 export const ICONS = importProvidersFrom(RemixIconModule.configure(icons));

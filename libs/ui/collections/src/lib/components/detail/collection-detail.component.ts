@@ -5,7 +5,12 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ItemLaptopComponent } from '../items/laptop/item-laptop.component';
-import { ButtonComponent, FORM_COMPONENTS, ModalService } from 'zigzag';
+import {
+  ButtonComponent,
+  DROPDOWN_COMPONENTS,
+  FORM_COMPONENTS,
+  ModalService,
+} from 'zigzag';
 import { CreateItemComponent } from '../create-item.component';
 import { CollectionsService } from '../../services';
 import { filter, mapTo, Observable, startWith, Subject, switchMap } from 'rxjs';
@@ -21,6 +26,7 @@ import { ItemKeyboardComponent } from '../items/keyboard/item-keyboard.component
 import {
   MasonryGridComponent,
   MasonryGridItemDirective,
+  ShowIfOwnerDirective,
   UserInfoComponent,
 } from '@show-off/ui/shared';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
@@ -54,7 +60,14 @@ import { ItemMonitorComponent } from '../items/monitor/item-monitor.component';
                 *ngFor="let item of collection.items"
               >
                 <ng-container
-                  *ngTemplateOutlet="itemViewTpl; context: { $implicit: item }"
+                  *ngTemplateOutlet="
+                    itemViewTpl;
+                    context: {
+                      $implicit: item,
+                      collection: collection,
+                      ownerId: collection.user.id
+                    }
+                  "
                 ></ng-container>
               </article>
             </show-off-masonry-grid>
@@ -106,45 +119,172 @@ import { ItemMonitorComponent } from '../items/monitor/item-monitor.component';
       </section>
     </div>
 
-    <ng-template #itemViewTpl let-data>
+    <ng-template
+      #itemViewTpl
+      let-data
+      let-ownerId="ownerId"
+      let-collection="collection"
+    >
       <ng-container [ngSwitch]="data.type">
         <ng-container *ngSwitchCase="'${SupportedItemTypes.Laptop}'">
-          <show-off-item-laptop [data]="data"></show-off-item-laptop>
+          <show-off-item-laptop [data]="data">
+            <ng-container
+              *ngTemplateOutlet="
+                moreOptionsDropdown;
+                context: { $implicit: data, ownerId: collection.user.id }
+              "
+            ></ng-container>
+          </show-off-item-laptop>
         </ng-container>
         <ng-container *ngSwitchCase="'${SupportedItemTypes.Tablet}'">
-          <show-off-item-tablet [data]="data"></show-off-item-tablet>
+          <show-off-item-tablet [data]="data">
+            <ng-container
+              *ngTemplateOutlet="
+                moreOptionsDropdown;
+                context: { $implicit: data, ownerId: collection.user.id }
+              "
+            ></ng-container>
+          </show-off-item-tablet>
         </ng-container>
         <ng-container *ngSwitchCase="'${SupportedItemTypes.Ide}'">
-          <show-off-item-ide [data]="data"></show-off-item-ide>
+          <show-off-item-ide [data]="data">
+            <ng-container
+              *ngTemplateOutlet="
+                moreOptionsDropdown;
+                context: { $implicit: data, ownerId: collection.user.id }
+              "
+            ></ng-container>
+          </show-off-item-ide>
         </ng-container>
         <ng-container *ngSwitchCase="'${SupportedItemTypes.Terminal}'">
-          <show-off-item-terminal [data]="data"></show-off-item-terminal>
+          <show-off-item-terminal [data]="data">
+            <ng-container
+              *ngTemplateOutlet="
+                moreOptionsDropdown;
+                context: { $implicit: data, ownerId: collection.user.id }
+              "
+            ></ng-container>
+          </show-off-item-terminal>
         </ng-container>
         <ng-container *ngSwitchCase="'${SupportedItemTypes.Browser}'">
-          <show-off-item-browser [data]="data"></show-off-item-browser>
+          <show-off-item-browser [data]="data">
+            <ng-container
+              *ngTemplateOutlet="
+                moreOptionsDropdown;
+                context: { $implicit: data, ownerId: collection.user.id }
+              "
+            ></ng-container>
+          </show-off-item-browser>
         </ng-container>
         <ng-container *ngSwitchCase="'${SupportedItemTypes.Keyboard}'">
-          <show-off-item-keyboard [data]="data"></show-off-item-keyboard>
+          <show-off-item-keyboard [data]="data">
+            <ng-container
+              *ngTemplateOutlet="
+                moreOptionsDropdown;
+                context: { $implicit: data, ownerId: collection.user.id }
+              "
+            ></ng-container>
+          </show-off-item-keyboard>
         </ng-container>
         <ng-container *ngSwitchCase="'${SupportedItemTypes.Phone}'">
-          <show-off-item-phone [data]="data"></show-off-item-phone>
+          <show-off-item-phone [data]="data">
+            <ng-container
+              *ngTemplateOutlet="
+                moreOptionsDropdown;
+                context: { $implicit: data, ownerId: collection.user.id }
+              "
+            ></ng-container>
+          </show-off-item-phone>
         </ng-container>
         <ng-container *ngSwitchCase="'${SupportedItemTypes.Headphones}'">
-          <show-off-item-headphones [data]="data"></show-off-item-headphones>
+          <show-off-item-headphones [data]="data">
+            <ng-container
+              *ngTemplateOutlet="
+                moreOptionsDropdown;
+                context: { $implicit: data, ownerId: collection.user.id }
+              "
+            ></ng-container>
+          </show-off-item-headphones>
         </ng-container>
         <ng-container *ngSwitchCase="'${SupportedItemTypes.Microphone}'">
-          <show-off-item-microphone [data]="data"></show-off-item-microphone>
+          <show-off-item-microphone [data]="data">
+            <ng-container
+              *ngTemplateOutlet="
+                moreOptionsDropdown;
+                context: { $implicit: data, ownerId: collection.user.id }
+              "
+            ></ng-container>
+          </show-off-item-microphone>
         </ng-container>
         <ng-container *ngSwitchCase="'${SupportedItemTypes.Webcam}'">
-          <show-off-item-webcam [data]="data"></show-off-item-webcam>
+          <show-off-item-webcam [data]="data">
+            <ng-container
+              *ngTemplateOutlet="
+                moreOptionsDropdown;
+                context: { $implicit: data, ownerId: collection.user.id }
+              "
+            ></ng-container>
+          </show-off-item-webcam>
         </ng-container>
         <ng-container *ngSwitchCase="'${SupportedItemTypes.Mouse}'">
-          <show-off-item-mouse [data]="data"></show-off-item-mouse>
+          <show-off-item-mouse [data]="data">
+            <ng-container
+              *ngTemplateOutlet="
+                moreOptionsDropdown;
+                context: { $implicit: data, ownerId: collection.user.id }
+              "
+            ></ng-container>
+          </show-off-item-mouse>
         </ng-container>
         <ng-container *ngSwitchCase="'${SupportedItemTypes.Monitor}'">
-          <show-off-item-monitor [data]="data"></show-off-item-monitor>
+          <show-off-item-monitor [data]="data">
+            <ng-container
+              *ngTemplateOutlet="
+                moreOptionsDropdown;
+                context: { $implicit: data, ownerId: collection.user.id }
+              "
+            ></ng-container>
+          </show-off-item-monitor>
         </ng-container>
       </ng-container>
+    </ng-template>
+
+    <ng-template #moreOptionsDropdown let-data let-ownerId="ownerId">
+      <button
+        *showIfOwner="ownerId"
+        zzButton
+        size="sm"
+        variant="link"
+        [zzDropdownTrigger]="moreOptions"
+      >
+        <rmx-icon name="more-fill" class="icon-sm"></rmx-icon>
+        <zz-dropdown #moreOptions>
+          <div
+            class="w-full"
+            size="sm"
+            variant="link"
+            zzButton
+            zzDropdownCloseOnClick
+          >
+            <div class="flex items-center gap-2">
+              <rmx-icon name="pencil-line" class="icon-xs"></rmx-icon>
+              <p>Edit</p>
+            </div>
+          </div>
+          <div
+            class="w-full"
+            size="sm"
+            variant="link"
+            zzButton
+            zzDropdownCloseOnClick
+          >
+            <div class="flex items-center gap-2 text-red-500">
+              <rmx-icon name="delete-bin-4-line" class="icon-xs "></rmx-icon>
+              <p>Delete</p>
+            </div>
+          </div>
+        </zz-dropdown>
+      </button>
     </ng-template>
   `,
   standalone: true,
@@ -166,6 +306,9 @@ import { ItemMonitorComponent } from '../items/monitor/item-monitor.component';
     ItemPhoneComponent,
     ItemHeadphonesComponent,
     ItemMicrophoneComponent,
+    ItemWebcamComponent,
+    ItemMouseComponent,
+    ItemMonitorComponent,
     ButtonComponent,
     CollectionDetailHeaderComponent,
     UserInfoComponent,
@@ -176,9 +319,8 @@ import { ItemMonitorComponent } from '../items/monitor/item-monitor.component';
     RemixIconModule,
     ReactiveFormsModule,
     ...FORM_COMPONENTS,
-    ItemWebcamComponent,
-    ItemMouseComponent,
-    ItemMonitorComponent,
+    ...DROPDOWN_COMPONENTS,
+    ShowIfOwnerDirective,
   ],
 })
 export class CollectionDetailComponent {

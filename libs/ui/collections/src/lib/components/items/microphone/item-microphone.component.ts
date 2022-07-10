@@ -15,13 +15,18 @@ import { ItemLinksComponent } from '../item-links.component';
   selector: 'show-off-item-microphone',
   template: `
     <div class="border border-slate-100 p-4 shadow-sm">
-      <header class="mb-3 flex gap-2">
-        <img
-          class="h-6"
-          [src]="'${SupportedItemTypes.Microphone}' | typeIcon"
-          alt="${SupportedItemTypes.Microphone}"
-        />
-        <p class="text-lg">${SupportedItemTypes.Microphone}</p>
+      <header class="mb-3 flex items-center justify-between">
+        <div class="flex gap-2">
+          <img
+            class="h-6"
+            [src]="'${SupportedItemTypes.Microphone}' | typeIcon"
+            alt="${SupportedItemTypes.Microphone}"
+          />
+          <p class="text-lg">${SupportedItemTypes.Microphone}</p>
+        </div>
+        <div>
+          <ng-content></ng-content>
+        </div>
       </header>
       <section>
         <show-off-data-list [data]="this.datalist"></show-off-data-list>

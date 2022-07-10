@@ -19,13 +19,18 @@ import { ItemLinksComponent } from '../item-links.component';
   selector: 'show-off-item-monitor',
   template: `
     <div class="border border-slate-100 p-4 shadow-sm">
-      <header class="mb-3 flex gap-2">
-        <img
-          class="h-6"
-          [src]="'${SupportedItemTypes.Monitor}' | typeIcon"
-          alt="${SupportedItemTypes.Monitor}"
-        />
-        <p class="text-lg">${SupportedItemTypes.Monitor}</p>
+      <header class="mb-3 flex items-center justify-between">
+        <div class="flex gap-2">
+          <img
+            class="h-6"
+            [src]="'${SupportedItemTypes.Monitor}' | typeIcon"
+            alt="${SupportedItemTypes.Monitor}"
+          />
+          <p class="text-lg">${SupportedItemTypes.Monitor}</p>
+        </div>
+        <div>
+          <ng-content></ng-content>
+        </div>
       </header>
       <section class="pb-2">
         <show-off-data-list [data]="this.datalist"></show-off-data-list>

@@ -11,13 +11,18 @@ import { ItemLinksComponent } from '../item-links.component';
   selector: 'show-off-item-tablet',
   template: `
     <div class="border border-slate-100 p-4 shadow-sm">
-      <header class="mb-3 flex items-center gap-2">
-        <img
-          class="h-6"
-          [src]="'${SupportedItemTypes.Tablet}' | typeIcon"
-          alt="${SupportedItemTypes.Tablet}"
-        />
-        <p class="text-lg">${SupportedItemTypes.Tablet}</p>
+      <header class="mb-3 flex items-center justify-between">
+        <div class="flex gap-2">
+          <img
+            class="h-6"
+            [src]="'${SupportedItemTypes.Tablet}' | typeIcon"
+            alt="${SupportedItemTypes.Tablet}"
+          />
+          <p class="text-lg">${SupportedItemTypes.Tablet}</p>
+        </div>
+        <div>
+          <ng-content></ng-content>
+        </div>
       </header>
       <section>
         <show-off-data-list [data]="this.datalist"></show-off-data-list>

@@ -9,6 +9,7 @@ import { RemixIconModule } from 'angular-remix-icon';
 import { ButtonComponent, TooltipDirective } from 'zigzag';
 import {
   ShowIfLoggedInDirective,
+  ShowIfOwnerDirective,
   UserInfoComponent,
 } from '@show-off/ui/shared';
 import { Collection } from '@show-off/api-interfaces';
@@ -29,7 +30,7 @@ import { CommonModule } from '@angular/common';
     </section>
     <section class="flex gap-4">
       <button
-        *showIfLoggedIn
+        *showIfOwner="collection.user.id"
         zzButton
         variant="neutral"
         [zzTooltip]="collection.private ? 'Make Public' : 'Make Private'"
@@ -90,6 +91,7 @@ import { CommonModule } from '@angular/common';
     RemixIconModule,
     ShowIfLoggedInDirective,
     TooltipDirective,
+    ShowIfOwnerDirective,
   ],
 })
 export class CollectionDetailHeaderComponent {

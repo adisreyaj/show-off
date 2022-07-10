@@ -14,13 +14,18 @@ import { ItemLinksComponent } from '../item-links.component';
 @Component({
   selector: 'show-off-item-terminal',
   template: ` <div class="border border-slate-100 p-4 shadow-sm">
-    <header class="mb-3 flex gap-2">
-      <img
-        class="h-6"
-        [src]="'${SupportedItemTypes.Terminal}' | typeIcon"
-        alt="${SupportedItemTypes.Terminal}"
-      />
-      <p class="text-lg">${SupportedItemTypes.Terminal}</p>
+    <header class="mb-3 flex items-center justify-between">
+      <div class="flex gap-2">
+        <img
+          class="h-6"
+          [src]="'${SupportedItemTypes.Terminal}' | typeIcon"
+          alt="${SupportedItemTypes.Terminal}"
+        />
+        <p class="text-lg">${SupportedItemTypes.Terminal}</p>
+      </div>
+      <div>
+        <ng-content></ng-content>
+      </div>
     </header>
     <section>
       <show-off-data-list [data]="this.datalist"></show-off-data-list>
