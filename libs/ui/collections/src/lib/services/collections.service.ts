@@ -51,7 +51,7 @@ export class CollectionsService {
     });
   }
 
-  getCollections(queryArgs: QueryArgs) {
+  getCollections(queryArgs: QueryArgs, refresh = false) {
     return this.apollo
       .query<{ collections: Collection[] }>({
         query: gql`
@@ -85,6 +85,7 @@ export class CollectionsService {
         variables: {
           args: queryArgs,
         },
+        fetchPolicy: refresh ? 'network-only' : 'cache-first',
       })
       .pipe(map((result) => result.data.collections));
   }

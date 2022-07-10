@@ -1,6 +1,6 @@
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["referentialIntegrity"]
+  previewFeatures = ["referentialIntegrity", "fullTextSearch", "fullTextIndex"]
 }
 
 datasource db {
@@ -46,6 +46,7 @@ model Collection {
   updatedAt   DateTime  @updatedAt
 
   @@index([userId])
+  @@fulltext([name])
 }
 
 model Like {

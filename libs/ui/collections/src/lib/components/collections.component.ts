@@ -10,10 +10,13 @@ import {
   BehaviorSubject,
   catchError,
   combineLatest,
+  debounceTime,
+  distinctUntilChanged,
   filter,
   map,
   Observable,
   of,
+  startWith,
   switchMap,
   tap,
 } from 'rxjs';
@@ -37,6 +40,7 @@ import {
   User,
 } from '@show-off/api-interfaces';
 import { CURRENT_USER } from '@show-off/ui/auth';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'show-off-collections',
@@ -57,9 +61,10 @@ import { CURRENT_USER } from '@show-off/ui/auth';
             class="h-[38px]"
             style="padding-left: 32px;"
             type="text"
-            placeholder="Search by name or user"
+            placeholder="Search collection"
             variant="fill"
             zzInput
+            [formControl]="this.searchControl"
           />
         </div>
         <div class="flex">
@@ -133,12 +138,13 @@ import { CURRENT_USER } from '@show-off/ui/auth';
     ShowIfLoggedInDirective,
     ...DROPDOWN_COMPONENTS,
     ...FORM_COMPONENTS,
+    ReactiveFormsModule,
   ],
 })
 export class CollectionsComponent {
   collections$: Observable<Collection[]>;
   title$: Observable<string>;
-
+  searchControl: FormControl = new FormControl<string>('');
   sortOptions: CollectionOrderByType[] = Object.values(CollectionOrderByType);
   savedSort = localStorage.getItem('collection:sort');
   defaultSort: CollectionOrderBy = this.savedSort
@@ -148,7 +154,6 @@ export class CollectionsComponent {
         direction: OrderByDirection.Desc,
       };
   sortChangeSubject = new BehaviorSubject<CollectionOrderBy>(this.defaultSort);
-
   sort$ = this.sortChangeSubject.asObservable().pipe(
     tap((sort) => {
       localStorage.setItem('collection:sort', JSON.stringify(sort));
@@ -161,6 +166,12 @@ export class CollectionsComponent {
         : 'sort-asc';
     })
   );
+  private readonly searchChange$ = this.searchControl.valueChanges.pipe(
+    startWith(''),
+    distinctUntilChanged(),
+    debounceTime(300),
+    map((search) => (search ?? '').toLowerCase())
+  );
 
   constructor(
     private readonly collectionsService: CollectionsService,
@@ -170,24 +181,31 @@ export class CollectionsComponent {
   ) {
     this.collections$ = combineLatest([
       this.sortChangeSubject,
+      this.searchChange$,
       this.activatedRoute.data.pipe(
         map((data) => data['context'] as CollectionPageContext)
       ),
       this.currentUser$.pipe(catchError(() => of(null))),
     ]).pipe(
-      switchMap(([sort, context, currentUser]) => {
+      switchMap(([sort, searchTerm, context, currentUser]) => {
         if (context === CollectionPageContext.Home) {
           const filters = [
             new QueryFilter('private', FilterOperator.Equals, false),
             new QueryFilter('published', FilterOperator.Equals, true),
+            ...(searchTerm !== ''
+              ? [new QueryFilter('name', FilterOperator.Contains, searchTerm)]
+              : []),
           ];
           const filterCombination = {
             [FilterCombination.And]: filters,
           };
-          return this.collectionsService.getCollections({
-            orderBy: sort,
-            filters: filterCombination,
-          });
+          return this.collectionsService.getCollections(
+            {
+              orderBy: sort,
+              filters: filterCombination,
+            },
+            true
+          );
         }
         if (currentUser) {
           const currentUserFilter = new QueryFilter(
@@ -196,12 +214,20 @@ export class CollectionsComponent {
             currentUser.id
           );
           const filterCombination = {
-            [FilterCombination.And]: [currentUserFilter],
+            [FilterCombination.And]: [
+              currentUserFilter,
+              ...(searchTerm !== ''
+                ? [new QueryFilter('name', FilterOperator.Contains, searchTerm)]
+                : []),
+            ],
           };
-          return this.collectionsService.getCollections({
-            orderBy: sort,
-            filters: filterCombination,
-          });
+          return this.collectionsService.getCollections(
+            {
+              orderBy: sort,
+              filters: filterCombination,
+            },
+            true
+          );
         }
         return of([]);
       })
