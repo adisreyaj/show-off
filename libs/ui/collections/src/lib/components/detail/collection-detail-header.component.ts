@@ -72,7 +72,7 @@ import { CommonModule } from '@angular/common';
       <button
         zzButton
         variant="primary"
-        *showIfLoggedIn
+        *showIfOwner="collection.user.id"
         (click)="this.addNewItem.emit()"
       >
         <div class="flex items-center gap-2">
