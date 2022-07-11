@@ -225,7 +225,7 @@ export class CollectionsComponent {
     const ref = this.modal.open<never, CreateCollectionInput>(
       CreateCollectionComponent,
       {
-        size: 'md',
+        size: 'sm',
       }
     );
 
