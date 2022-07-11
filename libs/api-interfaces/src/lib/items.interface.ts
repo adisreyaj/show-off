@@ -18,11 +18,7 @@ export enum SupportedItemTypes {
   Browser = 'Browser',
 }
 
-export type Item = ItemData & {
-  id: string;
-  createdAt: Date;
-  updatedAt: Date;
-};
+export type Item = ItemServerData;
 
 export interface Link {
   url: string;

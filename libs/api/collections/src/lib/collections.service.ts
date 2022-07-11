@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from '@show-off/db';
 import {
   CollectionOrderByType,
@@ -131,8 +131,9 @@ export class CollectionsService {
     });
   }
 
-  //TODO: Type this
-  addNewItems(id: string, userId: string, input: CreateItemData[]) {
+  async addNewItems(id: string, userId: string, input: CreateItemData[]) {
+    await this.collectionOwnerCheck(id, userId);
+
     return this.prisma.collection.update({
       where: {
         id,
@@ -158,6 +159,8 @@ export class CollectionsService {
    * @param itemId - item id
    */
   async addItem(id: string, userId: string, itemId: string) {
+    await this.collectionOwnerCheck(id, userId);
+
     const item = await this.prisma.item.findUnique({
       where: {
         id: itemId,
@@ -208,7 +211,8 @@ export class CollectionsService {
     });
   }
 
-  update(id: string, userId: string, data: UpdateCollectionInput) {
+  async update(id: string, userId: string, data: UpdateCollectionInput) {
+    await this.collectionOwnerCheck(id, userId);
     return this.prisma.collection.update({
       where: {
         id,
@@ -217,12 +221,49 @@ export class CollectionsService {
     });
   }
 
-  updateItem(id: string, userId: string, input: ItemUpdateInput) {
+  async updateItem(id: string, userId: string, input: ItemUpdateInput) {
+    await this.itemOwnerCheck(id, userId);
     return this.prisma.item.update({
       where: {
         id,
       },
       data: input,
     });
+  }
+
+  async deleteItem(id: string, userId: string) {
+    await this.itemOwnerCheck(id, userId);
+    await this.prisma.item.delete({
+      where: {
+        id,
+      },
+    });
+    return {
+      success: true,
+    };
+  }
+
+  async itemOwnerCheck(id: string, userTryingToAccess: string) {
+    const item = await this.prisma.item.findUniqueOrThrow({
+      where: { id },
+      select: {
+        userId: true,
+      },
+    });
+    if (item.userId !== userTryingToAccess) {
+      throw new ForbiddenException();
+    }
+  }
+
+  async collectionOwnerCheck(id: string, userTryingToAccess: string) {
+    const item = await this.prisma.collection.findUniqueOrThrow({
+      where: { id },
+      select: {
+        userId: true,
+      },
+    });
+    if (item.userId !== userTryingToAccess) {
+      throw new ForbiddenException();
+    }
   }
 }

@@ -26,6 +26,7 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import {
   Collection,
+  Item,
   ItemData,
   ItemServerData,
   SupportedItemTypes,
@@ -91,7 +92,7 @@ import { ItemMonitorComponent } from '../items/monitor/item-monitor.component';
           <header class="mb-2">
             <p class="text-lg font-medium">Comments</p>
           </header>
-          <section>
+          <section *showIfLoggedIn>
             <textarea
               style="background-color: white; width: 100%;margin-bottom: 8px;"
               type="text"
@@ -291,9 +292,10 @@ import { ItemMonitorComponent } from '../items/monitor/item-monitor.component';
             variant="link"
             zzButton
             zzDropdownCloseOnClick
+            (click)="this.deleteItem(data)"
           >
             <div class="flex items-center gap-2 text-red-500">
-              <rmx-icon name="delete-bin-4-line" class="icon-xs "></rmx-icon>
+              <rmx-icon name="delete-bin-4-line" class="icon-xs"></rmx-icon>
               <p>Delete</p>
             </div>
           </div>
@@ -380,7 +382,7 @@ export class CollectionDetailComponent {
       });
   }
 
-  editItem(data: ItemData) {
+  editItem(data: Item) {
     const ref = this.modal.open<ItemData, ItemServerData>(CreateItemComponent, {
       size: 'md',
       data,
@@ -422,6 +424,12 @@ export class CollectionDetailComponent {
       .subscribe(() => {
         this.refreshSubject.next();
       });
+  }
+
+  deleteItem(data: Item) {
+    return this.collectionsService.deleteItem(data.id).subscribe(() => {
+      this.refreshSubject.next();
+    });
   }
 
   private like() {

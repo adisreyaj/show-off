@@ -60,6 +60,11 @@ export class CollectionsResolver {
     return this.collectionsService.updateItem(id, userId, input);
   }
 
+  @Mutation('deleteItem')
+  deleteItem(@Args('id') id: string, @CurrentUserId() userId: string) {
+    return this.collectionsService.deleteItem(id, userId);
+  }
+
   @Mutation('addItemToCollection')
   copyExistingItemToCollection(
     @Args('id') id: string,
