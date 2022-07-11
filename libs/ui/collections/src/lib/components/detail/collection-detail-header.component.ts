@@ -6,7 +6,7 @@ import {
   Output,
 } from '@angular/core';
 import { RemixIconModule } from 'angular-remix-icon';
-import { ButtonComponent, TooltipDirective } from 'zigzag';
+import { ButtonComponent, DROPDOWN_COMPONENTS, TooltipDirective } from 'zigzag';
 import {
   ShowIfLoggedInDirective,
   ShowIfOwnerDirective,
@@ -14,6 +14,7 @@ import {
 } from '@show-off/ui/shared';
 import { Collection } from '@show-off/api-interfaces';
 import { CommonModule } from '@angular/common';
+import { Clipboard } from '@angular/cdk/clipboard';
 
 @Component({
   selector: 'show-off-collection-detail-header',
@@ -58,11 +59,40 @@ import { CommonModule } from '@angular/common';
           <p class="hidden sm:block">Like</p>
         </div>
       </button>
-      <button zzButton variant="neutral">
+      <button zzButton variant="neutral" [zzDropdownTrigger]="shareOptions">
         <div class="flex items-center gap-2">
           <rmx-icon name="share-line" class="icon-sm"></rmx-icon>
           <p class="hidden sm:block">Share</p>
         </div>
+
+        <zz-dropdown #shareOptions>
+          <div
+            class="w-full"
+            size="sm"
+            variant="link"
+            zzButton
+            zzDropdownCloseOnClick
+            (click)="this.copyEmbedCode(collection.id)"
+          >
+            <div class="flex items-center gap-2">
+              <rmx-icon name="code-box-line" class="icon-xs"></rmx-icon>
+              <p>Embed</p>
+            </div>
+          </div>
+          <div
+            class="w-full"
+            size="sm"
+            variant="link"
+            zzButton
+            zzDropdownCloseOnClick
+            (click)="this.copyLink()"
+          >
+            <div class="flex items-center gap-2">
+              <rmx-icon name="clipboard-line" class="icon-xs"></rmx-icon>
+              <p>Copy Link</p>
+            </div>
+          </div>
+        </zz-dropdown>
       </button>
       <button zzButton variant="neutral">
         <div class="flex items-center gap-2">
@@ -92,6 +122,7 @@ import { CommonModule } from '@angular/common';
     ShowIfLoggedInDirective,
     TooltipDirective,
     ShowIfOwnerDirective,
+    ...DROPDOWN_COMPONENTS,
   ],
 })
 export class CollectionDetailHeaderComponent {
@@ -106,4 +137,22 @@ export class CollectionDetailHeaderComponent {
 
   @Output()
   toggleLike = new EventEmitter<boolean>();
+
+  constructor(private clipboard: Clipboard) {}
+
+  copyLink() {
+    this.clipboard.copy(window.location.href);
+  }
+
+  copyEmbedCode(collectionId: string) {
+    const text = `<div id="show-off-embed"></div>
+      <script src="https://show-off.adi.so/assets/scripts/embed.js" type="text/javascript"></script>
+      <script>
+      showOff(${collectionId}, {
+        showTitle: false
+      });
+    </script>`;
+
+    this.clipboard.copy(text);
+  }
 }

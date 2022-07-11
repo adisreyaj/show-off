@@ -3,6 +3,8 @@ import {
   RemixIconModule,
   RiAddLine,
   RiChat1Line,
+  RiClipboardLine,
+  RiCodeBoxLine,
   RiDeleteBin4Line,
   RiEarthLine,
   RiHeart3Fill,
@@ -42,6 +44,8 @@ const icons = {
   RiVideoLine,
   RiMoreFill,
   RiPencilLine,
+  RiClipboardLine,
+  RiCodeBoxLine,
 };
 
 export const ICONS = importProvidersFrom(RemixIconModule.configure(icons));
