@@ -148,9 +148,7 @@ export class CollectionDetailHeaderComponent {
     const text = `<div id="show-off-embed"></div>
       <script src="https://show-off.adi.so/assets/scripts/embed.js" type="text/javascript"></script>
       <script>
-      showOff(${collectionId}, {
-        showTitle: false
-      });
+      showOff('${collectionId}');
     </script>`;
 
     this.clipboard.copy(text);
