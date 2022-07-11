@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Collection, SupportedItemTypes } from '@show-off/api-interfaces';
 import { CollectionsService } from '../../services';
@@ -46,9 +46,9 @@ import { ItemMonitorComponent } from '../items/monitor/item-monitor.component';
       </header>
       <div class="flex-1">
         <div class="flex">
-          <show-off-masonry-grid>
+          <show-off-masonry-grid class="embed">
             <article
-              class="min-w-[200px]"
+              class="min-w-[150px]"
               masonryGridItem
               *ngFor="let item of collection.items"
             >
@@ -133,6 +133,48 @@ import { ItemMonitorComponent } from '../items/monitor/item-monitor.component';
     ItemMonitorComponent,
     MasonryGridItemDirective,
     UserInfoComponent,
+  ],
+  encapsulation: ViewEncapsulation.None,
+  styles: [
+    //language=SCSS
+    `
+      show-off-masonry-grid.embed {
+        .masonry-grid {
+          column-count: 6;
+          column-gap: 16px;
+        }
+
+        .masonry-grid-item {
+          display: inline-block;
+          margin-bottom: 16px;
+          width: 100%;
+        }
+
+        @media (max-width: 1200px) {
+          .masonry-grid {
+            column-count: 4;
+          }
+        }
+
+        @media (max-width: 900px) {
+          .masonry-grid {
+            column-count: 3;
+          }
+        }
+
+        @media (max-width: 600px) {
+          .masonry-grid {
+            column-count: 2;
+          }
+        }
+
+        @media (max-width: 300px) {
+          .masonry-grid {
+            column-count: 1;
+          }
+        }
+      }
+    `,
   ],
 })
 export class CollectionEmbedComponent {
