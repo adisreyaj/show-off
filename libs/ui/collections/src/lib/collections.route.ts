@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import { Route, Routes } from '@angular/router';
 import { CollectionPageContext } from '@show-off/ui/collections';
 
 export const COLLECTION_ROUTES: Routes = [
@@ -19,16 +19,16 @@ export const COLLECTION_ROUTES: Routes = [
   },
   {
     path: 'collections',
-    title: 'My Collections | Show Off',
-    data: {
-      context: CollectionPageContext.MyCollections,
-      header: {
-        text: 'My Collections',
-      },
-    },
     children: [
       {
         path: '',
+        title: 'My Collections | Show Off',
+        data: {
+          context: CollectionPageContext.MyCollections,
+          header: {
+            text: 'My Collections',
+          },
+        },
         pathMatch: 'full',
         loadComponent: () =>
           import('./components/collections.component').then(
@@ -45,3 +45,11 @@ export const COLLECTION_ROUTES: Routes = [
     ],
   },
 ];
+
+export const EMBED_ROUTE: Route = {
+  path: 'embed/:id',
+  loadComponent: () =>
+    import('./components/embed/collection-embed.component').then(
+      (m) => m.CollectionEmbedComponent
+    ),
+};
