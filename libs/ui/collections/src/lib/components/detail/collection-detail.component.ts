@@ -40,6 +40,7 @@ import { ItemKeyboardComponent } from '../items/keyboard/item-keyboard.component
 import {
   MasonryGridComponent,
   MasonryGridItemDirective,
+  ShowIfLoggedInDirective,
   ShowIfOwnerDirective,
   UserInfoComponent,
 } from '@show-off/ui/shared';
@@ -348,6 +349,7 @@ import { ItemSoftwareComponent } from '../items/software/item-software.component
     ...FORM_COMPONENTS,
     ...DROPDOWN_COMPONENTS,
     ShowIfOwnerDirective,
+    ShowIfLoggedInDirective,
     ItemSoftwareComponent,
   ],
 })
