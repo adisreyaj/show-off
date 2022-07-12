@@ -29,7 +29,7 @@ import { RemixIconModule } from 'angular-remix-icon';
         <ng-content></ng-content>
       </div>
     </header>
-    <section>
+    <section class="pb-2">
       <show-off-data-list [data]="this.datalist"></show-off-data-list>
     </section>
     <show-off-item-links [links]="this.links"></show-off-item-links>
