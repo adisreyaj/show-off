@@ -51,7 +51,6 @@ export class AuthService {
   }
 
   async handleSocialLogin(req: Request, res: Response) {
-    console.info(req.user);
     if (!req.user) {
       res.redirect(this.frontendCallBackUrl);
       return;

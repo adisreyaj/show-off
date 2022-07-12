@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { isNilPipe } from '../pipes';
 import { isNil } from 'lodash-es';
@@ -30,6 +30,7 @@ import { isNil } from 'lodash-es';
   `,
   imports: [CommonModule, isNilPipe],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DataListComponent {
   formattedDataList: DataListData[] = [];

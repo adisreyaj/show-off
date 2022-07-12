@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import {
   ButtonComponent,
   DROPDOWN_COMPONENTS,
@@ -133,6 +133,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
     </section>
   </div>`,
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ButtonComponent,
     CommonModule,

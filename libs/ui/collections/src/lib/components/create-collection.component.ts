@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   ButtonComponent,
   DROPDOWN_COMPONENTS,
@@ -57,6 +57,7 @@ import { TypeIconPipe } from '@show-off/ui/shared';
     </div>
   `,
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ...FORM_COMPONENTS,
     ...DROPDOWN_COMPONENTS,

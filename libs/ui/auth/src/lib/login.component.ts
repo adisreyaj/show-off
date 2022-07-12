@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { AuthProvider } from '@show-off/api-interfaces';
 import { AUTH_CONFIG, AuthConfig } from './auth.token';
 
@@ -61,9 +61,11 @@ import { AUTH_CONFIG, AuthConfig } from './auth.token';
     `,
   ],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent {
   providers = AuthProvider;
+
   constructor(@Inject(AUTH_CONFIG) private readonly authConfig: AuthConfig) {}
 
   onSocialLogin(provider: AuthProvider) {
