@@ -8,7 +8,12 @@ import { ROUTES_PROVIDER } from './app/routes';
 import { APOLLO_PROVIDERS } from './app/config/apollo.config';
 import { HttpClientModule } from '@angular/common/http';
 import { ICONS } from './app/config/icons.config';
-import { BUTTON_CONFIG, DROPDOWN_CONFIG, FORM_INPUT_CONFIG } from 'zigzag';
+import {
+  BUTTON_CONFIG,
+  DROPDOWN_CONFIG,
+  FORM_INPUT_CONFIG,
+  MODAL_CONFIG,
+} from 'zigzag';
 
 if (environment.production) {
   enableProdMode();
@@ -41,6 +46,12 @@ bootstrapApplication(AppComponent, {
     },
     {
       provide: DROPDOWN_CONFIG,
+      useValue: {
+        rounded: 'none',
+      },
+    },
+    {
+      provide: MODAL_CONFIG,
       useValue: {
         rounded: 'none',
       },
