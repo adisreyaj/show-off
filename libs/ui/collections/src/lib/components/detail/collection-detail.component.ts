@@ -51,6 +51,7 @@ import { ItemMicrophoneComponent } from '../items/microphone/item-microphone.com
 import { ItemWebcamComponent } from '../items/webcam/item-webcam.component';
 import { ItemMouseComponent } from '../items/mouse/item-mouse.component';
 import { ItemMonitorComponent } from '../items/monitor/item-monitor.component';
+import { ItemSoftwareComponent } from '../items/software/item-software.component';
 
 @Component({
   selector: 'show-off-collection-detail',
@@ -260,6 +261,16 @@ import { ItemMonitorComponent } from '../items/monitor/item-monitor.component';
             ></ng-container>
           </show-off-item-monitor>
         </ng-container>
+        <ng-container *ngSwitchCase="'${SupportedItemTypes.Software}'">
+          <show-off-item-software [data]="data">
+            <ng-container
+              *ngTemplateOutlet="
+                moreOptionsDropdown;
+                context: { $implicit: data, ownerId: collection.user.id }
+              "
+            ></ng-container>
+          </show-off-item-software>
+        </ng-container>
       </ng-container>
     </ng-template>
 
@@ -337,6 +348,7 @@ import { ItemMonitorComponent } from '../items/monitor/item-monitor.component';
     ...FORM_COMPONENTS,
     ...DROPDOWN_COMPONENTS,
     ShowIfOwnerDirective,
+    ItemSoftwareComponent,
   ],
 })
 export class CollectionDetailComponent {

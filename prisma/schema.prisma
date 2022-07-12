@@ -123,4 +123,5 @@ enum ItemType {
   IdePlugin
   Terminal
   Browser
+  Software
 }

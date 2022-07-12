@@ -31,6 +31,7 @@ import { ItemWebcamFormComponent } from './items/webcam/item-webcam-form.compone
 import { ItemMouseFormComponent } from './items/mouse/item-mouse-form.component';
 import { ItemMonitorFormComponent } from './items/monitor/item-monitor-form.component';
 import { ItemPhoneFormComponent } from './items/phone/item-phone-form.component';
+import { ItemSoftwareFormComponent } from './items/software/item-software-form.component';
 
 @Component({
   selector: 'show-off-item-type-chooser',
@@ -122,6 +123,7 @@ export class CreateItemComponent implements AfterViewInit {
     [SupportedItemTypes.Webcam]: ItemWebcamFormComponent,
     [SupportedItemTypes.Mouse]: ItemMouseFormComponent,
     [SupportedItemTypes.Monitor]: ItemMonitorFormComponent,
+    [SupportedItemTypes.Software]: ItemSoftwareFormComponent,
   };
 
   constructor(

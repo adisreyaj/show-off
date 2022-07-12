@@ -15,6 +15,7 @@ export enum SupportedItemTypes {
   Terminal = 'Terminal',
   // IdeTheme = 'IdeTheme',
   // IdePlugin = 'IdePlugin',
+  Software = 'Software',
   Browser = 'Browser',
 }
 
@@ -129,6 +130,10 @@ export interface IdeData extends BasicData, LinksData, ItemMetadata {
   type: SupportedItemTypes.Ide;
 }
 
+export interface SoftwareData extends BasicData, LinksData, ItemMetadata {
+  type: SupportedItemTypes.Software;
+}
+
 export interface TerminalData extends BasicData, LinksData, ItemMetadata {
   type: SupportedItemTypes.Terminal;
 }
@@ -149,6 +154,7 @@ export type ItemData =
   | MicrophoneData
   | IdeData
   | TerminalData
+  | SoftwareData
   | BrowserData;
 
 export type ItemServerData = ItemData & { id: string };
