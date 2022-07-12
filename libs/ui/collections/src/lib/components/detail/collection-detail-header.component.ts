@@ -6,7 +6,12 @@ import {
   Output,
 } from '@angular/core';
 import { RemixIconModule } from 'angular-remix-icon';
-import { ButtonComponent, DROPDOWN_COMPONENTS, TooltipDirective } from 'zigzag';
+import {
+  ButtonComponent,
+  DROPDOWN_COMPONENTS,
+  ModalService,
+  TooltipDirective,
+} from 'zigzag';
 import {
   ShowIfLoggedInDirective,
   ShowIfOwnerDirective,
@@ -15,6 +20,7 @@ import {
 import { Collection } from '@show-off/api-interfaces';
 import { CommonModule } from '@angular/common';
 import { Clipboard } from '@angular/cdk/clipboard';
+import { isNil } from 'lodash-es';
 
 @Component({
   selector: 'show-off-collection-detail-header',
@@ -72,7 +78,7 @@ import { Clipboard } from '@angular/cdk/clipboard';
             variant="link"
             zzButton
             zzDropdownCloseOnClick
-            (click)="this.copyEmbedCode(collection.id)"
+            (click)="this.openEmbedModal()"
           >
             <div class="flex items-center gap-2">
               <rmx-icon name="code-box-line" class="icon-xs"></rmx-icon>
@@ -138,19 +144,27 @@ export class CollectionDetailHeaderComponent {
   @Output()
   toggleLike = new EventEmitter<boolean>();
 
-  constructor(private clipboard: Clipboard) {}
+  constructor(
+    private clipboard: Clipboard,
+    private readonly modal: ModalService
+  ) {}
 
   copyLink() {
     this.clipboard.copy(window.location.href);
   }
 
-  copyEmbedCode(collectionId: string) {
-    const text = `<div id="show-off-embed"></div>
-      <script src="https://show-off.adi.so/assets/scripts/embed.js" type="text/javascript"></script>
-      <script>
-      showOff('${collectionId}');
-    </script>`;
-
-    this.clipboard.copy(text);
+  async openEmbedModal() {
+    if (!isNil(this.collection)) {
+      const { CollectionEmbedScriptGeneratorComponent } = await import(
+        '../embed/collection-embed-script-generator.component'
+      );
+      this.modal.open<Collection, never>(
+        CollectionEmbedScriptGeneratorComponent,
+        {
+          size: 'md',
+          data: this.collection,
+        }
+      );
+    }
   }
 }

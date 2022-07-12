@@ -59,6 +59,7 @@
     "passport-local": "^1.0.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "~7.4.0",
+    "shiki": "^0.10.1",
     "ts-toolbelt": "^9.6.0",
     "tslib": "^2.0.0",
     "unique-names-generator": "^4.7.1",
