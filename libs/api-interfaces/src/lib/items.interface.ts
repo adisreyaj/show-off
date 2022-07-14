@@ -187,5 +187,5 @@ export type ItemData =
   | BrowserData;
 
 export type ItemServerData = ItemData & { id: string };
-export type ItemUpdateInput = Partial<Omit<ItemServerData, 'links' | 'type'>>;
-export type CreateItemData = Omit<ItemData, 'links'>;
+export type ItemUpdateInput = Partial<Omit<ItemServerData, 'type'>>;
+export type CreateItemData = ItemData;

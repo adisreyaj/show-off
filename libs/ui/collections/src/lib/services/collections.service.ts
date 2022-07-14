@@ -8,6 +8,7 @@ import {
   ItemUpdateInput,
   QueryArgs,
 } from '@show-off/api-interfaces';
+import { isNil } from 'lodash-es';
 
 @Injectable({
   providedIn: 'root',
@@ -51,7 +52,7 @@ export class CollectionsService {
       variables: {
         id: collectionId,
         input: {
-          items: [item],
+          items: [{ ...item, links: !isNil(item.links) ? item.links : [] }],
         },
       },
     });
@@ -224,7 +225,7 @@ export class CollectionsService {
   }
 
   updateItem(data: ItemUpdateInput) {
-    const { id, ...restData } = data;
+    const { id, links, ...restData } = data;
     return this.apollo.mutate({
       mutation: gql`
         mutation UpdateItem($id: ID!, $input: UpdateItemInput!) {
@@ -235,7 +236,10 @@ export class CollectionsService {
       `,
       variables: {
         id,
-        input: restData,
+        input: {
+          ...restData,
+          links: !isNil(links) ? links : [],
+        },
       },
     });
   }
