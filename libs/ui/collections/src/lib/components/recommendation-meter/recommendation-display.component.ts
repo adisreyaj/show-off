@@ -17,14 +17,14 @@ export class RecommendationColorPipe implements PipeTransform {
       return 'transparent';
     }
     const value = +val;
-    if (value >= 0 && value <= 33) {
+    if (value >= 0 && value < 33) {
       return '#f4310d';
     }
-    if (value > 33 && value < 66) {
+    if (value >= 33 && value < 66) {
       return '#f6f20c';
     }
 
-    if (value > 66 && value <= 100) {
+    if (value >= 66 && value <= 100) {
       return '#00f25e';
     }
     return 'transparent';
