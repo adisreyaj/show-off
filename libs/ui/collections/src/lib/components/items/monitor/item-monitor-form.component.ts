@@ -100,19 +100,37 @@ export class ItemMonitorFormComponent extends ItemFormBase<MonitorData> {
   }
 
   override getValue(): MonitorData {
-    const { make, name, price, currency, resolution, size, links } =
-      this.form.value;
+    const {
+      make,
+      name,
+      price,
+      currency,
+      resolution,
+      size,
+      links,
+      recommendation,
+    } = this.form.value;
     return {
       make,
       name,
       price,
       currency,
       links,
+      recommendation,
       type: SupportedItemTypes.Monitor,
       metadata: {
         resolution,
         size,
       },
     };
+  }
+
+  override patchValue(value: MonitorData) {
+    const { type, metadata, ...rest } = value;
+    this.form.patchValue({
+      ...rest,
+      size: metadata?.['size'],
+      resolution: metadata?.['resolution'],
+    });
   }
 }

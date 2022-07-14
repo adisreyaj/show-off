@@ -40,7 +40,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
       .range-wrap::before {
         @apply absolute block h-2 w-full;
         content: '';
-        background: linear-gradient(to right, red, yellow, #00f25e);
+        background: linear-gradient(to right, #f4310d, #f6f20c, #00f25e);
         top: 50%;
         transform: translateY(-50%);
         transition: height 100ms ease;
@@ -61,7 +61,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
       }
 
       .gap-filler {
-        background-color: red;
+        background-color: #f4310d;
         position: absolute;
         height: 8px;
         width: 16px;
@@ -87,8 +87,8 @@ export class RecommendationMeterComponent implements ControlValueAccessor {
   private onTouched!: () => void;
   private onChanged!: (val: number) => void;
 
-  writeValue(value: number): void {
-    this.update(value);
+  writeValue(value?: number | null): void {
+    this.update(value ?? 0);
   }
 
   registerOnChange(fn: never): void {

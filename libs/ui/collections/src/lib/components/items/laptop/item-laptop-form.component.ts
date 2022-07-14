@@ -112,14 +112,24 @@ export class ItemLaptopFormComponent extends ItemFormBase<LaptopData> {
   }
 
   override getValue(): LaptopData {
-    const { make, name, price, currency, ram, storage, size, links } =
-      this.form.value;
+    const {
+      make,
+      name,
+      price,
+      currency,
+      ram,
+      storage,
+      size,
+      links,
+      recommendation,
+    } = this.form.value;
     return {
       make,
       name,
       price,
       currency,
       links,
+      recommendation,
       type: SupportedItemTypes.Laptop,
       metadata: {
         ram,

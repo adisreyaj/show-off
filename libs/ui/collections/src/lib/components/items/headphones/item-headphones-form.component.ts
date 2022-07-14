@@ -78,13 +78,15 @@ export class ItemHeadphonesFormComponent extends ItemFormBase<HeadphonesData> {
   }
 
   override getValue(): HeadphonesData {
-    const { make, name, price, currency, links } = this.form.value;
+    const { make, name, price, currency, links, recommendation } =
+      this.form.value;
     return {
       make,
       name,
       price,
       currency,
       links,
+      recommendation,
       type: SupportedItemTypes.Headphones,
       metadata: {},
     };

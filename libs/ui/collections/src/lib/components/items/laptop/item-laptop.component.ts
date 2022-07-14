@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { LaptopData, Link, SupportedItemTypes } from '@show-off/api-interfaces';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { LaptopData } from '@show-off/api-interfaces';
 import {
   DataListComponent,
   DataListData,
@@ -10,24 +10,17 @@ import { CommonModule } from '@angular/common';
 import { RemixIconModule } from 'angular-remix-icon';
 import { ButtonComponent, TooltipDirective } from 'zigzag';
 import { ItemLinksComponent } from '../item-links.component';
+import { RecommendationDisplayComponent } from '../../recommendation-meter/recommendation-display.component';
+import { ItemDisplayBaseClass } from '../item-display-base.class';
+import { ItemHeaderComponent } from '../item-header.component';
 
 @Component({
   selector: 'show-off-item-laptop',
   template: `
     <div class="border border-slate-100 p-4 shadow-sm">
-      <header class="mb-3 flex items-center justify-between">
-        <div class="flex gap-2">
-          <img
-            class="h-6"
-            [src]="'${SupportedItemTypes.Laptop}' | typeIcon"
-            alt="${SupportedItemTypes.Laptop}"
-          />
-          <p class="text-lg">${SupportedItemTypes.Laptop}</p>
-        </div>
-        <div>
-          <ng-content></ng-content>
-        </div>
-      </header>
+      <show-off-item-header [item]="this.originalData">
+        <ng-content></ng-content>
+      </show-off-item-header>
       <section class="pb-2">
         <show-off-data-list [data]="this.datalist"></show-off-data-list>
       </section>
@@ -45,16 +38,13 @@ import { ItemLinksComponent } from '../item-links.component';
     ButtonComponent,
     TooltipDirective,
     ItemLinksComponent,
+    RecommendationDisplayComponent,
+    ItemHeaderComponent,
   ],
 })
-export class ItemLaptopComponent {
-  public datalist: DataListData[] = [];
-  public links: Link[] = [];
-
-  @Input()
-  set data(data: LaptopData) {
-    this.links = data.links ?? [];
-    this.datalist = [
+export class ItemLaptopComponent extends ItemDisplayBaseClass<LaptopData> {
+  override getDataList(data: LaptopData): DataListData[] {
+    return [
       {
         label: 'Make',
         value: data.make,

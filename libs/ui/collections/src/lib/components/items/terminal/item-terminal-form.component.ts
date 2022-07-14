@@ -51,9 +51,10 @@ export class ItemTerminalFormComponent extends ItemFormBase<TerminalData> {
   }
 
   override getValue(): TerminalData {
-    const { name, links } = this.form.value;
+    const { name, links, recommendation } = this.form.value;
     return {
       name,
+      recommendation,
       type: SupportedItemTypes.Terminal,
       links,
     };

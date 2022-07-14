@@ -1,32 +1,21 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   DataListComponent,
   DataListData,
   TypeIconPipe,
 } from '@show-off/ui/shared';
-import {
-  Link,
-  SupportedItemTypes,
-  TerminalData,
-} from '@show-off/api-interfaces';
+import { TerminalData } from '@show-off/api-interfaces';
 import { ItemLinksComponent } from '../item-links.component';
+import { ItemDisplayBaseClass } from '../item-display-base.class';
+import { ItemHeaderComponent } from '../item-header.component';
 
 @Component({
   selector: 'show-off-item-terminal',
   template: ` <div class="border border-slate-100 p-4 shadow-sm">
-    <header class="mb-3 flex items-center justify-between">
-      <div class="flex gap-2">
-        <img
-          class="h-6"
-          [src]="'${SupportedItemTypes.Terminal}' | typeIcon"
-          alt="${SupportedItemTypes.Terminal}"
-        />
-        <p class="text-lg">${SupportedItemTypes.Terminal}</p>
-      </div>
-      <div>
-        <ng-content></ng-content>
-      </div>
-    </header>
+    <show-off-item-header [item]="this.originalData">
+      <ng-content></ng-content>
+    </show-off-item-header>
+
     <section>
       <show-off-data-list [data]="this.datalist"></show-off-data-list>
     </section>
@@ -34,17 +23,16 @@ import { ItemLinksComponent } from '../item-links.component';
   </div>`,
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TypeIconPipe, DataListComponent, ItemLinksComponent],
+  imports: [
+    TypeIconPipe,
+    DataListComponent,
+    ItemLinksComponent,
+    ItemHeaderComponent,
+  ],
 })
-export class ItemTerminalComponent {
-  public datalist: DataListData[] = [];
-  public links: Link[] = [];
-
-  @Input()
-  set data(data: TerminalData) {
-    this.links = data.links ?? [];
-
-    this.datalist = [
+export class ItemTerminalComponent extends ItemDisplayBaseClass<TerminalData> {
+  getDataList(data: TerminalData): DataListData[] {
+    return [
       {
         label: 'Publisher',
         value: data.make,

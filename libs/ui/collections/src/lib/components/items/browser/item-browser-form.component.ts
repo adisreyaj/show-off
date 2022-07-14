@@ -63,10 +63,11 @@ export class ItemBrowserFormComponent extends ItemFormBase<BrowserData> {
   }
 
   override getValue(): BrowserData {
-    const { make, name, links } = this.form.value;
+    const { make, name, links, recommendation } = this.form.value;
     return {
       make,
       name,
+      recommendation,
       type: SupportedItemTypes.Browser,
       links,
     };

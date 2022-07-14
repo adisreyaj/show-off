@@ -115,6 +115,7 @@ export class CollectionsService {
               items {
                 id
                 name
+                recommendation
                 description
                 make
                 price

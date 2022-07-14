@@ -78,13 +78,15 @@ export class ItemMouseFormComponent extends ItemFormBase<MouseData> {
   }
 
   override getValue(): MouseData {
-    const { make, name, price, currency, links } = this.form.value;
+    const { make, name, price, currency, links, recommendation } =
+      this.form.value;
     return {
       make,
       name,
       price,
       currency,
       links,
+      recommendation,
       type: SupportedItemTypes.Mouse,
       metadata: {},
     };

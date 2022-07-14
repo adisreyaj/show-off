@@ -1,29 +1,21 @@
-import { Component, Input } from '@angular/core';
-import { Link, SupportedItemTypes, TabletData } from '@show-off/api-interfaces';
+import { Component } from '@angular/core';
+import { TabletData } from '@show-off/api-interfaces';
 import {
   DataListComponent,
   DataListData,
   TypeIconPipe,
 } from '@show-off/ui/shared';
 import { ItemLinksComponent } from '../item-links.component';
+import { ItemDisplayBaseClass } from '../item-display-base.class';
+import { ItemHeaderComponent } from '../item-header.component';
 
 @Component({
   selector: 'show-off-item-tablet',
   template: `
     <div class="border border-slate-100 p-4 shadow-sm">
-      <header class="mb-3 flex items-center justify-between">
-        <div class="flex gap-2">
-          <img
-            class="h-6"
-            [src]="'${SupportedItemTypes.Tablet}' | typeIcon"
-            alt="${SupportedItemTypes.Tablet}"
-          />
-          <p class="text-lg">${SupportedItemTypes.Tablet}</p>
-        </div>
-        <div>
-          <ng-content></ng-content>
-        </div>
-      </header>
+      <show-off-item-header [item]="this.originalData">
+        <ng-content></ng-content>
+      </show-off-item-header>
       <section class="pb-2">
         <show-off-data-list>[data]="this.datalist"></show-off-data-list>
       </section>
@@ -31,17 +23,16 @@ import { ItemLinksComponent } from '../item-links.component';
     </div>
   `,
   standalone: true,
-  imports: [TypeIconPipe, DataListComponent, ItemLinksComponent],
+  imports: [
+    TypeIconPipe,
+    DataListComponent,
+    ItemLinksComponent,
+    ItemHeaderComponent,
+  ],
 })
-export class ItemTabletComponent {
-  public datalist: DataListData[] = [];
-  public links: Link[] = [];
-
-  @Input()
-  set data(data: TabletData) {
-    this.links = data.links ?? [];
-
-    this.datalist = [
+export class ItemTabletComponent extends ItemDisplayBaseClass<TabletData> {
+  override getDataList(data: TabletData): DataListData[] {
+    return [
       {
         label: 'Make',
         value: data.make,

@@ -1,34 +1,22 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   DataListComponent,
   DataListData,
   TypeIconPipe,
 } from '@show-off/ui/shared';
-import {
-  BrowserData,
-  Link,
-  SupportedItemTypes,
-} from '@show-off/api-interfaces';
+import { BrowserData } from '@show-off/api-interfaces';
 import { ItemLinksComponent } from '../item-links.component';
 import { ButtonComponent, DROPDOWN_COMPONENTS } from 'zigzag';
 import { RemixIconModule } from 'angular-remix-icon';
+import { ItemDisplayBaseClass } from '../item-display-base.class';
+import { ItemHeaderComponent } from '../item-header.component';
 
 @Component({
   selector: 'show-off-item-browser',
   template: ` <div class="border border-slate-100 p-4 shadow-sm">
-    <header class="mb-3 flex items-center justify-between">
-      <div class="flex gap-2">
-        <img
-          class="h-6"
-          [src]="'${SupportedItemTypes.Browser}' | typeIcon"
-          alt="${SupportedItemTypes.Browser}"
-        />
-        <p class="text-lg">${SupportedItemTypes.Browser}</p>
-      </div>
-      <div>
-        <ng-content></ng-content>
-      </div>
-    </header>
+    <show-off-item-header [item]="this.originalData">
+      <ng-content></ng-content>
+    </show-off-item-header>
     <section class="pb-2">
       <show-off-data-list [data]="this.datalist"></show-off-data-list>
     </section>
@@ -43,16 +31,12 @@ import { RemixIconModule } from 'angular-remix-icon';
     ButtonComponent,
     ...DROPDOWN_COMPONENTS,
     RemixIconModule,
+    ItemHeaderComponent,
   ],
 })
-export class ItemBrowserComponent {
-  public datalist: DataListData[] = [];
-  public links: Link[] = [];
-
-  @Input()
-  set data(data: BrowserData) {
-    this.links = data.links ?? [];
-    this.datalist = [
+export class ItemBrowserComponent extends ItemDisplayBaseClass<BrowserData> {
+  override getDataList(data: BrowserData): DataListData[] {
+    return [
       {
         label: 'Publisher',
         value: data.make,

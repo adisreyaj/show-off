@@ -1,29 +1,21 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Link, SupportedItemTypes, WebcamData } from '@show-off/api-interfaces';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { WebcamData } from '@show-off/api-interfaces';
 import {
   DataListComponent,
   DataListData,
   TypeIconPipe,
 } from '@show-off/ui/shared';
 import { ItemLinksComponent } from '../item-links.component';
+import { ItemDisplayBaseClass } from '../item-display-base.class';
+import { ItemHeaderComponent } from '../item-header.component';
 
 @Component({
   selector: 'show-off-item-webcam',
   template: `
     <div class="border border-slate-100 p-4 shadow-sm">
-      <header class="mb-3 flex items-center justify-between">
-        <div class="flex gap-2">
-          <img
-            class="h-6"
-            [src]="'${SupportedItemTypes.Webcam}' | typeIcon"
-            alt="${SupportedItemTypes.Webcam}"
-          />
-          <p class="text-lg">${SupportedItemTypes.Webcam}</p>
-        </div>
-        <div>
-          <ng-content></ng-content>
-        </div>
-      </header>
+      <show-off-item-header [item]="this.originalData">
+        <ng-content></ng-content>
+      </show-off-item-header>
       <section class="pb-2">
         <show-off-data-list [data]="this.datalist"></show-off-data-list>
       </section>
@@ -32,17 +24,16 @@ import { ItemLinksComponent } from '../item-links.component';
   `,
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TypeIconPipe, DataListComponent, ItemLinksComponent],
+  imports: [
+    TypeIconPipe,
+    DataListComponent,
+    ItemLinksComponent,
+    ItemHeaderComponent,
+  ],
 })
-export class ItemWebcamComponent {
-  public datalist: DataListData[] = [];
-  public links: Link[] = [];
-
-  @Input()
-  set data(data: WebcamData) {
-    this.links = data.links ?? [];
-
-    this.datalist = [
+export class ItemWebcamComponent extends ItemDisplayBaseClass<WebcamData> {
+  getDataList(data: WebcamData): DataListData[] {
+    return [
       {
         label: 'Make',
         value: data.make,

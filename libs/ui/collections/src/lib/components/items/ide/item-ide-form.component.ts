@@ -63,10 +63,11 @@ export class ItemIdeFormComponent extends ItemFormBase<IdeData> {
   }
 
   override getValue(): IdeData {
-    const { make, name, links } = this.form.value;
+    const { make, name, links, recommendation } = this.form.value;
     return {
       make,
       name,
+      recommendation,
       type: SupportedItemTypes.Ide,
       links,
     };

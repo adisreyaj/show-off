@@ -112,14 +112,24 @@ export class ItemTabletFormComponent extends ItemFormBase<TabletData> {
   }
 
   override getValue(): TabletData {
-    const { make, name, price, currency, ram, storage, size, links } =
-      this.form.value;
+    const {
+      make,
+      name,
+      price,
+      currency,
+      ram,
+      storage,
+      size,
+      links,
+      recommendation,
+    } = this.form.value;
     return {
       make,
       name,
       price,
       currency,
       links,
+      recommendation,
       type: SupportedItemTypes.Tablet,
       metadata: {
         ram,

@@ -77,19 +77,20 @@ export class ItemSoftwareFormComponent extends ItemFormBase<SoftwareData> {
   }
 
   override getValue(): SoftwareData {
-    const { make, name, links, type } = this.form.value;
+    const { make, name, links, type, recommendation } = this.form.value;
     return {
       make,
       name,
       metadata: {
         type,
       },
+      recommendation,
       type: SupportedItemTypes.Software,
       links,
     };
   }
 
-  override setValue(value: SoftwareData) {
+  override patchValue(value: SoftwareData) {
     const { type, metadata, ...rest } = value;
     this.form.patchValue({ ...rest, type: metadata?.['type'] });
   }

@@ -78,13 +78,16 @@ export class ItemKeyboardFormComponent extends ItemFormBase<KeyboardData> {
   }
 
   override getValue(): KeyboardData {
-    const { make, name, price, currency, links } = this.form.value;
+    const { make, name, price, currency, links, recommendation } =
+      this.form.value;
     return {
       make,
       name,
       price,
       currency,
       links,
+      recommendation,
+
       type: SupportedItemTypes.Keyboard,
       metadata: {},
     };

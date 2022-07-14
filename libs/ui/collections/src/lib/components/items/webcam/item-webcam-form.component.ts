@@ -78,13 +78,15 @@ export class ItemWebcamFormComponent extends ItemFormBase<WebcamData> {
   }
 
   override getValue(): WebcamData {
-    const { make, name, price, currency, links } = this.form.value;
+    const { make, name, price, currency, links, recommendation } =
+      this.form.value;
     return {
       make,
       name,
       price,
       currency,
       links,
+      recommendation,
       type: SupportedItemTypes.Webcam,
       metadata: {},
     };
