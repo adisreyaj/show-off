@@ -5,6 +5,7 @@ import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ItemFormBase } from '../item-form-base.class';
 import { PhoneData, SupportedItemTypes } from '@show-off/api-interfaces';
 import { ItemFormLinksComponent } from '../item-form-links.component';
+import { RecommendationMeterComponent } from '../../recommendation-meter/recommendation-meter.component';
 
 @Component({
   selector: 'show-off-item-phone-form',
@@ -70,6 +71,9 @@ import { ItemFormLinksComponent } from '../item-form-links.component';
     <show-off-item-form-links
       formControlName="links"
     ></show-off-item-form-links>
+    <show-off-recommendation-meter
+      formControlName="recommendation"
+    ></show-off-recommendation-meter>
   </div>`,
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -79,6 +83,7 @@ import { ItemFormLinksComponent } from '../item-form-links.component';
     ...FORM_COMPONENTS,
     ReactiveFormsModule,
     ItemFormLinksComponent,
+    RecommendationMeterComponent,
   ],
 })
 export class ItemPhoneFormComponent extends ItemFormBase<PhoneData> {
@@ -91,6 +96,7 @@ export class ItemPhoneFormComponent extends ItemFormBase<PhoneData> {
       price: [null, []],
       currency: ['$', []],
       links: [[]],
+      recommendation: [0],
     });
   }
 
