@@ -143,6 +143,7 @@ export class CollectionsService {
             ...item,
             type: item.type as ItemType,
             userId,
+            links: (item.links as unknown as Prisma.InputJsonValue) ?? [],
           })),
         },
       },
@@ -226,7 +227,10 @@ export class CollectionsService {
       where: {
         id,
       },
-      data: input,
+      data: {
+        ...input,
+        links: (input.links as unknown as Prisma.InputJsonValue) ?? [],
+      },
     });
   }
 
