@@ -54,11 +54,16 @@ export interface LinksData {
   links: Link[];
 }
 
+export interface RecommendationData {
+  recommendation: number;
+}
+
 export interface LaptopData
   extends BasicData,
     LinksData,
     ItemMetadata,
-    PriceData {
+    PriceData,
+    RecommendationData {
   type: SupportedItemTypes.Laptop;
 }
 
@@ -66,7 +71,8 @@ export interface TabletData
   extends BasicData,
     LinksData,
     ItemMetadata,
-    PriceData {
+    PriceData,
+    RecommendationData {
   type: SupportedItemTypes.Tablet;
 }
 
@@ -74,7 +80,8 @@ export interface PhoneData
   extends BasicData,
     LinksData,
     ItemMetadata,
-    PriceData {
+    PriceData,
+    RecommendationData {
   type: SupportedItemTypes.Phone;
 }
 
@@ -82,6 +89,7 @@ export interface KeyboardData
   extends BasicData,
     LinksData,
     PriceData,
+    RecommendationData,
     ItemMetadata {
   type: SupportedItemTypes.Keyboard;
 }
@@ -90,6 +98,7 @@ export interface WebcamData
   extends BasicData,
     LinksData,
     PriceData,
+    RecommendationData,
     ItemMetadata {
   type: SupportedItemTypes.Webcam;
 }
@@ -98,6 +107,7 @@ export interface MouseData
   extends BasicData,
     LinksData,
     PriceData,
+    RecommendationData,
     ItemMetadata {
   type: SupportedItemTypes.Mouse;
 }
@@ -106,6 +116,7 @@ export interface MonitorData
   extends BasicData,
     LinksData,
     PriceData,
+    RecommendationData,
     ItemMetadata {
   type: SupportedItemTypes.Monitor;
 }
@@ -114,6 +125,7 @@ export interface HeadphonesData
   extends BasicData,
     LinksData,
     PriceData,
+    RecommendationData,
     ItemMetadata {
   type: SupportedItemTypes.Headphones;
 }
@@ -122,23 +134,40 @@ export interface MicrophoneData
   extends BasicData,
     LinksData,
     PriceData,
+    RecommendationData,
     ItemMetadata {
   type: SupportedItemTypes.Microphone;
 }
 
-export interface IdeData extends BasicData, LinksData, ItemMetadata {
+export interface IdeData
+  extends BasicData,
+    LinksData,
+    ItemMetadata,
+    RecommendationData {
   type: SupportedItemTypes.Ide;
 }
 
-export interface SoftwareData extends BasicData, LinksData, ItemMetadata {
+export interface SoftwareData
+  extends BasicData,
+    LinksData,
+    ItemMetadata,
+    RecommendationData {
   type: SupportedItemTypes.Software;
 }
 
-export interface TerminalData extends BasicData, LinksData, ItemMetadata {
+export interface TerminalData
+  extends BasicData,
+    LinksData,
+    ItemMetadata,
+    RecommendationData {
   type: SupportedItemTypes.Terminal;
 }
 
-export interface BrowserData extends BasicData, LinksData, ItemMetadata {
+export interface BrowserData
+  extends BasicData,
+    LinksData,
+    ItemMetadata,
+    RecommendationData {
   type: SupportedItemTypes.Browser;
 }
 
