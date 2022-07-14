@@ -5,6 +5,7 @@ import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ItemFormBase } from '../item-form-base.class';
 import { BrowserData, SupportedItemTypes } from '@show-off/api-interfaces';
 import { ItemFormLinksComponent } from '../item-form-links.component';
+import { RecommendationMeterComponent } from '../../recommendation-meter/recommendation-meter.component';
 
 @Component({
   selector: 'show-off-item-browser-form',
@@ -36,6 +37,9 @@ import { ItemFormLinksComponent } from '../item-form-links.component';
     <show-off-item-form-links
       formControlName="links"
     ></show-off-item-form-links>
+    <show-off-recommendation-meter
+      formControlName="recommendation"
+    ></show-off-recommendation-meter>
   </div>`,
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -45,6 +49,7 @@ import { ItemFormLinksComponent } from '../item-form-links.component';
     ...FORM_COMPONENTS,
     ReactiveFormsModule,
     ItemFormLinksComponent,
+    RecommendationMeterComponent,
   ],
 })
 export class ItemBrowserFormComponent extends ItemFormBase<BrowserData> {
@@ -53,6 +58,7 @@ export class ItemBrowserFormComponent extends ItemFormBase<BrowserData> {
       make: ['', [Validators.required]],
       name: ['', [Validators.required]],
       links: [[]],
+      recommendation: [0],
     });
   }
 
