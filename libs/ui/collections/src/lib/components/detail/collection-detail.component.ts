@@ -22,7 +22,7 @@ import {
   Subject,
   switchMap,
 } from 'rxjs';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import {
   Collection,
@@ -63,6 +63,7 @@ import { ItemSoftwareComponent } from '../items/software/item-software.component
         (addNewItem)="this.addNewItem()"
         (toggleLike)="this.toggleLike($event)"
         (visibilityChange)="this.updateVisibility($event)"
+        (deleteCollection)="this.deleteCollection($event)"
       ></show-off-collection-detail-header>
       <section
         class="grid flex-1 grid-cols-1 gap-0 sm:grid-cols-[1fr_300px] sm:gap-4"
@@ -367,7 +368,8 @@ export class CollectionDetailComponent {
     private readonly modal: ModalService,
     private readonly cd: ChangeDetectorRef,
     private readonly collectionsService: CollectionsService,
-    private readonly activatedRoute: ActivatedRoute
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly router: Router
   ) {
     this.collectionId = this.activatedRoute.snapshot.params['id'];
     this.collection$ = this.refreshSubject.pipe(
@@ -443,6 +445,12 @@ export class CollectionDetailComponent {
   deleteItem(data: Item) {
     return this.collectionsService.deleteItem(data.id).subscribe(() => {
       this.refreshSubject.next();
+    });
+  }
+
+  deleteCollection(collectionId: string) {
+    this.collectionsService.deleteCollection(collectionId).subscribe(() => {
+      this.router.navigate(['/']);
     });
   }
 

@@ -18,6 +18,7 @@ import {
   Observable,
   of,
   startWith,
+  Subject,
   switchMap,
   tap,
 } from 'rxjs';
@@ -181,6 +182,8 @@ export class CollectionsComponent {
         : 'sort-asc';
     })
   );
+
+  private readonly refreshSubject = new Subject<void>();
   private readonly searchChange$ = this.searchControl.valueChanges.pipe(
     startWith(''),
     distinctUntilChanged(),
@@ -201,6 +204,7 @@ export class CollectionsComponent {
         map((data) => data['context'] as CollectionPageContext)
       ),
       this.currentUser$.pipe(catchError(() => of(null))),
+      this.refreshSubject.asObservable().pipe(startWith(null)),
     ]).pipe(
       switchMap(([sort, searchTerm, context, currentUser]) => {
         const searchFilter =
@@ -235,7 +239,9 @@ export class CollectionsComponent {
         filter(Boolean),
         switchMap((data) => this.collectionsService.create(data))
       )
-      .subscribe();
+      .subscribe(() => {
+        this.refreshSubject.next();
+      });
   }
 
   sort(option: CollectionOrderByType) {

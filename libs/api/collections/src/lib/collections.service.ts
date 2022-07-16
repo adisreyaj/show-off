@@ -1,4 +1,8 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from '@show-off/db';
 import {
   CollectionOrderByType,
@@ -67,29 +71,51 @@ export class CollectionsService {
     return this.prisma.collection.findMany({
       take,
       skip,
-      where: convertFilterCombinationToPrismaFilters(filters),
+      where: {
+        ...convertFilterCombinationToPrismaFilters(filters),
+        published: true,
+        private: false,
+        deleted: false,
+      },
       orderBy: orderByMapping[orderBy.key],
       include: COLLECTION_INCLUDE,
     });
   }
 
   async findById(id: string, userId: string) {
-    const collection = this.prisma.collection.findUniqueOrThrow({
+    const collection$ = this.prisma.collection.findUniqueOrThrow({
       where: { id },
       include: COLLECTION_INCLUDE,
     });
-    const isLiked = this.prisma.like.findFirst({
+    const isLiked$ = this.prisma.like.findFirst({
       where: {
         userId,
         collectionId: id,
       },
     });
-    const [liked, collectionData] = await this.prisma.$transaction([
-      isLiked,
-      collection,
+    const [liked, collection] = await this.prisma.$transaction([
+      isLiked$,
+      collection$,
     ]);
+    if (!collection) {
+      throw new NotFoundException();
+    }
+
+    if (collection.deleted) {
+      throw new ForbiddenException();
+    }
+
+    /**
+     * Private, unpublished or deleted collections are not visible to non-owners
+     */
+    if (
+      (collection.private || !collection.published) &&
+      collection.userId !== userId
+    ) {
+      throw new ForbiddenException();
+    }
     return {
-      ...collectionData,
+      ...collection,
       liked: !!liked,
     };
   }
@@ -258,7 +284,22 @@ export class CollectionsService {
     }
   }
 
-  async collectionOwnerCheck(id: string, userTryingToAccess: string) {
+  async delete(collectionId: string, userId: string) {
+    await this.collectionOwnerCheck(collectionId, userId);
+    await this.prisma.collection.update({
+      where: {
+        id: collectionId,
+      },
+      data: {
+        deleted: true,
+      },
+    });
+    return {
+      success: true,
+    };
+  }
+
+  private async collectionOwnerCheck(id: string, userTryingToAccess: string) {
     const item = await this.prisma.collection.findUniqueOrThrow({
       where: { id },
       select: {

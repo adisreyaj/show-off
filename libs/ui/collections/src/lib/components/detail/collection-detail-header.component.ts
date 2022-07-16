@@ -37,6 +37,17 @@ import { isNil } from 'lodash-es';
     </section>
     <section class="flex gap-4">
       <button
+        zzButton
+        variant="primary"
+        *showIfOwner="collection.user.id"
+        (click)="this.addNewItem.emit()"
+      >
+        <div class="flex items-center gap-2">
+          <rmx-icon name="add-line" class="icon-sm"></rmx-icon>
+          <p class="hidden sm:block">Add Item</p>
+        </div>
+      </button>
+      <button
         *showIfOwner="collection.user.id"
         zzButton
         variant="neutral"
@@ -65,13 +76,13 @@ import { isNil } from 'lodash-es';
           <p class="hidden sm:block">Like</p>
         </div>
       </button>
-      <button zzButton variant="neutral" [zzDropdownTrigger]="shareOptions">
+      <button zzButton variant="neutral" [zzDropdownTrigger]="embedOptions">
         <div class="flex items-center gap-2">
           <rmx-icon name="share-line" class="icon-sm"></rmx-icon>
           <p class="hidden sm:block">Share</p>
         </div>
 
-        <zz-dropdown #shareOptions>
+        <zz-dropdown #embedOptions>
           <div
             class="w-full"
             size="sm"
@@ -100,21 +111,25 @@ import { isNil } from 'lodash-es';
           </div>
         </zz-dropdown>
       </button>
-      <button zzButton variant="neutral">
+      <button zzButton variant="neutral" [zzDropdownTrigger]="settingsOption">
         <div class="flex items-center gap-2">
           <rmx-icon name="settings-3-line" class="icon-sm"></rmx-icon>
         </div>
-      </button>
-      <button
-        zzButton
-        variant="primary"
-        *showIfOwner="collection.user.id"
-        (click)="this.addNewItem.emit()"
-      >
-        <div class="flex items-center gap-2">
-          <rmx-icon name="add-line" class="icon-sm"></rmx-icon>
-          <p class="hidden sm:block">Add Item</p>
-        </div>
+        <zz-dropdown #settingsOption>
+          <div
+            class="w-full"
+            size="sm"
+            variant="link"
+            zzButton
+            zzDropdownCloseOnClicck
+            (click)="this.deleteCollection.emit(this.collection.id)"
+          >
+            <div class="flex items-center gap-2  text-red-500">
+              <rmx-icon name="delete-bin-4-line" class="icon-xs"></rmx-icon>
+              <p>Delete</p>
+            </div>
+          </div>
+        </zz-dropdown>
       </button>
     </section>
   </header>`,
@@ -143,6 +158,9 @@ export class CollectionDetailHeaderComponent {
 
   @Output()
   toggleLike = new EventEmitter<boolean>();
+
+  @Output()
+  deleteCollection = new EventEmitter<string>();
 
   constructor(
     private clipboard: Clipboard,
