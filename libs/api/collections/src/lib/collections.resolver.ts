@@ -33,6 +33,14 @@ export class CollectionsResolver {
     return this.collectionsService.create(data, userId);
   }
 
+  @Mutation('deleteCollection')
+  deleteCollection(
+    @Args('id') collectionId: string,
+    @CurrentUserId() userId: string
+  ) {
+    return this.collectionsService.delete(collectionId, userId);
+  }
+
   @Mutation('updateCollection')
   updateCollection(
     @Args('id') id: string,

@@ -258,4 +258,19 @@ export class CollectionsService {
       },
     });
   }
+
+  deleteCollection(collectionId: string) {
+    return this.apollo.mutate({
+      mutation: gql`
+        mutation DeleteCollection($id: ID!) {
+          deleteCollection(id: $id) {
+            success
+          }
+        }
+      `,
+      variables: {
+        id: collectionId,
+      },
+    });
+  }
 }
