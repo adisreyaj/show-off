@@ -80,9 +80,38 @@ import { RemixIconModule } from 'angular-remix-icon';
         </ng-template>
       </div>
     </header>
-    <main class="flex-1 overflow-y-auto">
+    <main class="flex-1 overflow-y-auto pb-2">
       <router-outlet></router-outlet>
     </main>
+    <footer
+      class="flex h-8 items-center justify-between px-4 text-sm font-normal text-slate-500"
+    >
+      <p class="">
+        Made as part of
+        <a
+          class="text-primary underline"
+          href="https://planetscale.com/?utm_source=show-off.adi.so"
+          >#PlanetScale</a
+        >
+        x
+        <a
+          class="text-primary underline"
+          href="https://hashnode.com/?utm_source=show-off.adi.so"
+          >#Hashnode</a
+        >
+        Hackathon
+      </p>
+      <div class="flex gap-4">
+        <a
+          class="text-primary underline"
+          href="https://github.com/adisreyaj/show-off"
+          >#Github</a
+        >
+        <a class="text-primary underline" href="https://twitter.com/adisreyaj"
+          >#Twitter</a
+        >
+      </div>
+    </footer>
   `,
   standalone: true,
   styles: [
@@ -91,6 +120,10 @@ import { RemixIconModule } from 'angular-remix-icon';
         height: 100vh;
         display: flex;
         flex-direction: column;
+      }
+
+      main {
+        height: calc(100vh - 64px - 32px);
       }
     `,
   ],
