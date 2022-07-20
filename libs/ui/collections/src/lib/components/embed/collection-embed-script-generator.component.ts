@@ -1,16 +1,18 @@
+import { Clipboard } from '@angular/cdk/clipboard';
+import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   ViewChild,
 } from '@angular/core';
-import { Clipboard } from '@angular/cdk/clipboard';
-import { ButtonComponent, ModalRef } from 'zigzag';
-import { Collection } from '@show-off/api-interfaces';
-import * as shiki from 'shiki';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Collection } from '@show-off/api-interfaces';
 import { map, Observable, startWith } from 'rxjs';
+import * as shiki from 'shiki';
+import { ButtonComponent, ModalRef } from 'zigzag';
 
 @Component({
   selector: 'show-off-embed-script-generator',
@@ -70,6 +72,14 @@ import { map, Observable, startWith } from 'rxjs';
           <header class="mb-1">
             <p class="text-md m-0 font-semibold text-slate-500">Script:</p>
           </header>
+          <div class="grid place-items-center" *ngIf="this.isLoading">
+            <img
+              src="assets/images/loading.svg"
+              height="100"
+              width="100"
+              alt="Loading"
+            />
+          </div>
           <div #code></div>
         </section>
         <section class="mt-2">
@@ -92,19 +102,21 @@ import { map, Observable, startWith } from 'rxjs';
   `,
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ButtonComponent, ReactiveFormsModule],
+  imports: [ButtonComponent, ReactiveFormsModule, CommonModule],
 })
 export class CollectionEmbedScriptGeneratorComponent implements AfterViewInit {
   embedScript = '';
   embedOptionsForm: FormGroup;
   highlighter?: shiki.Highlighter;
   attached = false;
+  isLoading = false;
   @ViewChild('code', { static: true }) code!: ElementRef<HTMLDivElement>;
 
   constructor(
     private readonly clipboard: Clipboard,
     public readonly modalRef: ModalRef<Collection>,
-    private readonly fb: FormBuilder
+    private readonly fb: FormBuilder,
+    private readonly cd: ChangeDetectorRef
   ) {
     this.embedOptionsForm = this.fb.group<{
       showTitle: [boolean];
@@ -122,6 +134,7 @@ export class CollectionEmbedScriptGeneratorComponent implements AfterViewInit {
   }
 
   async ngAfterViewInit() {
+    this.setLoading(true);
     shiki.setCDN('https://unpkg.com/shiki/');
     this.highlighter = await shiki.getHighlighter({
       theme: 'material-palenight',
@@ -155,8 +168,14 @@ export class CollectionEmbedScriptGeneratorComponent implements AfterViewInit {
 </script>`;
         })
       )
-      .subscribe((script) => {
-        this.updateEmbedScript(script);
+      .subscribe({
+        next: (script) => {
+          this.updateEmbedScript(script);
+          this.setLoading(false);
+        },
+        error: () => {
+          this.setLoading(false);
+        },
       });
   }
 
@@ -181,5 +200,10 @@ export class CollectionEmbedScriptGeneratorComponent implements AfterViewInit {
 
   copy() {
     this.clipboard.copy(this.embedScript);
+  }
+
+  private setLoading(isLoading: boolean) {
+    this.isLoading = isLoading;
+    this.cd.detectChanges();
   }
 }
