@@ -1,18 +1,27 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectorRef,
   Component,
   ElementRef,
   ViewChild,
 } from '@angular/core';
-import { ItemLaptopComponent } from '../items/laptop/item-laptop.component';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import {
-  ButtonComponent,
-  DROPDOWN_COMPONENTS,
-  FORM_COMPONENTS,
-  ModalService,
-} from 'zigzag';
-import { CreateItemComponent } from '../create-item.component';
-import { CollectionsService } from '../../services';
+  Collection,
+  Item,
+  ItemData,
+  ItemServerData,
+  SupportedItemTypes,
+} from '@show-off/api-interfaces';
+import {
+  MasonryGridComponent,
+  MasonryGridItemDirective,
+  ShowIfLoggedInDirective,
+  ShowIfOwnerDirective,
+  UserInfoComponent,
+} from '@show-off/ui/shared';
+import { RemixIconModule } from 'angular-remix-icon';
 import {
   filter,
   map,
@@ -22,37 +31,29 @@ import {
   Subject,
   switchMap,
 } from 'rxjs';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
 import {
-  Collection,
-  Item,
-  ItemData,
-  ItemServerData,
-  SupportedItemTypes,
-} from '@show-off/api-interfaces';
-import { ItemTabletComponent } from '../items/tablet/item-tablet.component';
-import { ItemIdeComponent } from '../items/ide/item-ide.component';
-import { ItemTerminalComponent } from '../items/terminal/item-terminal.component';
+  ButtonComponent,
+  DROPDOWN_COMPONENTS,
+  FORM_COMPONENTS,
+  ModalService,
+} from 'zigzag';
+import { CollectionsService } from '../../services';
+import { CreateCollectionComponent } from '../create-collection.component';
+import { CreateItemComponent } from '../create-item.component';
 import { ItemBrowserComponent } from '../items/browser/item-browser.component';
-import { RemixIconModule } from 'angular-remix-icon';
-import { ItemKeyboardComponent } from '../items/keyboard/item-keyboard.component';
-import {
-  MasonryGridComponent,
-  MasonryGridItemDirective,
-  ShowIfLoggedInDirective,
-  ShowIfOwnerDirective,
-  UserInfoComponent,
-} from '@show-off/ui/shared';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { CollectionDetailHeaderComponent } from './collection-detail-header.component';
-import { ItemPhoneComponent } from '../items/phone/item-phone.component';
 import { ItemHeadphonesComponent } from '../items/headphones/item-headphones.component';
+import { ItemIdeComponent } from '../items/ide/item-ide.component';
+import { ItemKeyboardComponent } from '../items/keyboard/item-keyboard.component';
+import { ItemLaptopComponent } from '../items/laptop/item-laptop.component';
 import { ItemMicrophoneComponent } from '../items/microphone/item-microphone.component';
-import { ItemWebcamComponent } from '../items/webcam/item-webcam.component';
-import { ItemMouseComponent } from '../items/mouse/item-mouse.component';
 import { ItemMonitorComponent } from '../items/monitor/item-monitor.component';
+import { ItemMouseComponent } from '../items/mouse/item-mouse.component';
+import { ItemPhoneComponent } from '../items/phone/item-phone.component';
 import { ItemSoftwareComponent } from '../items/software/item-software.component';
+import { ItemTabletComponent } from '../items/tablet/item-tablet.component';
+import { ItemTerminalComponent } from '../items/terminal/item-terminal.component';
+import { ItemWebcamComponent } from '../items/webcam/item-webcam.component';
+import { CollectionDetailHeaderComponent } from './collection-detail-header.component';
 
 @Component({
   selector: 'show-off-collection-detail',
@@ -64,6 +65,7 @@ import { ItemSoftwareComponent } from '../items/software/item-software.component
         (toggleLike)="this.toggleLike($event)"
         (visibilityChange)="this.updateVisibility($event)"
         (deleteCollection)="this.deleteCollection($event)"
+        (editCollection)="this.updateCollection(collection)"
       ></show-off-collection-detail-header>
       <section
         class="grid flex-1 grid-cols-1 gap-0 sm:grid-cols-[1fr_300px] sm:gap-4"
@@ -446,6 +448,29 @@ export class CollectionDetailComponent {
     return this.collectionsService.deleteItem(data.id).subscribe(() => {
       this.refreshSubject.next();
     });
+  }
+
+  updateCollection(collection: Collection) {
+    const ref = this.modal.open<Collection, Collection>(
+      CreateCollectionComponent,
+      {
+        data: collection,
+        size: 'md',
+      }
+    );
+    ref.afterClosed$
+      .pipe(
+        filter(Boolean),
+        switchMap((data) =>
+          this.collectionsService.update(collection.id, {
+            name: data.name,
+            description: data.description,
+          })
+        )
+      )
+      .subscribe(() => {
+        this.refreshSubject.next();
+      });
   }
 
   deleteCollection(collectionId: string) {

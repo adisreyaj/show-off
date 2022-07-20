@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Apollo, gql } from 'apollo-angular';
-import { map } from 'rxjs';
 import {
   Collection,
   CreateCollectionInput,
@@ -8,7 +6,9 @@ import {
   ItemUpdateInput,
   QueryArgs,
 } from '@show-off/api-interfaces';
+import { Apollo, gql } from 'apollo-angular';
 import { isNil } from 'lodash-es';
+import { map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -30,6 +30,28 @@ export class CollectionsService {
       `,
       variables: {
         input: data,
+      },
+    });
+  }
+
+  update(
+    id: string,
+    data: Pick<CreateCollectionInput, 'name' | 'description'>
+  ) {
+    return this.apollo.mutate({
+      mutation: gql`
+        mutation UpdateCollection($id: ID!, $input: UpdateCollectionInput!) {
+          updateCollection(id: $id, input: $input) {
+            id
+          }
+        }
+      `,
+      variables: {
+        id,
+        input: {
+          name: data.name,
+          description: data.description,
+        },
       },
     });
   }
@@ -105,6 +127,7 @@ export class CollectionsService {
             collection(id: $id) {
               id
               name
+              description
               user {
                 id
                 username
