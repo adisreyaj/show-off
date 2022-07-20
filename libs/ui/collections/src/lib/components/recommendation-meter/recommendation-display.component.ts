@@ -38,7 +38,7 @@ export class RecommendationColorPipe implements PipeTransform {
 export class RecommendationTextPipe implements PipeTransform {
   transform(val?: number | string): string {
     if (val == null) {
-      return '-';
+      return '';
     }
     const value = +val;
     // Value between 0 and 33
@@ -54,7 +54,7 @@ export class RecommendationTextPipe implements PipeTransform {
     if (value >= 80 && value <= 100) {
       return 'Highly Recommended';
     }
-    return '-';
+    return '';
   }
 }
 

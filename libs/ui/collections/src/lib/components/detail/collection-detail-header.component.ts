@@ -111,7 +111,12 @@ import {
           </div>
         </zz-dropdown>
       </button>
-      <button zzButton variant="neutral" [zzDropdownTrigger]="settingsOption">
+      <button
+        *showIfOwner="collection.user.id"
+        zzButton
+        variant="neutral"
+        [zzDropdownTrigger]="settingsOption"
+      >
         <div class="flex items-center gap-2">
           <rmx-icon name="settings-3-line" class="icon-sm"></rmx-icon>
         </div>
