@@ -7,6 +7,7 @@ import {
   RiCodeBoxLine,
   RiDeleteBin4Line,
   RiEarthLine,
+  RiGithubLine,
   RiHeart3Fill,
   RiHeart3Line,
   RiLockLine,
@@ -21,6 +22,7 @@ import {
   RiShoppingCart2Line,
   RiSortAsc,
   RiSortDesc,
+  RiTwitterLine,
   RiVideoLine,
 } from 'angular-remix-icon';
 
@@ -46,6 +48,8 @@ const icons = {
   RiPencilLine,
   RiClipboardLine,
   RiCodeBoxLine,
+  RiGithubLine,
+  RiTwitterLine,
 };
 
 export const ICONS = importProvidersFrom(RemixIconModule.configure(icons));
