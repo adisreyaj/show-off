@@ -1,11 +1,11 @@
+import { CommonModule } from '@angular/common';
 import { Component, Inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { AuthService, CURRENT_USER } from '@show-off/ui/auth';
-import { Observable } from 'rxjs';
 import { User } from '@show-off/api-interfaces';
-import { ButtonComponent, DROPDOWN_COMPONENTS } from 'zigzag';
+import { AuthService, CURRENT_USER } from '@show-off/ui/auth';
 import { RemixIconModule } from 'angular-remix-icon';
+import { Observable } from 'rxjs';
+import { ButtonComponent, DROPDOWN_COMPONENTS } from 'zigzag';
 
 @Component({
   selector: 'show-off-shell',
@@ -25,51 +25,68 @@ import { RemixIconModule } from 'angular-remix-icon';
             <p class="-mt-2 text-sm text-slate-500">Showcase your setup</p>
           </div>
         </div>
-        <ng-container *ngIf="this.user$ | async as user; else loginButtonTpl">
-          <div
-            class="flex cursor-pointer items-center gap-2"
-            [zzDropdownTrigger]="profileDropdown"
-            placement="bottom-start"
-          >
-            <img
-              class="rounded-full"
-              width="40"
-              height="40"
-              [src]="user.image"
-              [alt]="user.firstName"
-            />
-            <div>
-              <p>{{ user.firstName }}</p>
-            </div>
-
-            <zz-dropdown #profileDropdown>
-              <div class="flex flex-col gap-2">
-                <div
-                  class="w-full"
-                  size="sm"
-                  variant="link"
-                  zzButton
-                  zzDropdownCloseOnClick
-                  routerLink="/collections"
-                >
-                  <p>My Collections</p>
-                </div>
-              </div>
-              <div class="flex flex-col gap-2">
-                <div
-                  class="w-full"
-                  size="sm"
-                  variant="link"
-                  zzButton
-                  zzDropdownCloseOnClick
-                  (click)="this.authService.logout()"
-                >
-                  <p>Logout</p>
-                </div>
-              </div>
-            </zz-dropdown>
+        <div class="flex gap-4">
+          <div class="flex gap-2">
+            <a
+              class="grid place-items-center p-2 underline hover:bg-slate-100"
+              href="https://github.com/adisreyaj/show-off"
+            >
+              <rmx-icon name="github-line" class="icon-sm"></rmx-icon>
+            </a>
+            <a
+              class="grid place-items-center p-2 underline hover:bg-slate-100"
+              href="https://twitter.com/adisreyaj"
+            >
+              <rmx-icon name="twitter-line" class="icon-sm"></rmx-icon>
+            </a>
           </div>
-        </ng-container>
+
+          <ng-container *ngIf="this.user$ | async as user; else loginButtonTpl">
+            <div
+              class="flex cursor-pointer items-center gap-2"
+              [zzDropdownTrigger]="profileDropdown"
+              placement="bottom-start"
+            >
+              <img
+                class="rounded-full"
+                width="40"
+                height="40"
+                [src]="user.image"
+                [alt]="user.firstName"
+              />
+              <div>
+                <p>{{ user.firstName }}</p>
+              </div>
+
+              <zz-dropdown #profileDropdown>
+                <div class="flex flex-col gap-2">
+                  <div
+                    class="w-full"
+                    size="sm"
+                    variant="link"
+                    zzButton
+                    zzDropdownCloseOnClick
+                    routerLink="/collections"
+                  >
+                    <p>My Collections</p>
+                  </div>
+                </div>
+                <div class="flex flex-col gap-2">
+                  <div
+                    class="w-full"
+                    size="sm"
+                    variant="link"
+                    zzButton
+                    zzDropdownCloseOnClick
+                    (click)="this.authService.logout()"
+                  >
+                    <p>Logout</p>
+                  </div>
+                </div>
+              </zz-dropdown>
+            </div>
+          </ng-container>
+        </div>
         <ng-template #loginButtonTpl>
           <button zzButton variant="primary" routerLink="/login">
             <div class="flex items-center gap-2">
@@ -84,7 +101,7 @@ import { RemixIconModule } from 'angular-remix-icon';
       <router-outlet></router-outlet>
     </main>
     <footer
-      class="flex h-8 items-center justify-between px-4 text-sm font-normal text-slate-500"
+      class="flex h-10 items-center justify-center px-4 text-sm font-normal text-slate-500"
     >
       <p class="">
         Made as part of
@@ -101,16 +118,6 @@ import { RemixIconModule } from 'angular-remix-icon';
         >
         Hackathon
       </p>
-      <div class="flex gap-4">
-        <a
-          class="text-primary underline"
-          href="https://github.com/adisreyaj/show-off"
-          >#Github</a
-        >
-        <a class="text-primary underline" href="https://twitter.com/adisreyaj"
-          >#Twitter</a
-        >
-      </div>
     </footer>
   `,
   standalone: true,
@@ -123,7 +130,7 @@ import { RemixIconModule } from 'angular-remix-icon';
       }
 
       main {
-        height: calc(100vh - 64px - 32px);
+        height: calc(100vh - 64px - 40px);
       }
     `,
   ],
