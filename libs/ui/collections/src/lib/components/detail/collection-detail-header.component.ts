@@ -1,3 +1,5 @@
+import { Clipboard } from '@angular/cdk/clipboard';
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -5,22 +7,20 @@ import {
   Input,
   Output,
 } from '@angular/core';
+import { Collection } from '@show-off/api-interfaces';
+import {
+  ShowIfLoggedInDirective,
+  ShowIfOwnerDirective,
+  UserInfoComponent,
+} from '@show-off/ui/shared';
 import { RemixIconModule } from 'angular-remix-icon';
+import { isNil } from 'lodash-es';
 import {
   ButtonComponent,
   DROPDOWN_COMPONENTS,
   ModalService,
   TooltipDirective,
 } from 'zigzag';
-import {
-  ShowIfLoggedInDirective,
-  ShowIfOwnerDirective,
-  UserInfoComponent,
-} from '@show-off/ui/shared';
-import { Collection } from '@show-off/api-interfaces';
-import { CommonModule } from '@angular/common';
-import { Clipboard } from '@angular/cdk/clipboard';
-import { isNil } from 'lodash-es';
 
 @Component({
   selector: 'show-off-collection-detail-header',
@@ -122,6 +122,19 @@ import { isNil } from 'lodash-es';
             variant="link"
             zzButton
             zzDropdownCloseOnClicck
+            (click)="this.editCollection.emit()"
+          >
+            <div class="flex items-center gap-2">
+              <rmx-icon name="pencil-line" class="icon-xs"></rmx-icon>
+              <p>Edit</p>
+            </div>
+          </div>
+          <div
+            class="w-full"
+            size="sm"
+            variant="link"
+            zzButton
+            zzDropdownCloseOnClicck
             (click)="this.deleteCollection.emit(this.collection.id)"
           >
             <div class="flex items-center gap-2  text-red-500">
@@ -161,6 +174,9 @@ export class CollectionDetailHeaderComponent {
 
   @Output()
   deleteCollection = new EventEmitter<string>();
+
+  @Output()
+  editCollection = new EventEmitter<void>();
 
   constructor(
     private clipboard: Clipboard,
