@@ -1,12 +1,24 @@
+import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import {
-  ButtonComponent,
-  DROPDOWN_COMPONENTS,
-  FORM_COMPONENTS,
-  ModalService,
-  TooltipDirective,
-} from 'zigzag';
-import { CollectionsService } from '../services';
+  Collection,
+  CollectionOrderBy,
+  CollectionOrderByType,
+  CreateCollectionInput,
+  FilterCombination,
+  FilterOperator,
+  OrderByDirection,
+  QueryFilter,
+  User,
+} from '@show-off/api-interfaces';
+import { CURRENT_USER } from '@show-off/ui/auth';
+import {
+  ShowIfLoggedInDirective,
+  UserInfoComponent,
+} from '@show-off/ui/shared';
+import { RemixIconModule } from 'angular-remix-icon';
 import {
   BehaviorSubject,
   catchError,
@@ -22,117 +34,123 @@ import {
   switchMap,
   tap,
 } from 'rxjs';
-import { CommonModule } from '@angular/common';
-import { CreateCollectionComponent } from './create-collection.component';
-import { ActivatedRoute, RouterModule } from '@angular/router';
 import {
-  ShowIfLoggedInDirective,
-  UserInfoComponent,
-} from '@show-off/ui/shared';
-import { RemixIconModule } from 'angular-remix-icon';
+  ButtonComponent,
+  DROPDOWN_COMPONENTS,
+  FORM_COMPONENTS,
+  ModalService,
+  TooltipDirective,
+} from 'zigzag';
+import { CollectionsService } from '../services';
 import { CollectionCardComponent } from './collection-card.component';
-import {
-  Collection,
-  CollectionOrderBy,
-  CollectionOrderByType,
-  CreateCollectionInput,
-  FilterCombination,
-  FilterOperator,
-  OrderByDirection,
-  QueryFilter,
-  User,
-} from '@show-off/api-interfaces';
-import { CURRENT_USER } from '@show-off/ui/auth';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { CreateCollectionComponent } from './create-collection.component';
 
 @Component({
   selector: 'show-off-collections',
-  template: ` <div class="box page">
-    <header class="mb-4 flex justify-between">
-      <div>
-        <h1 class="page-header-text">{{ this.title$ | async }}</h1>
-      </div>
-      <section class="flex flex-wrap items-center gap-4">
-        <div class="group relative">
-          <div class="absolute top-0 left-2 grid h-full place-items-center">
-            <rmx-icon
-              name="search-line"
-              class="icon-sm text-slate-500 group-focus-within:text-primary"
-            ></rmx-icon>
-          </div>
-          <input
-            class="h-[38px]"
-            style="padding-left: 32px;"
-            type="text"
-            placeholder="Search collection"
-            variant="outline"
-            zzInput
-            [formControl]="this.searchControl"
-          />
+  template: `
+    <div class="box page">
+      <header class="mb-4 flex justify-between">
+        <div>
+          <h1 class="page-header-text">{{ this.title$ | async }}</h1>
         </div>
-        <div class="flex">
-          <button
-            zzButton
-            variant="neutral"
-            placement="bottom-start"
-            [zzTooltip]="'Sort: ' + (this.sortDirection$ | async)"
-            (click)="this.changeSortDirection()"
-          >
-            <rmx-icon
-              [name]="(this.sortIcon$ | async)!"
-              class="icon-sm"
-            ></rmx-icon>
-          </button>
-          <button
-            zzTooltip="Change sort basis"
-            [zzDropdownTrigger]="sortByOptions"
-            placement="bottom-start"
-            variant="neutral"
-            zzButton
-            style="width: 130px;text-align: left"
-          >
-            <p>{{ (this.sort$ | async)!.key }}</p>
-            <zz-dropdown #sortByOptions>
-              <div class="flex flex-col gap-2">
-                <ng-container *ngFor="let option of this.sortOptions">
-                  <div
-                    class="w-full"
-                    size="sm"
-                    variant="link"
-                    zzButton
-                    zzDropdownCloseOnClick
-                    (click)="this.sort(option)"
-                  >
-                    <p>{{ option }}</p>
-                  </div>
-                </ng-container>
-              </div>
-            </zz-dropdown>
-          </button>
-        </div>
-        <button
-          *showIfLoggedIn
-          zzButton
-          variant="primary"
-          (click)="this.createNew()"
-        >
-          <div class="flex items-center gap-2">
-            <rmx-icon name="add-line" class="icon-sm"></rmx-icon>
-            <p class="hidden sm:block">Create New</p>
+        <section class="flex flex-wrap items-center gap-4">
+          <div class="group relative">
+            <div class="absolute top-0 left-2 grid h-full place-items-center">
+              <rmx-icon
+                name="search-line"
+                class="icon-sm text-slate-500 group-focus-within:text-primary"
+              ></rmx-icon>
+            </div>
+            <input
+              class="h-[38px]"
+              style="padding-left: 32px;"
+              type="text"
+              placeholder="Search collection"
+              variant="outline"
+              zzInput
+              [formControl]="this.searchControl"
+            />
           </div>
-        </button>
+          <div class="flex">
+            <button
+              zzButton
+              variant="neutral"
+              placement="bottom-start"
+              [zzTooltip]="'Sort: ' + (this.sortDirection$ | async)"
+              (click)="this.changeSortDirection()"
+            >
+              <rmx-icon
+                [name]="(this.sortIcon$ | async)!"
+                class="icon-sm"
+              ></rmx-icon>
+            </button>
+            <button
+              zzTooltip="Change sort basis"
+              [zzDropdownTrigger]="sortByOptions"
+              placement="bottom-start"
+              variant="neutral"
+              zzButton
+              style="width: 130px;text-align: left"
+            >
+              <p>{{ (this.sort$ | async)!.key }}</p>
+              <zz-dropdown #sortByOptions>
+                <div class="flex flex-col gap-2">
+                  <ng-container *ngFor="let option of this.sortOptions">
+                    <div
+                      class="w-full"
+                      size="sm"
+                      variant="link"
+                      zzButton
+                      zzDropdownCloseOnClick
+                      (click)="this.sort(option)"
+                    >
+                      <p>{{ option }}</p>
+                    </div>
+                  </ng-container>
+                </div>
+              </zz-dropdown>
+            </button>
+          </div>
+          <button
+            *showIfLoggedIn
+            zzButton
+            variant="primary"
+            (click)="this.createNew()"
+          >
+            <div class="flex items-center gap-2">
+              <rmx-icon name="add-line" class="icon-sm"></rmx-icon>
+              <p class="hidden sm:block">Create New</p>
+            </div>
+          </button>
+        </section>
+      </header>
+      <section
+        class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+      >
+        <ng-container *ngIf="this.collections$ | async as collections">
+          <ng-container
+            *ngIf="collections.length > 0; else noItemsInCollection"
+          >
+            <ng-container *ngFor="let collection of collections">
+              <show-off-collection-card
+                [collection]="collection"
+              ></show-off-collection-card>
+            </ng-container>
+          </ng-container>
+          <ng-template #noItemsInCollection>
+            <div class="">
+              <img
+                src="assets/images/no-items.png"
+                height="150px"
+                alt="No Items in collection"
+              />
+              <p>No items in collection</p>
+            </div>
+          </ng-template>
+        </ng-container>
       </section>
-    </header>
-    <section
-      class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
-    >
-      <ng-container *ngFor="let collection of this.collections$ | async">
-        <show-off-collection-card
-          [collection]="collection"
-        ></show-off-collection-card>
-      </ng-container>
-    </section>
-  </div>`,
+    </div>
+  `,
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [

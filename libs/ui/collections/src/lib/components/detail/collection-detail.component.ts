@@ -71,7 +71,10 @@ import { CollectionDetailHeaderComponent } from './collection-detail-header.comp
         class="grid flex-1 grid-cols-1 gap-0 sm:grid-cols-[1fr_300px] sm:gap-4"
       >
         <div class="flex-1">
-          <div class="flex">
+          <div
+            class="flex"
+            *ngIf="collection.items.length > 0; else noItemsInCollection"
+          >
             <show-off-masonry-grid>
               <article
                 class="min-w-[200px]"
@@ -92,6 +95,19 @@ import { CollectionDetailHeaderComponent } from './collection-detail-header.comp
             </show-off-masonry-grid>
             <section #grid class="grid"></section>
           </div>
+          <ng-template #noItemsInCollection>
+            <div class="grid h-full place-items-center">
+              <div class="grid place-items-center">
+                <img
+                  src="assets/images/no-items.png"
+                  height="250px"
+                  width="250px"
+                  alt="No Items in collection"
+                />
+                <p class="-mt-6">No items in collection</p>
+              </div>
+            </div>
+          </ng-template>
         </div>
         <aside class="bg-slate-100 p-4">
           <header class="mb-2">
@@ -116,7 +132,10 @@ import { CollectionDetailHeaderComponent } from './collection-detail-header.comp
             </button>
           </section>
           <section class="mt-4">
-            <ul class="list-style-none flex flex-col gap-4">
+            <ul
+              *ngIf="collection.comments.length > 0; else noComments"
+              class="list-style-none flex flex-col gap-4"
+            >
               <li
                 class="bg-white p-2"
                 *ngFor="let comment of collection.comments"
@@ -133,6 +152,19 @@ import { CollectionDetailHeaderComponent } from './collection-detail-header.comp
                 </div>
               </li>
             </ul>
+            <ng-template #noComments>
+              <div class="grid h-full place-items-center">
+                <div class="grid place-items-center">
+                  <img
+                    src="assets/images/no-comments.png"
+                    height="150px"
+                    width="150px"
+                    alt="No Comments in collection"
+                  />
+                  <p class="-mt-2 text-xs">Be the first one to comment!</p>
+                </div>
+              </div>
+            </ng-template>
           </section>
         </aside>
       </section>
