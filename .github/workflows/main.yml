@@ -46,6 +46,6 @@ jobs:
             tar -xzvf build.tar.gz
             npm install
             npm run prod
-            pm2 stop show-off
+            pm2 stop showoff
             pm2 start dist/apps/api/main.js --name show-off
             rm -rf build.tar.gz
