@@ -52,6 +52,7 @@ import {
         zzButton
         variant="neutral"
         [zzTooltip]="collection.private ? 'Make Public' : 'Make Private'"
+        aria-label="Change Visibility"
         (click)="this.visibilityChange.emit(!collection.private)"
       >
         <div class="flex items-center gap-2">
@@ -66,6 +67,7 @@ import {
         zzButton
         variant="neutral"
         (click)="this.toggleLike.emit(collection.liked)"
+        aria-label="Like"
       >
         <div class="flex items-center gap-2">
           <rmx-icon
@@ -88,6 +90,7 @@ import {
             size="sm"
             variant="link"
             zzButton
+            aria-label="Embed"
             zzDropdownCloseOnClick
             (click)="this.openEmbedModal()"
           >

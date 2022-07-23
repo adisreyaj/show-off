@@ -30,12 +30,14 @@ import { ButtonComponent, DROPDOWN_COMPONENTS } from 'zigzag';
             <a
               class="grid place-items-center p-2 underline hover:bg-slate-100"
               href="https://github.com/adisreyaj/show-off"
+              aria-label="GitHub"
             >
               <rmx-icon name="github-line" class="icon-sm"></rmx-icon>
             </a>
             <a
               class="grid place-items-center p-2 underline hover:bg-slate-100"
               href="https://twitter.com/adisreyaj"
+              aria-label="Twitter"
             >
               <rmx-icon name="twitter-line" class="icon-sm"></rmx-icon>
             </a>

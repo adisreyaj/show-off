@@ -76,6 +76,7 @@ import { CreateCollectionComponent } from './create-collection.component';
               zzButton
               variant="neutral"
               placement="bottom-start"
+              aria-label="Sort"
               [zzTooltip]="'Sort: ' + (this.sortDirection$ | async)"
               (click)="this.changeSortDirection()"
             >
@@ -87,6 +88,7 @@ import { CreateCollectionComponent } from './create-collection.component';
             <button
               zzTooltip="Change sort basis"
               [zzDropdownTrigger]="sortByOptions"
+              aria-label="Sort By"
               placement="bottom-start"
               variant="neutral"
               zzButton

@@ -316,6 +316,7 @@ import { CollectionDetailHeaderComponent } from './collection-detail-header.comp
         zzButton
         size="sm"
         variant="link"
+        aria-label="More options"
         [zzDropdownTrigger]="moreOptions"
       >
         <rmx-icon name="more-fill" class="icon-sm"></rmx-icon>
