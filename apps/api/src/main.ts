@@ -4,7 +4,6 @@ import * as cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 
 import { AppModule } from './app/app.module';
-import { ContentSecurityPolicyOptions } from 'helmet/dist/types/middlewares/content-security-policy';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -14,14 +13,10 @@ async function bootstrap() {
   const isProd = process.env.NODE_ENV === 'production';
   app.enableCors({
     credentials: true,
-    origin: [
-      'http://localhost:4200',
-      'https://show-off.adi.so',
-      'studio.apollographql.com',
-    ],
+    origin: ['http://localhost:4200', 'https://show-off.adi.so'],
   });
   app.use(cookieParser(process.env.COOKIE_SECRET));
-  const devContentSecurityPolicy: ContentSecurityPolicyOptions = {
+  const devContentSecurityPolicy = {
     directives: {
       manifestSrc: ["'self'", '*.cdn.apollographql.com'],
       scriptSrc: ["'self'", "'unsafe-inline'", '*.cdn.apollographql.com'],

@@ -3,7 +3,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { PrismaService } from '@show-off/db';
+import { ItemType, Prisma } from '@prisma/client';
 import {
   CollectionOrderByType,
   CreateCollectionInput,
@@ -13,8 +13,8 @@ import {
   QueryArgs,
   UpdateCollectionInput,
 } from '@show-off/api-interfaces';
-import { ItemType, Prisma } from '@prisma/client';
 import { convertFilterCombinationToPrismaFilters } from '@show-off/api/shared';
+import { PrismaService } from '@show-off/db';
 
 const COLLECTION_INCLUDE: Prisma.CollectionInclude = {
   likes: true,
@@ -25,7 +25,15 @@ const COLLECTION_INCLUDE: Prisma.CollectionInclude = {
     },
   },
   shares: true,
-  user: true,
+  user: {
+    select: {
+      id: true,
+      firstName: true,
+      lastName: true,
+      image: true,
+      username: true,
+    },
+  },
   _count: {
     select: {
       likes: true,
