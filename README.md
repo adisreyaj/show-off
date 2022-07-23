@@ -1,105 +1,136 @@
+<p align="center">
+  <a href="https://github.com/adisreyaj/show-off">
+    <img src="apps/show-off/src/assets/images/logo.svg" alt="Logo" width="100" height="100">
+  </a>
 
+<h3 align="center">Show Off - Showcase your setup!</h3>
 
-# ShowOff
+  <p align="center">
+    How often do you get asked about the gadgets or software that you use? If the answer is quite often, you should be trying show off out. Curate the list of gadgets and software and share it with your fans and followers.
+    <br />
+    <br />
+    <a href="https://show-off.adi.so">View Demo</a>
+    ·
+    <a href="https://github.com/adisreyaj/show-off/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/adisreyaj/show-off/issues">Request Feature</a>
+  </p>
 
-This project was generated using [Nx](https://nx.dev).
+<p align="center">
+  <img src="https://cardify.vercel.app/api/badges?border=false&borderColor=%23ddd&borderWidth=2&iconColor=&icons=angular%2Ctailwindcss%2Cnestjs%2Cplanetscale%2Cprisma%2Cgraphql%2Cnx%2Ctypescript%2Cvercel&preset=default&shadow=true&width=100">
+</p>
+</p>
 
-<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="450"></p>
+---
 
-🔎 **Smart, Fast and Extensible Build System**
+# Show Off
 
-## Quick Start & Documentation
+<p align="center">
+  <img src="show-off-header.png">
+</p>
 
-[Nx Documentation](https://nx.dev/angular)
+## Features ✨
 
-[10-minute video showing all Nx features](https://nx.dev/getting-started/intro)
+## Running Locally 💻
 
-[Interactive Tutorial](https://nx.dev/react-tutorial/01-create-application)
+## Running Locally 💻
 
-## Adding capabilities to your workspace
+#### #1. Clone the repo
 
-Nx supports many plugins which add capabilities for developing different types of applications and different tools.
+```sh
+git clone https://github.com/adisreyaj/show-off.git
+```
 
-These capabilities include generating applications, libraries, etc as well as the devtools to test, and build projects as well.
+#### #2. Initialize the submodule (zigzag)
 
-Below are our core plugins:
+```sh
+git submodule update --init
+```
 
-- [Angular](https://angular.io)
-  - `ng add @nrwl/angular`
-- [React](https://reactjs.org)
-  - `ng add @nrwl/react`
-- Web (no framework frontends)
-  - `ng add @nrwl/web`
-- [Nest](https://nestjs.com)
-  - `ng add @nrwl/nest`
-- [Express](https://expressjs.com)
-  - `ng add @nrwl/express`
-- [Node](https://nodejs.org)
-  - `ng add @nrwl/node`
+#### #3. Install the dependencies
 
-There are also many [community plugins](https://nx.dev/community) you could add.
+```sh
+npm install
+```
 
-## Generate an application
+#### #4. Install Peer deps for zigzag
 
-Run `ng g @nrwl/angular:app my-app` to generate an application.
+```sh
+npm i @floating-ui/dom
+```
 
-> You can use any of the plugins above to generate applications as well.
+#### #5. Setup the environment variables
 
-When using Nx, you can create multiple applications and libraries in the same workspace.
+Set up all the required environment variables required for the back-end:
 
-## Generate a library
+```
+DATABASE_URL=mysql://localhost:3309/show-off
 
-Run `ng g @nrwl/angular:lib my-lib` to generate a library.
+NODE_ENV=development
+FRONT_END_CALLBACK_URL=http://localhost:4200/auth/callback
 
-> You can also use any of the plugins above to generate libraries as well.
+# JWT sign secret
+JWT_SECRET=very_very_strong_secret_key
+JWT_EXPIRY="3d"
+COOKIE_SECRET=very_very_strong_secret_session_key
 
-Libraries are shareable across libraries and applications. They can be imported from `@show-off/mylib`.
+# Google OAuth Details
+GOOGLE_CLIENT_ID=xxxxx.googleusercontent.com
+GOOGLE_CLIENT_SECRET=xxxxxxx
+GOOGLE_CALLBACK_URI=http://localhost:3333/api/auth/google/callback
 
-## Development server
+# Github OAuth Details
+GITHUB_CLIENT_ID=Iv1.xxxxxxxxxx
+GITHUB_CLIENT_SECRET=xxxxxx
+GITHUB_CALLBACK_URI=http://localhost:3333/api/auth/github/callback
+```
 
-Run `ng serve my-app` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
+#### #6. Set up the Database
 
-## Code scaffolding
+Run the command to populate the DB with tables:
 
-Run `ng g component my-component --project=my-app` to generate a new component.
+```sh
+npm run prisma:push
+```
 
-## Build
+#### #7. Start up the UI and Back-end
 
-Run `ng build my-app` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+For UI:
 
-## Running unit tests
+```sh
+npm start show-off
+```
 
-Run `ng test my-app` to execute the unit tests via [Jest](https://jestjs.io).
+For Back-end
 
-Run `nx affected:test` to execute the unit tests affected by a change.
+```sh
+npm start api
+```
 
-## Running end-to-end tests
+UI: `http://localhost:4200` & GQL: `http://localhost:3333`
 
-Run `ng e2e my-app` to execute the end-to-end tests via [Cypress](https://www.cypress.io).
+## Links and References 🔗
 
-Run `nx affected:e2e` to execute the end-to-end tests affected by a change.
+| Title        | Link                            | Description                                      |
+|--------------|---------------------------------|--------------------------------------------------|
+| Angular      | https://angular.io/             | Front-end framework                              |
+| NestJs       | https://docs.nestjs.com/        | Back-end framework based on NodeJs               |
+| PlanetScale      | https://www.planetscale.com/        | MySQL Compatible DB                              |
+| Prisma       | https://www.prisma.io/          | Node.js and TypeScript ORM                       |
+| Tailwind CSS | https://tailwindcss.com/        | Utility first CSS framework                      |
+| Nx           | https://nx.dev/#getting-started | Build system with monorepo support               |
+| PM2          | https://app.pm2.io/             | Advanced, production process manager for Node.JS |
 
-## Understand your workspace
+## Roadmap
 
-Run `nx graph` to see a diagram of the dependencies of your projects.
+See the [open issues](https://github.com/adisreyaj/show-off/issues) for a list of proposed features (and known issues).
 
-## Further help
+## License
 
-Visit the [Nx Documentation](https://nx.dev/angular) to learn more.
+Distributed under the Apache 2.0 License. See `LICENSE` for more information.
 
+## Show your support
 
+Please ⭐️ this repository if this project helped you!
 
-
-
-
-## ☁ Nx Cloud
-
-### Distributed Computation Caching & Distributed Task Execution
-
-<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-cloud-card.png"></p>
-
-Nx Cloud pairs with Nx in order to enable you to build and test code more rapidly, by up to 10 times. Even teams that are new to Nx can connect to Nx Cloud and start saving time instantly.
-
-Teams using Nx gain the advantage of building full-stack applications with their preferred framework alongside Nx’s advanced code generation and project dependency graph, plus a unified experience for both frontend and backend developers.
-
-Visit [Nx Cloud](https://nx.app/) to learn more.
+Made as part of [PlanetScale](https://planetscale.com) x [Hashnode](https://hashnode.com) hackathon.
