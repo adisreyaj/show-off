@@ -5,9 +5,9 @@ import {
   DataListData,
   TypeIconPipe,
 } from '@show-off/ui/shared';
-import { ItemLinksComponent } from '../item-links.component';
 import { ItemDisplayBaseClass } from '../item-display-base.class';
 import { ItemHeaderComponent } from '../item-header.component';
+import { ItemLinksComponent } from '../item-links.component';
 
 @Component({
   selector: 'show-off-item-tablet',
@@ -17,7 +17,7 @@ import { ItemHeaderComponent } from '../item-header.component';
         <ng-content></ng-content>
       </show-off-item-header>
       <section class="pb-2">
-        <show-off-data-list>[data]="this.datalist"></show-off-data-list>
+        <show-off-data-list [data]="this.datalist"></show-off-data-list>
       </section>
       <show-off-item-links [links]="this.links"></show-off-item-links>
     </div>
@@ -42,8 +42,8 @@ export class ItemTabletComponent extends ItemDisplayBaseClass<TabletData> {
         value: data.name,
       },
       {
-        label: 'Year',
-        value: data.metadata?.['year'],
+        label: 'Size',
+        value: data.metadata?.['size'],
         type: 'number',
       },
       {
