@@ -1,6 +1,7 @@
 import { Clipboard } from '@angular/cdk/clipboard';
 import { CommonModule } from '@angular/common';
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
@@ -112,6 +113,20 @@ import {
               <p>Copy Link</p>
             </div>
           </div>
+          <a
+            class="w-full"
+            size="sm"
+            variant="link"
+            zzButton
+            zzDropdownCloseOnClick
+            [href]="this.twitterUrl"
+            target="_blank"
+          >
+            <div class="flex items-center gap-2">
+              <rmx-icon name="twitter-line" class="icon-xs"></rmx-icon>
+              <p>Tweet</p>
+            </div>
+          </a>
         </zz-dropdown>
       </button>
       <button
@@ -167,7 +182,7 @@ import {
     ...DROPDOWN_COMPONENTS,
   ],
 })
-export class CollectionDetailHeaderComponent {
+export class CollectionDetailHeaderComponent implements AfterViewInit {
   @Input()
   collection?: Collection;
 
@@ -186,10 +201,20 @@ export class CollectionDetailHeaderComponent {
   @Output()
   editCollection = new EventEmitter<void>();
 
+  public twitterUrl = '';
+
   constructor(
     private clipboard: Clipboard,
     private readonly modal: ModalService
   ) {}
+
+  ngAfterViewInit() {
+    const url = `https://show-off.adi.so/collection/${this.collection?.id}`;
+    const tweetText = `Check out this collection I've created on Show-Off: ${this.collection?.name} 🔥.
+    %0A%0A%0A`;
+    const hashTags = `showoff,angular,planetscale,hashnode`;
+    this.twitterUrl = `http://twitter.com/share?text=${tweetText}&hashtags=${hashTags}&url=${url}`;
+  }
 
   copyLink() {
     this.clipboard.copy(window.location.href);
