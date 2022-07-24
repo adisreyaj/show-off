@@ -47,5 +47,5 @@ jobs:
             npm install
             npm run prod
             pm2 stop showoff
-            pm2 start dist/apps/api/main.js --name show-off
+            pm2 start dist/apps/api/main.js --name showoff
             rm -rf build.tar.gz
