@@ -6,10 +6,10 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '@prisma/client';
-import { Request, Response } from 'express';
-import * as bcrypt from 'bcrypt';
-import { PrismaService } from '@show-off/db';
 import { BaseUser } from '@show-off/api-interfaces';
+import { PrismaService } from '@show-off/db';
+import * as bcrypt from 'bcrypt';
+import { Request, Response } from 'express';
 import {
   adjectives,
   animals,
@@ -104,7 +104,6 @@ export class AuthService {
     res.redirect(
       `${this.frontendCallBackUrl}?code=SUCCESS&token=${accessToken}`
     );
-    return;
   }
 
   private async signup(userData: BaseUser) {
