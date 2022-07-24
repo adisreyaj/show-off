@@ -24,7 +24,7 @@
 ---
 
 <p align="center">
-  <img src="apps/show-off/src/assets/images/show-off.jpeg">
+  <img src="apps/show-off/src/assets/images/show-off.jpg">
 </p>
 
 ## Features ✨

@@ -15,15 +15,10 @@ import { ButtonComponent, DROPDOWN_COMPONENTS } from 'zigzag';
         <div class="flex cursor-pointer items-center gap-1" routerLink="/">
           <img
             src="assets/images/logo.svg"
-            height="45"
-            width="45"
+            class="h-10"
             aria-hidden="true"
             alt="Show-off"
           />
-          <div>
-            <p class="text-2xl font-semibold uppercase">Show Off</p>
-            <p class="-mt-2 text-sm text-slate-500">Showcase your setup</p>
-          </div>
         </div>
         <div class="flex gap-4">
           <div class="flex gap-2">
