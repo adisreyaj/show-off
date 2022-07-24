@@ -23,15 +23,11 @@
 
 ---
 
-# Show Off
-
 <p align="center">
-  <img src="show-off-header.png">
+  <img src="apps/show-off/src/assets/images/show-off.jpeg">
 </p>
 
 ## Features ✨
-
-## Running Locally 💻
 
 ## Running Locally 💻
 
