@@ -13,7 +13,7 @@ async function bootstrap() {
   const isProd = process.env.NODE_ENV === 'production';
   app.enableCors({
     credentials: true,
-    origin: ['http://localhost:4200', 'https://show-shoff.adi.so'],
+    origin: ['http://localhost:4200', 'https://show-off.adi.so'],
   });
   app.use(cookieParser(process.env.COOKIE_SECRET));
   const devContentSecurityPolicy = {
