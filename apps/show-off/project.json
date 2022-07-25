@@ -16,7 +16,6 @@
         "tsConfig": "apps/show-off/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
-          "apps/show-off/src/favicon.ico",
           "apps/show-off/src/assets"
         ],
         "styles": [
