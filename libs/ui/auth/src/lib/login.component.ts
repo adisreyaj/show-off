@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { AuthProvider } from '@show-off/api-interfaces';
-import { AUTH_CONFIG, AuthConfig } from './auth.token';
 import { ButtonComponent, FORM_COMPONENTS } from 'zigzag';
+import { AUTH_CONFIG, AuthConfig } from './auth.token';
 
 @Component({
   selector: 'show-off-login',
@@ -9,7 +9,7 @@ import { ButtonComponent, FORM_COMPONENTS } from 'zigzag';
     <section class="mt-10 grid place-items-center">
       <div class="w-full max-w-[380px]">
         <header class="mb-8">
-          <img alt="Flare" class="h-12 w-12" src="assets/images/logo.svg" />
+          <img alt="Show off" class="h-16" src="assets/images/logo.svg" />
           <div class="mt-4">
             <h1 class="mb-2 text-2xl font-bold">Welcome to Show Off</h1>
             <p class="text-slate-500">Showcase your setup</p>
@@ -106,7 +106,7 @@ import { ButtonComponent, FORM_COMPONENTS } from 'zigzag';
         </section>
       </div>
     </section>
-    <section class="relative flex">
+    <section class="relative flex hidden md:hidden">
       <img
         class="h-screen w-full object-cover"
         src="assets/images/login.webp"
@@ -117,7 +117,7 @@ import { ButtonComponent, FORM_COMPONENTS } from 'zigzag';
   styles: [
     `
       :host {
-        @apply grid h-screen grid-cols-2;
+        @apply grid h-screen grid-cols-1 md:grid-cols-2;
       }
 
       .separator {
