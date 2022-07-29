@@ -6,7 +6,7 @@ import { AUTH_CONFIG, AuthConfig } from './auth.token';
 @Component({
   selector: 'show-off-login',
   template: `
-    <section class="mt-10 grid place-items-center">
+    <section class="mt-10 grid place-items-center p-6 md:p-0">
       <div class="w-full max-w-[380px]">
         <header class="mb-8">
           <img alt="Show off" class="h-16" src="assets/images/logo.svg" />
