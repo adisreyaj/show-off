@@ -29,6 +29,16 @@
 
 ## Features ✨
 
+1. Multiple Collections
+2. Built for developers, designers, and content creators
+3. Share & Embed
+4. Private collections
+5. Like and Comments
+6. Recommendation Meter
+7. Affiliate Links
+
+Detailed blog post: https://sreyaj.dev/show-off-showcase-your-setup-planetscale-hashnode-hackathon
+
 ## Running Locally 💻
 
 #### #1. Clone the repo
